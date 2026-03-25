@@ -1,0 +1,1931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLM Fine-Tuning Interview Prep — Gen AI Researcher</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Playfair+Display:wght@700;800&display=swap');
+
+  :root {
+    --bg: #0f1117;
+    --surface: #161822;
+    --surface2: #1c1f2e;
+    --surface3: #232738;
+    --border: #2a2e42;
+    --border-bright: #3d4260;
+    --text: #e2e4ed;
+    --text-dim: #8b8fa8;
+    --text-muted: #5c6080;
+    --accent: #6c8aff;
+    --accent-dim: #4a5fb3;
+    --accent-glow: rgba(108, 138, 255, 0.12);
+    --green: #4ecb8d;
+    --green-dim: rgba(78, 203, 141, 0.12);
+    --orange: #f5a623;
+    --orange-dim: rgba(245, 166, 35, 0.1);
+    --red: #f06c6c;
+    --red-dim: rgba(240, 108, 108, 0.1);
+    --purple: #b27cf7;
+    --purple-dim: rgba(178, 124, 247, 0.1);
+    --cyan: #56d4e0;
+    --cyan-dim: rgba(86, 212, 224, 0.1);
+    --yellow: #f0db4f;
+    --code-bg: #1a1d2e;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow: 0 4px 24px rgba(0,0,0,0.3);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.78;
+    font-size: 15.5px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ─────────────────────────────────────── */
+  nav {
+    position: fixed; top: 0; left: 0; width: 280px; height: 100vh;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    overflow-y: auto; z-index: 100;
+    padding: 28px 0 40px 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+  nav::-webkit-scrollbar { width: 5px; }
+  nav::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .nav-title {
+    padding: 0 24px 20px;
+    font-family: 'Playfair Display', serif;
+    font-size: 18px; font-weight: 800;
+    color: var(--accent);
+    letter-spacing: -0.3px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+  .nav-section {
+    padding: 6px 24px;
+    font-size: 10px; font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--text-muted);
+    margin-top: 12px;
+  }
+  nav a {
+    display: block; padding: 7px 24px 7px 28px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 13px; font-weight: 400;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+  }
+  nav a:hover {
+    color: var(--accent);
+    background: var(--accent-glow);
+    border-left-color: var(--accent);
+  }
+
+  /* ── MAIN ────────────────────────────────────── */
+  main {
+    margin-left: 280px;
+    max-width: 920px;
+    padding: 48px 56px 100px;
+  }
+
+  /* ── HERO ────────────────────────────────────── */
+  .hero {
+    text-align: center;
+    padding: 60px 0 50px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 48px;
+  }
+  .hero-badge {
+    display: inline-block;
+    padding: 5px 16px;
+    border-radius: 20px;
+    background: var(--accent-glow);
+    border: 1px solid var(--accent-dim);
+    color: var(--accent);
+    font-size: 12px; font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px; font-weight: 800;
+    line-height: 1.15;
+    background: linear-gradient(135deg, #e2e4ed 30%, var(--accent));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 14px;
+  }
+  .hero p { color: var(--text-dim); font-size: 17px; max-width: 600px; margin: 0 auto; }
+
+  /* ── HEADINGS ────────────────────────────────── */
+  h2 {
+    font-size: 28px; font-weight: 800;
+    color: var(--text);
+    margin: 56px 0 24px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--accent-dim);
+    letter-spacing: -0.5px;
+    scroll-margin-top: 24px;
+  }
+  h2 .section-num { color: var(--accent); font-weight: 800; margin-right: 8px; }
+  h3 {
+    font-size: 20px; font-weight: 700;
+    color: var(--text);
+    margin: 36px 0 16px;
+    scroll-margin-top: 24px;
+  }
+  h4 {
+    font-size: 16.5px; font-weight: 700;
+    color: var(--purple);
+    margin: 28px 0 12px;
+  }
+
+  /* ── CONTENT ─────────────────────────────────── */
+  p { margin-bottom: 16px; }
+  strong { color: #fff; font-weight: 600; }
+  em { color: var(--cyan); font-style: italic; }
+
+  a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(108,138,255,0.3); transition: all 0.2s; }
+  a:hover { color: #8ca8ff; border-bottom-color: var(--accent); }
+
+  .formula {
+    display: block;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius-sm);
+    padding: 14px 20px;
+    margin: 16px 0 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--cyan);
+    overflow-x: auto;
+    line-height: 1.8;
+  }
+
+  .callout {
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin: 20px 0;
+    border: 1px solid;
+  }
+  .callout-insight { background: var(--accent-glow); border-color: var(--accent-dim); }
+  .callout-warning { background: var(--orange-dim); border-color: rgba(245,166,35,0.25); }
+  .callout-tip { background: var(--green-dim); border-color: rgba(78,203,141,0.25); }
+  .callout-critical { background: var(--red-dim); border-color: rgba(240,108,108,0.25); }
+  .callout-title {
+    font-weight: 700; font-size: 13px;
+    text-transform: uppercase; letter-spacing: 0.8px;
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .callout-insight .callout-title { color: var(--accent); }
+  .callout-warning .callout-title { color: var(--orange); }
+  .callout-tip .callout-title { color: var(--green); }
+  .callout-critical .callout-title { color: var(--red); }
+  .callout p:last-child { margin-bottom: 0; }
+
+  /* deep-dive boxes */
+  .deep-dive {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    margin: 24px 0;
+  }
+  .deep-dive-title {
+    font-weight: 700; font-size: 14px;
+    text-transform: uppercase; letter-spacing: 0.8px;
+    color: var(--purple);
+    margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+    margin: 20px 0;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th {
+    background: var(--surface2);
+    color: var(--accent);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.8px;
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 2px solid var(--accent-dim);
+  }
+  td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:hover td { background: var(--surface2); }
+  tr:last-child td { border-bottom: none; }
+  td code {
+    background: var(--code-bg); padding: 2px 6px; border-radius: 4px;
+    font-size: 12.5px; font-family: 'JetBrains Mono', monospace; color: var(--cyan);
+  }
+
+  ul, ol { margin: 12px 0 20px 24px; }
+  li { margin-bottom: 10px; padding-left: 4px; }
+  li::marker { color: var(--accent); }
+
+  .qa {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin: 24px 0;
+    overflow: hidden;
+  }
+  .qa-question {
+    background: var(--surface2);
+    padding: 18px 24px;
+    font-weight: 600;
+    font-size: 15px;
+    color: #fff;
+    border-bottom: 1px solid var(--border);
+    display: flex; gap: 10px;
+  }
+  .qa-question .q-badge {
+    flex-shrink: 0;
+    background: var(--accent);
+    color: var(--bg);
+    font-weight: 800;
+    font-size: 12px;
+    width: 24px; height: 24px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    margin-top: 1px;
+  }
+  .qa-answer {
+    padding: 20px 24px;
+    color: var(--text-dim);
+    line-height: 1.78;
+  }
+  .qa-answer p:last-child { margin-bottom: 0; }
+
+  .tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+  .tag-green { background: var(--green-dim); color: var(--green); border: 1px solid rgba(78,203,141,0.2); }
+  .tag-purple { background: var(--purple-dim); color: var(--purple); border: 1px solid rgba(178,124,247,0.2); }
+  .tag-orange { background: var(--orange-dim); color: var(--orange); border: 1px solid rgba(245,166,35,0.2); }
+  .tag-blue { background: var(--accent-glow); color: var(--accent); border: 1px solid var(--accent-dim); }
+  .tag-red { background: var(--red-dim); color: var(--red); border: 1px solid rgba(240,108,108,0.2); }
+
+  .paper-ref {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 4px 12px 4px 8px;
+    border-radius: 8px;
+    font-size: 13px;
+    text-decoration: none;
+    color: var(--text-dim);
+    transition: all 0.2s;
+    border-bottom: none;
+    margin: 2px 0;
+  }
+  .paper-ref:hover { background: var(--accent-glow); border-color: var(--accent-dim); color: var(--accent); }
+  .paper-ref::before { content: '📄'; font-size: 12px; }
+  .repo-ref {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 4px 12px 4px 8px;
+    border-radius: 8px;
+    font-size: 13px;
+    text-decoration: none;
+    color: var(--text-dim);
+    transition: all 0.2s;
+    border-bottom: none;
+    margin: 2px 0;
+  }
+  .repo-ref:hover { background: var(--green-dim); border-color: rgba(78,203,141,0.3); color: var(--green); }
+  .repo-ref::before { content: '⟠'; font-size: 14px; color: var(--green); }
+
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  .compare-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+  .compare-card h5 { font-size: 14px; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 16px 20px;
+    overflow-x: auto;
+    margin: 16px 0 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--text-dim);
+  }
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--cyan);
+  }
+
+  .cheat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 20px 0; }
+  .cheat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    text-align: center;
+  }
+  .cheat-card .cheat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-muted); margin-bottom: 6px; }
+  .cheat-card .cheat-value { font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700; color: var(--accent); }
+  .cheat-card .cheat-note { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
+  .flow {
+    display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
+    margin: 20px 0;
+    padding: 20px;
+    background: var(--surface);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+  .flow-step {
+    background: var(--surface2);
+    border: 1px solid var(--border-bright);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .flow-arrow { color: var(--accent); font-size: 18px; font-weight: 700; }
+
+  /* walkthrough numbered steps */
+  .step-list { counter-reset: step-counter; list-style: none; margin-left: 0; padding-left: 0; }
+  .step-list li {
+    counter-increment: step-counter;
+    padding: 16px 20px 16px 60px;
+    position: relative;
+    margin-bottom: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+  }
+  .step-list li::before {
+    content: counter(step-counter);
+    position: absolute; left: 16px; top: 16px;
+    background: var(--accent);
+    color: var(--bg);
+    font-weight: 800;
+    font-size: 13px;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* derive-it-yourself blocks */
+  .derive {
+    background: linear-gradient(135deg, rgba(86,212,224,0.06), rgba(108,138,255,0.06));
+    border: 1px solid rgba(86,212,224,0.25);
+    border-left: 4px solid var(--cyan);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    margin: 24px 0;
+  }
+  .derive-title {
+    font-weight: 800; font-size: 14px;
+    text-transform: uppercase; letter-spacing: 1px;
+    color: var(--cyan);
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .derive .step-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--cyan); color: var(--bg);
+    font-weight: 800; font-size: 11px;
+    width: 22px; height: 22px;
+    border-radius: 50%; margin-right: 6px;
+    flex-shrink: 0;
+  }
+  .derive .deriv-step {
+    display: flex; align-items: flex-start;
+    margin-bottom: 14px;
+    padding: 10px 14px;
+    background: rgba(0,0,0,0.15);
+    border-radius: var(--radius-sm);
+  }
+  .derive .deriv-step p { margin-bottom: 0; }
+  .derive .deriv-tip {
+    margin-top: 14px; padding: 12px 16px;
+    background: rgba(78,203,141,0.08);
+    border: 1px solid rgba(78,203,141,0.2);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+  }
+  .derive .deriv-tip strong { color: var(--green); }
+
+  @media (max-width: 900px) {
+    nav { display: none; }
+    main { margin-left: 0; padding: 24px 20px 80px; }
+    .hero h1 { font-size: 30px; }
+    .compare-grid, .cheat-grid { grid-template-columns: 1fr; }
+  }
+
+  @media print {
+    nav { display: none; }
+    main { margin-left: 0; max-width: 100%; }
+    body { background: #fff; color: #111; font-size: 12px; }
+    .formula { border-color: #ccc; color: #333; }
+    .callout { break-inside: avoid; }
+    .qa { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════ NAVIGATION ═══════ -->
+<nav>
+  <div class="nav-title">LLM Fine-Tuning<br>Interview Prep</div>
+  <div class="nav-section">Foundations</div>
+  <a href="#s1">1. Foundations of Fine-Tuning</a>
+  <a href="#s2">2. Full Fine-Tuning</a>
+  <a href="#s3">3. Parameter-Efficient FT (PEFT)</a>
+  <div class="nav-section">Core Techniques</div>
+  <a href="#s4">4. LoRA &amp; Variants</a>
+  <a href="#s5">5. Quantization-Aware FT</a>
+  <a href="#s6">6. Instruction Tuning &amp; Alignment</a>
+  <a href="#s7">7. RLHF, DPO &amp; Preference Opt.</a>
+  <div class="nav-section">Advanced Topics</div>
+  <a href="#s8">8. MoE Fine-Tuning</a>
+  <a href="#s9">9. Continual &amp; Domain-Adaptive FT</a>
+  <a href="#s10">10. Data Curation &amp; Scaling Laws</a>
+  <a href="#s11">11. Distributed Training</a>
+  <a href="#s12">12. Evaluation &amp; Debugging</a>
+  <div class="nav-section">Frontier</div>
+  <a href="#s13">13. Emerging Techniques (2025–26)</a>
+  <div class="nav-section">Preparation</div>
+  <a href="#s14">14. Mock Interview Q&amp;A</a>
+  <a href="#s15">15. Cheat Sheets</a>
+</nav>
+
+<!-- ═══════ MAIN CONTENT ═══════ -->
+<main>
+
+<div class="hero">
+  <div class="hero-badge">Gen AI Researcher — Interview Preparation</div>
+  <h1>Fine-Tuning Large<br>Language Models</h1>
+  <p>Modern techniques, mathematical foundations, practical applications, and nuanced insights for a comprehensive researcher interview. Every section includes deep theory, intuitions, formulations, and production-tested advice. Look for <span style="color: var(--cyan); font-weight: 700;">🧮 Derive It Yourself</span> blocks — step-by-step guides to reconstruct every formula from scratch on a whiteboard.</p>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION 1: FOUNDATIONS -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2 id="s1"><span class="section-num">01</span> Foundations of Fine-Tuning</h2>
+
+<h3>1.1 What Is Fine-Tuning?</h3>
+<p>Fine-tuning takes a <strong>pre-trained language model</strong> — one that has already learned general linguistic representations from a massive corpus — and adapts its parameters on a smaller, task-specific or domain-specific dataset. The foundational intuition is that pre-training captures broad knowledge about language structure, semantics, and world facts, while fine-tuning specializes the model's probability distribution to favor particular behaviors, formats, or domains.</p>
+
+<p>Think of pre-training as giving the model a broad liberal arts education, and fine-tuning as specialized professional training. The model already "knows" how language works; fine-tuning teaches it <em>how to apply that knowledge</em> to your specific needs.</p>
+
+<div class="callout callout-insight">
+  <div class="callout-title">⚡ Formal Definition</div>
+  <p>Given a pre-trained model with parameters θ₀ learned by minimizing a pre-training objective L<sub>pretrain</sub> over corpus D<sub>pretrain</sub>, fine-tuning finds updated parameters θ* by:</p>
+  <div class="formula">θ* = arg min<sub>θ</sub> L<sub>ft</sub>(D<sub>ft</sub>; θ)    where θ is initialized at θ₀</div>
+  <p>The critical insight is that θ₀ provides a strong initialization in parameter space. Without this, optimizing L<sub>ft</sub> from random weights would require orders of magnitude more data and compute. The pre-trained initialization positions the model in a region of the loss landscape where gradient descent can efficiently find a good task-specific solution — this is why fine-tuning works with as few as 1,000 examples while pre-training requires trillions of tokens.</p>
+</div>
+
+<div class="derive">
+  <div class="derive-title">🧮 Derive It Yourself — The Fine-Tuning Objective</div>
+  <p>If an interviewer asks you to write this formula on a whiteboard, here's how to build it from scratch:</p>
+  <div class="deriv-step"><span class="step-num">1</span><p><strong>Start from what you know:</strong> All supervised learning minimizes a loss over data. Write the generic form: θ* = arg min<sub>θ</sub> L(D; θ). This is just "find the parameters that minimize loss on the data."</p></div>
+  <div class="deriv-step"><span class="step-num">2</span><p><strong>Add the key constraint:</strong> Fine-tuning is <em>not</em> training from scratch. The only thing that makes it "fine-tuning" rather than "training" is the initialization. So annotate: "where θ is initialized at θ₀" (the pre-trained weights). That's the entire formal definition.</p></div>
+  <div class="deriv-step"><span class="step-num">3</span><p><strong>Specialize the loss:</strong> For language models, L is the cross-entropy over token predictions. For SFT, it's computed only over response tokens. For continual pre-training, it's the standard next-token loss over all tokens. The choice of L<sub>ft</sub> is what differentiates types of fine-tuning.</p></div>
+  <div class="deriv-tip"><strong>Interview mnemonic:</strong> Fine-tuning = standard optimization + special initialization. That's all. Everything else (loss function choice, which parameters to freeze, regularization) is a design decision layered on top.</div>
+</div>
+
+<h3>1.2 Pre-Training vs. Fine-Tuning: The Loss Functions</h3>
+<p>Understanding the difference between pre-training and fine-tuning losses is foundational for interviews. Pre-training uses self-supervised objectives — the label comes from the data itself. For autoregressive models (GPT family, Llama, Mistral), this is <strong>next-token prediction</strong>:</p>
+<div class="formula">L<sub>pretrain</sub>(θ) = − Σ<sub>t=1</sub><sup>T</sup> log P(x<sub>t</sub> | x<sub>&lt;t</sub>; θ)</div>
+<p>Every token is predicted given all preceding tokens. The loss sums over <em>all</em> positions — the model learns from every single token in the corpus. This is extraordinarily data-efficient because a sequence of length T provides T training signals.</p>
+
+<p>For encoder models (BERT family), pre-training uses <strong>masked language modeling (MLM)</strong>:</p>
+<div class="formula">L<sub>MLM</sub>(θ) = − Σ<sub>t ∈ masked</sub> log P(x<sub>t</sub> | x<sub>\masked</sub>; θ)</div>
+<p>Only ~15% of tokens are masked and predicted, using bidirectional context. This produces better representations for classification but can't generate text autoregressively.</p>
+
+<p>Supervised fine-tuning (SFT) for instruction-following shifts to a <strong>conditional generation</strong> loss. Given an instruction-response pair (x, y), we backpropagate <strong>only through response tokens</strong>:</p>
+<div class="formula">L<sub>SFT</sub>(θ) = − Σ<sub>t=1</sub><sup>|y|</sup> log P(y<sub>t</sub> | x, y<sub>&lt;t</sub>; θ)</div>
+
+<div class="derive">
+  <div class="derive-title">🧮 Derive It Yourself — Next-Token Prediction Loss (All Variants)</div>
+  <p>Every loss function in this section is a variation of one idea. Master the pattern once and you can write any of them:</p>
+  <div class="deriv-step"><span class="step-num">1</span><p><strong>Start from probability:</strong> An autoregressive model defines P(sequence) = Π<sub>t</sub> P(x<sub>t</sub> | x<sub>&lt;t</sub>). This is the chain rule of probability — nothing model-specific.</p></div>
+  <div class="deriv-step"><span class="step-num">2</span><p><strong>Take the log:</strong> log P(sequence) = Σ<sub>t</sub> log P(x<sub>t</sub> | x<sub>&lt;t</sub>). Products become sums. This is the log-likelihood.</p></div>
+  <div class="deriv-step"><span class="step-num">3</span><p><strong>Negate it (to get a loss):</strong> L = −Σ<sub>t</sub> log P(x<sub>t</sub> | x<sub>&lt;t</sub>). We <em>minimize</em> loss = <em>maximize</em> likelihood. This is the <strong>pre-training loss</strong> — summed over ALL tokens.</p></div>
+  <div class="deriv-step"><span class="step-num">4</span><p><strong>Choose which tokens to sum over — that's the only difference:</strong></p>
+  <p style="margin-top:8px;">
+  • <strong>Pre-training:</strong> Sum over ALL positions t = 1...T → learns to predict every token<br>
+  • <strong>MLM (BERT):</strong> Sum only over masked positions → bidirectional but can't generate<br>
+  • <strong>SFT:</strong> Sum only over response tokens, condition on prompt x → learns to answer, not to parrot<br>
+  • <strong>Multi-turn SFT:</strong> Sum over assistant tokens across all turns → learns multi-turn conversation
+  </p></div>
+  <div class="deriv-tip"><strong>Whiteboard shortcut:</strong> Write "L = −Σ log P(token | context)" and then just define which tokens are in the sum and what counts as "context." Every language model loss is this formula with different bookkeeping.</div>
+</div>
+
+<div class="callout callout-critical">
+  <div class="callout-title">🚨 Critical Nuance: Prompt Masking</div>
+  <p><strong>Why mask prompt tokens?</strong> If we include prompt tokens in the loss, the model learns to predict the next token in the prompt — essentially learning to generate instructions rather than respond to them. This leads to models that echo or rephrase the question instead of answering it. In practice, the loss is masked to zero for all prompt positions and computed only over the response span. This is implemented in frameworks via <code>labels = [-100] * len(prompt_ids) + response_ids</code> where -100 is the ignore index for cross-entropy loss.</p>
+  <p><strong>Common mistake in production:</strong> Some training scripts accidentally include the system prompt or few-shot examples in the loss computation. This wastes capacity on learning to generate boilerplate text and can degrade response quality by up to 5–10% on benchmarks.</p>
+</div>
+
+<h3>1.3 The Fine-Tuning Spectrum</h3>
+<p>Modern fine-tuning is not binary — it exists on a continuum from minimal parameter modification (prompt tuning) to full weight updates. Understanding where each method sits and why you'd choose it is a core interview topic.</p>
+
+<div class="table-wrap">
+<table>
+  <tr><th>Approach</th><th>Params Modified</th><th>Typical Use Case</th><th>Compute</th><th>Key Trade-off</th></tr>
+  <tr><td>Prompt Tuning</td><td>~0.01%</td><td>Few-shot task adaptation</td><td><span class="tag tag-green">Very Low</span></td><td>Fast but limited expressiveness; needs large base model (>10B) to work well</td></tr>
+  <tr><td>Prefix Tuning</td><td>~0.1%</td><td>Lightweight task steering</td><td><span class="tag tag-green">Low</span></td><td>Better than prompt tuning at smaller scale; adds inference latency from extra tokens</td></tr>
+  <tr><td>LoRA / QLoRA</td><td>~0.1–2%</td><td>Domain/task adaptation</td><td><span class="tag tag-blue">Low–Med</span></td><td>Best balance of quality vs. cost; can merge to zero inference overhead</td></tr>
+  <tr><td>Full FT (last layers)</td><td>~10–30%</td><td>Moderate specialization</td><td><span class="tag tag-orange">Medium</span></td><td>More capacity but higher forgetting risk; requires careful LR scheduling</td></tr>
+  <tr><td>Full FT (all params)</td><td>100%</td><td>Major domain shift</td><td><span class="tag tag-red">High</span></td><td>Maximum capacity but maximum forgetting; needs data mixing strategies</td></tr>
+</table>
+</div>
+
+<div class="deep-dive">
+  <div class="deep-dive-title">🔬 Why does this spectrum exist?</div>
+  <p>The theoretical justification comes from the <strong>intrinsic dimensionality hypothesis</strong> (<a href="https://arxiv.org/abs/2012.13255" target="_blank" class="paper-ref">Aghajanyan et al., 2021</a>). Pre-trained models have very low intrinsic dimensionality for downstream tasks — meaning the effective subspace you need to modify is tiny relative to the full parameter space. A 355M-parameter model was shown to need only ~200 dimensions for 90% of full fine-tuning performance on many tasks. As models get larger, this intrinsic dimensionality grows <em>sublinearly</em>, which is why PEFT methods become even more effective at scale.</p>
+  <p>Intuitively: pre-training has already positioned the model near many good solutions for downstream tasks. Fine-tuning only needs to make a small correction in parameter space to reach the specific solution for your task. The larger the model, the closer it already is to those solutions, so the correction is proportionally smaller.</p>
+</div>
+
+<h3>1.4 When to Fine-Tune vs. Alternatives</h3>
+
+<div class="compare-grid">
+  <div class="compare-card">
+    <h5>✅ Fine-Tune When</h5>
+    <ul>
+      <li><strong>Consistent behavior needed:</strong> You need the model to always follow a specific output format (JSON schema, specific markdown structure, etc.) — prompting is brittle for this</li>
+      <li><strong>Domain-specific knowledge:</strong> The base model hasn't seen your domain data (proprietary docs, niche scientific fields, specific coding frameworks)</li>
+      <li><strong>Latency constraints:</strong> Internalizing knowledge avoids retrieval round-trips; shorter prompts reduce time-to-first-token</li>
+      <li><strong>Alignment/safety:</strong> You need consistent policy adherence that can't be jailbroken through prompt injection</li>
+      <li><strong>Cost at scale:</strong> Fine-tuned models with shorter prompts cost less per inference call than few-shot prompting</li>
+    </ul>
+  </div>
+  <div class="compare-card">
+    <h5>⏸️ Consider Alternatives When</h5>
+    <ul>
+      <li><strong>Few-shot works well enough:</strong> If 3–5 examples in the prompt achieve >90% of target quality, don't fine-tune</li>
+      <li><strong>Factual grounding needed:</strong> RAG is better for current/evolving knowledge — fine-tuned facts become stale and can hallucinate confidently</li>
+      <li><strong>Insufficient data:</strong> &lt;100 examples for complex tasks; &lt;500 for reasoning tasks. The model will memorize rather than generalize</li>
+      <li><strong>Rapid iteration:</strong> If you're still figuring out what "good" looks like, prompting lets you iterate in minutes vs. hours for fine-tuning</li>
+      <li><strong>Multi-task flexibility:</strong> If you need one endpoint for many diverse tasks, fine-tuning can narrow capabilities</li>
+    </ul>
+  </div>
+</div>
+
+<div class="callout callout-tip">
+  <div class="callout-title">💡 The Hybrid Pattern: Fine-Tuning + RAG</div>
+  <p>In production, the most robust systems <strong>combine fine-tuning and RAG</strong>. Fine-tune for: output format compliance, reasoning style, safety guardrails, and domain-specific language/jargon. Use RAG for: factual answers, time-sensitive information, and cite-able sources. This avoids the biggest risk of fine-tuning on factual knowledge — the model will confidently assert outdated or wrong facts with no mechanism to self-correct.</p>
+  <p><strong>Example architecture:</strong> Fine-tune a Llama-3 model on 10K examples of your company's documentation Q&A format (teaching it how to cite sources, format answers, handle multi-part questions). At inference, use RAG to retrieve relevant docs and inject them into the context. The fine-tuned model produces well-formatted, consistent answers; RAG ensures factual accuracy and currency.</p>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION 2: FULL FINE-TUNING -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2 id="s2"><span class="section-num">02</span> Full Fine-Tuning: Theory &amp; Practice</h2>
+
+<h3>2.1 Optimization Formulation</h3>
+<p>Full fine-tuning updates <strong>every single parameter</strong> of the model. For a transformer with L layers, each containing multi-head attention (MHA) and feed-forward network (FFN) sublayers, the total parameter count scales as:</p>
+<div class="formula">||θ|| ≈ L × (4d² + 2d·d<sub>ff</sub> + d<sub>ff</sub>·d)    +    V × d  (embedding layer)</div>
+<p>where d is the hidden dimension, d<sub>ff</sub> is the FFN intermediate dimension (4d for standard, ~2.67d for SwiGLU-style which uses 3 weight matrices instead of 2), and V is vocabulary size. The 4d² in attention comes from W<sub>Q</sub>, W<sub>K</sub>, W<sub>V</sub>, W<sub>O</sub> each being d×d (assuming n_heads × head_dim = d). For a 7B model with d=4096, d<sub>ff</sub>=11008 (SwiGLU), L=32, this gives ~6.7B dense parameters plus ~0.5B in embeddings.</p>
+
+<h3>2.2 AdamW: The Standard Optimizer</h3>
+<p>Nearly all LLM fine-tuning uses <strong>AdamW</strong> (Adam with Decoupled Weight Decay). Understanding its internals is essential:</p>
+<div class="formula">
+m<sub>t</sub> = β₁ · m<sub>t-1</sub> + (1 − β₁) · g<sub>t</sub>          ← first moment (momentum/mean)<br>
+v<sub>t</sub> = β₂ · v<sub>t-1</sub> + (1 − β₂) · g<sub>t</sub>²         ← second moment (variance)<br>
+m̂<sub>t</sub> = m<sub>t</sub> / (1 − β₁<sup>t</sup>)                      ← bias correction<br>
+v̂<sub>t</sub> = v<sub>t</sub> / (1 − β₂<sup>t</sup>)                      ← bias correction<br>
+θ<sub>t</sub> = θ<sub>t-1</sub> − η · (m̂<sub>t</sub> / (√v̂<sub>t</sub> + ε) + λ · θ<sub>t-1</sub>)
+</div>
+
+<div class="deep-dive">
+  <div class="deep-dive-title">🔬 Why AdamW over Adam + L2?</div>
+  <p>In vanilla Adam with L2, the regularization term λ·θ is added to the gradient <em>before</em> the adaptive step. This means the regularization effect is scaled by 1/√v̂ — parameters with large gradient variance get less regularization, and parameters with small variance get more. This is undesirable and inconsistent.</p>
+  <p>AdamW <strong>decouples</strong> weight decay from the gradient-based update. The decay λ·θ is applied directly to the weights after the adaptive gradient step. This ensures uniform regularization regardless of gradient history. The result is more consistent training dynamics and better generalization, particularly important for fine-tuning where you want controlled, uniform regularization to prevent overfitting.</p>
+  <p><strong>Typical values for fine-tuning:</strong> β₁ = 0.9, β₂ = 0.999 (some use 0.95 for instability), ε = 1e-8, λ = 0.01–0.1. The bias correction terms matter for early training steps — without them, m̂ and v̂ are biased toward zero since m₀ = v₀ = 0.</p>
+</div>
+
+<div class="derive">
+  <div class="derive-title">🧮 Derive It Yourself — AdamW from SGD</div>
+  <p>Build the entire AdamW update rule by adding one ingredient at a time:</p>
+  <div class="deriv-step"><span class="step-num">1</span><p><strong>Start with SGD:</strong> θ<sub>t</sub> = θ<sub>t-1</sub> − η · g<sub>t</sub>. Simplest optimizer: move in the direction of the negative gradient. Problem: noisy, oscillates, same learning rate for all parameters.</p></div>
+  <div class="deriv-step"><span class="step-num">2</span><p><strong>Add momentum (→ SGDM):</strong> Average past gradients with an exponential moving average: m<sub>t</sub> = β₁ · m<sub>t-1</sub> + (1−β₁) · g<sub>t</sub>. Now θ<sub>t</sub> = θ<sub>t-1</sub> − η · m<sub>t</sub>. This smooths out noise and accelerates through flat regions. β₁ = 0.9 means "remember 90% of previous direction."</p></div>
+  <div class="deriv-step"><span class="step-num">3</span><p><strong>Add per-parameter scaling (→ Adam):</strong> Track the second moment: v<sub>t</sub> = β₂ · v<sub>t-1</sub> + (1−β₂) · g<sub>t</sub>². Divide the update by √v<sub>t</sub>: parameters with large gradients get smaller updates, parameters with small gradients get larger updates. This is <strong>adaptive learning rates</strong>. Now: θ<sub>t</sub> = θ<sub>t-1</sub> − η · m<sub>t</sub> / (√v<sub>t</sub> + ε).</p></div>
+  <div class="deriv-step"><span class="step-num">4</span><p><strong>Fix the initialization bias (→ Adam with bias correction):</strong> Since m₀ = v₀ = 0, early estimates are biased toward zero. Correct by dividing: m̂<sub>t</sub> = m<sub>t</sub>/(1−β₁<sup>t</sup>), v̂<sub>t</sub> = v<sub>t</sub>/(1−β₂<sup>t</sup>). The correction is large at t=1 and vanishes as t→∞. <em>Why (1−β<sup>t</sup>)?</em> Unroll the EMA: m<sub>t</sub> = (1−β₁)·Σ<sub>i=1..t</sub> β₁<sup>t-i</sup>·g<sub>i</sub>. The sum of the weights is (1−β₁)·(1−β₁<sup>t</sup>)/(1−β₁) = 1−β₁<sup>t</sup>, not 1. Dividing normalizes it.</p></div>
+  <div class="deriv-step"><span class="step-num">5</span><p><strong>Decouple weight decay (→ AdamW):</strong> Instead of adding λ·θ to the gradient <em>before</em> the adaptive step (which would scale the regularization by 1/√v̂ — inconsistent!), apply it <em>after</em>: θ<sub>t</sub> = θ<sub>t-1</sub> − η · (m̂<sub>t</sub>/(√v̂<sub>t</sub>+ε) + λ · θ<sub>t-1</sub>). Every parameter decays at the same rate λ, regardless of gradient history.</p></div>
+  <div class="deriv-tip"><strong>Whiteboard strategy:</strong> Write SGD first. Add momentum. Add adaptive second moment. Add bias correction. Add decoupled decay. Each step addresses one problem with the previous version. If you can explain <em>why</em> each addition helps, you demonstrate deep understanding.</div>
+</div>
+
+<div class="callout callout-warning">
+  <div class="callout-title">⚠️ Memory Breakdown for AdamW</div>
+  <p>AdamW stores <strong>2 additional fp32 copies</strong> of all parameters (m and v states). Here's the exact accounting for a 7B model:</p>
+  <div class="table-wrap">
+  <table>
+    <tr><th>Component</th><th>Precision</th><th>Formula</th><th>7B Model</th></tr>
+    <tr><td>Model Parameters</td><td>fp32</td><td>4 bytes/param</td><td>28 GB</td></tr>
+    <tr><td>First Moment (m)</td><td>fp32</td><td>4 bytes/param</td><td>28 GB</td></tr>
+    <tr><td>Second Moment (v)</td><td>fp32</td><td>4 bytes/param</td><td>28 GB</td></tr>
+    <tr><td>Gradients</td><td>fp32</td><td>4 bytes/param</td><td>28 GB</td></tr>
+    <tr><td><strong>Total (no activations)</strong></td><td></td><td><strong>16 bytes/param</strong></td><td><strong>~112 GB</strong></td></tr>
+  </table>
+  </div>
+  <p>This is why a 7B model cannot be fully fine-tuned even on an A100 80GB — you need <strong>mixed precision</strong> or <strong>sharded training</strong> to make it feasible.</p>
+</div>
+
+<h3>2.3 Mixed-Precision Training: The Details</h3>
+<p>Mixed-precision maintains a master copy in fp32 while doing compute in lower precision. The full protocol:</p>
+<ol class="step-list">
+  <li><strong>Store master weights in fp32.</strong> This is the source of truth. All optimizer state updates happen here. Keeping fp32 prevents the gradual accumulation of rounding errors that would degrade training over thousands of steps.</li>
+  <li><strong>Cast to bf16/fp16 for forward pass.</strong> θ̂ = cast(θ). This halves memory for activations and speeds up matmuls (Tensor Cores operate on fp16/bf16).</li>
+  <li><strong>Compute loss in fp32.</strong> The loss computation (log-softmax over vocabulary) is numerically sensitive. Computing it in fp16 causes significant errors, especially for low-probability tokens.</li>
+  <li><strong>Backward pass in bf16/fp16.</strong> Gradients are computed in reduced precision. With bf16, this is generally safe. With fp16, you need <strong>loss scaling</strong>: multiply the loss by a large factor (e.g., 1024) before backward, then divide gradients by the same factor. This prevents small gradients from underflowing to zero.</li>
+  <li><strong>Update master weights in fp32.</strong> Convert gradients to fp32, apply the AdamW update to fp32 master weights.</li>
+</ol>
+
+<div class="deep-dive">
+  <div class="deep-dive-title">🔬 bf16 vs. fp16: A Detailed Comparison</div>
+  <p><strong>fp16 (IEEE half-precision):</strong> 1 sign bit + 5 exponent bits + 10 mantissa bits. Range: ~6×10⁻⁸ to ~65,504. The narrow range means gradients smaller than 6×10⁻⁸ become zero (underflow), and values above 65,504 become infinity (overflow). This is why <strong>loss scaling</strong> is mandatory — it shifts small gradients into the representable range.</p>
+  <p><strong>bf16 (brain float 16):</strong> 1 sign bit + 8 exponent bits + 7 mantissa bits. Range: ~1.2×10⁻³⁸ to ~3.4×10³⁸ — the same as fp32. The wider range eliminates underflow/overflow issues, so <strong>no loss scaling needed</strong>. The trade-off is lower precision (7 mantissa bits vs. 10), meaning each number has less accuracy. In practice, this lower precision doesn't matter for training because gradient noise dominates rounding errors.</p>
+  <p><strong>For LLM fine-tuning:</strong> bf16 is <strong>strongly preferred</strong>. It's simpler (no loss scaler to manage), more stable (no overflow/underflow edge cases), and produces equivalent results. The only reason to use fp16 is if your hardware doesn't support bf16 (pre-Ampere NVIDIA GPUs, i.e., V100 and older).</p>
+  <p><strong>Memory savings with mixed precision:</strong> For a 7B model, parameters in bf16 = 14GB instead of 28GB. Activations are also halved. However, optimizer states remain fp32, so the total savings are typically ~30–40% vs. pure fp32 training.</p>
+</div>
+
+<h3>2.4 Gradient Checkpointing (Activation Recomputation)</h3>
+<p>During backpropagation, you need the forward-pass activations at each layer to compute gradients. For a transformer, the activation memory scales as:</p>
+<div class="formula">Activation memory ≈ L × B × S × d × k    (where k ≈ 10–12 for a standard transformer layer)</div>
+<p>The factor k accounts for multiple intermediate tensors: attention queries/keys/values, attention weights, attention output, FFN intermediate, residual connections, and layer norms. For a 7B model with batch size 4 and sequence length 2048, this can be <strong>40–60 GB</strong> of activation memory — often more than the model parameters themselves.</p>
+
+<p><strong>Gradient checkpointing</strong> (also called activation recomputation or rematerialization) addresses this by only storing activations at selected "checkpoint" layers and <strong>recomputing</strong> the others during the backward pass. With checkpoints every k layers:</p>
+<div class="formula">
+Memory: O(L/k × B × S × d)    (reduced by factor k)<br>
+Compute: O(L × k)              (increased by recomputing k layers per checkpoint)<br>
+Optimal k = √L                 (~5–6 for L=32)
+</div>
+
+<div class="derive">
+  <div class="derive-title">🧮 Derive It Yourself — Optimal Checkpoint Spacing</div>
+  <p>This is a classic memory-compute trade-off optimization:</p>
+  <div class="deriv-step"><span class="step-num">1</span><p><strong>Setup:</strong> L layers total. Place checkpoints every k layers → L/k checkpoints stored. Each stores activations of size C per layer. Memory = (L/k) · C.</p></div>
+  <div class="deriv-step"><span class="step-num">2</span><p><strong>Compute cost:</strong> During backward pass, for each checkpoint segment, you re-run the forward pass through k layers to recompute activations. Total recomputation ≈ L layers (one re-forward per segment, each segment has k layers, there are L/k segments → L re-computations total). But the recomputation overhead on top of the normal backward pass is proportional to L — i.e., ~one extra forward pass.</p></div>
+  <div class="deriv-step"><span class="step-num">3</span><p><strong>Wait — what about non-uniform checkpointing?</strong> If we don't checkpoint every k layers but choose optimally with a budget of m checkpoints, the memory is proportional to m + L/m (m checkpoints + max segment length). Minimize total cost = αm + βL/m. Take derivative, set to 0: α − βL/m² = 0 → m* = √(βL/α). If costs are equal (α=β): <strong>m* = √L, giving optimal spacing k = √L</strong>.</p></div>
+  <div class="deriv-tip"><strong>Interview-ready version:</strong> "Gradient checkpointing is a memory-compute trade-off. Store activations every k layers: memory scales as L/k, extra compute scales as k (recomputing k layers per segment). Total cost ~ L/k + k, minimized at k = √L by AM-GM inequality. For a 32-layer model, checkpoint every ~6 layers."</div>
+</div>
+
+<div class="callout callout-insight">
+  <div class="callout-title">⚡ Practical Impact</div>
+  <p>Gradient checkpointing typically reduces activation memory by <strong>60–70%</strong> at the cost of <strong>30–40% more compute time</strong>. This is almost always worthwhile for fine-tuning because: (1) it lets you use larger batch sizes, which improves gradient quality, and (2) it can make the difference between fitting training on your available GPUs or not. In PyTorch, enable it with <code>model.gradient_checkpointing_enable()</code>. In HuggingFace Trainer, set <code>gradient_checkpointing=True</code> in TrainingArguments.</p>
+</div>
+
+<h3>2.5 Flash Attention</h3>
+<p><a href="https://arxiv.org/abs/2205.14135" target="_blank" class="paper-ref">Dao et al., 2022 — FlashAttention</a> <a href="https://arxiv.org/abs/2307.08691" target="_blank" class="paper-ref">Dao, 2023 — FlashAttention-2</a></p>
+<p>Standard attention materializes the full S×S attention matrix, using O(S²) memory. Flash Attention computes attention in a tiled, fused manner that <strong>never materializes the full matrix</strong>, reducing memory to O(S) and improving speed by 2–4x through better GPU memory hierarchy utilization (keeping data in SRAM rather than repeatedly reading from HBM).</p>
+<p>For fine-tuning, Flash Attention is practically mandatory for sequences longer than 2048 tokens. Combined with gradient checkpointing, it can reduce total memory usage by 5–10x compared to naive implementations. FlashAttention-2 further optimizes parallelism across sequence length and heads, achieving near-theoretical peak throughput on modern GPUs.</p>
+
+<h3>2.6 Practical Hyperparameters — The Full Story</h3>
+<ul>
+  <li><strong>Learning rate (1e-5 to 5e-5):</strong> This is 10–100× smaller than pre-training LR. The intuition: pre-training starts from random initialization and needs large updates to move through parameter space quickly; fine-tuning starts from a good initialization and needs small, careful adjustments. Too high → catastrophic forgetting (obliterates pre-trained knowledge); too low → undertrained, wasting compute. <strong>Interview tip:</strong> If asked "what's the first thing you'd try if fine-tuning isn't working?", the answer is usually "adjust the learning rate."</li>
+  <li><strong>Learning rate warmup (3–10% of total steps):</strong> The first few gradient steps are noisy because they're computed from a small sample. Without warmup, these noisy gradients are applied at full learning rate, potentially pushing parameters far from the good initialization. Linear warmup from 0 to peak LR over the first 3–10% of steps prevents these destructive early updates. This is especially important for fine-tuning because the pre-trained initialization is valuable — you don't want to destroy it with the first few updates.</li>
+  <li><strong>LR scheduler — cosine decay:</strong> After warmup, LR decays following LR(t) = LR<sub>min</sub> + 0.5 × (LR<sub>max</sub> - LR<sub>min</sub>) × (1 + cos(πt/T)). Decays to ~10% of peak. Why cosine? Early training benefits from higher LR (exploring loss landscape), while late training benefits from lower LR (converging precisely). Cosine decay also provides a gradual transition, avoiding the sudden drops of step-decay schedulers. In practice, cosine decay gives ~0.5–1% better final performance than linear decay.</li>
+  <li><strong>Batch size (effective 32–256):</strong> Larger batches produce lower-variance gradient estimates, leading to more stable training. But too large a batch can hurt generalization (the "generalization gap"). For fine-tuning, batch sizes of 32–128 work well. If memory-limited, use <strong>gradient accumulation</strong>: accumulate gradients over N micro-batches before an optimizer step. Effective batch size = micro_batch_size × num_GPUs × gradient_accumulation_steps.</li>
+  <li><strong>Epochs (1–3 for large datasets, 3–10 for small):</strong> More epochs means seeing each example more times. With large datasets (>100K examples), 1–2 epochs is often optimal — the model learns the distribution quickly and additional passes cause overfitting. With small datasets (<10K), 3–5 epochs may be needed, but monitor eval loss closely for the inflection point where overfitting begins.</li>
+  <li><strong>Max sequence length:</strong> Should match your inference use case. Longer sequences consume more memory (quadratically for attention, linearly for other components with Flash Attention). For fine-tuning, it's common to pack multiple short examples into one sequence (with proper attention masking) to maximize GPU utilization.</li>
+  <li><strong>Gradient clipping (max_grad_norm = 1.0):</strong> Clips the global gradient norm to prevent single large-gradient steps from destabilizing training. This is a safety net — in well-configured training, gradients rarely exceed the threshold, but when they do (due to outlier examples or numerical issues), clipping prevents catastrophic parameter updates.</li>
+</ul>
+
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION 3: PEFT -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2 id="s3"><span class="section-num">03</span> Parameter-Efficient Fine-Tuning (PEFT)</h2>
+
+<h3>3.1 Why PEFT? The Deep Motivation</h3>
+<p>As models scale to tens and hundreds of billions of parameters, full fine-tuning becomes impractical for three reasons: <strong>(1) Memory:</strong> A 70B model needs ~1.1TB for full fine-tuning (parameters + optimizer states + gradients in fp32). <strong>(2) Storage:</strong> Each fine-tuned version is a full copy of the model. Serving 100 task-specific variants of a 70B model means storing 100 × 140GB = 14TB. <strong>(3) Catastrophic forgetting:</strong> Modifying all parameters makes it easy to overwrite the valuable pre-trained knowledge.</p>
+
+<p>PEFT methods address all three by modifying a <strong>tiny subset of parameters</strong>. The formal framework:</p>
+<div class="formula">
+Effective parameters: θ<sub>eff</sub> = θ₀ + Δθ(φ)<br>
+where θ₀ ∈ ℝ<sup>d</sup> is frozen, φ ∈ ℝ<sup>m</sup> is trainable, m ≪ d<br>
+Δθ: ℝ<sup>m</sup> → ℝ<sup>d</sup> is the reparameterization function
+</div>
+
+<p>The core hypothesis: for any given downstream task, the optimal weight change Δθ* lies in a low-dimensional subspace of ℝ<sup>d</sup>. This is supported by the intrinsic dimensionality findings — and it turns out to be even more true at larger scales. A 175B model may need a lower percentage of parameters modified than a 7B model for the same task.</p>
+
+<div class="derive">
+  <div class="derive-title">🧮 Derive It Yourself — The PEFT Reparameterization Framework</div>
+  <p>Every PEFT method is an instance of one general framework. Derive it once, then plug in specifics:</p>
+  <div class="deriv-step"><span class="step-num">1</span><p><strong>Start from the problem:</strong> We want to update weights but not modify W₀ directly (too expensive, too risky). So express the effective weight as: W<sub>eff</sub> = W₀ + ΔW. Here ΔW is the change we want to learn.</p></div>
+  <div class="deriv-step"><span class="step-num">2</span><p><strong>ΔW is huge (same size as W₀). Compress it:</strong> Instead of learning ΔW ∈ ℝ<sup>d×k</sup> directly (~millions of params), parameterize it through a small set of trainable parameters φ ∈ ℝ<sup>m</sup> (m ≪ d×k) via some function: ΔW = f(φ). Now you only optimize φ.</p></div>
+  <div class="deriv-step"><span class="step-num">3</span><p><strong>Different PEFT methods = different choices of f(φ):</strong></p>
+  <p style="margin-top:8px;">
+  • <strong>LoRA:</strong> f(φ) = BA where φ = {B, A}, rank-r factorization → m = r(d+k)<br>
+  • <strong>Adapters:</strong> f(φ) = W<sub>up</sub> · σ(W<sub>down</sub> · h) — but applied as a <em>residual addition to activations</em> rather than to weights<br>
+  • <strong>Prefix Tuning:</strong> f(φ) = learnable key/value vectors prepended to attention — modifies the <em>input</em> to attention rather than the weights<br>
+  • <strong>VeRA:</strong> f(φ) = diag(d<sub>b</sub>) · B<sub>random</sub> · diag(d<sub>a</sub>) · A<sub>random</sub> — φ is just two scaling vectors<br>
+  • <strong>BitFit:</strong> f(φ) = bias terms only — φ is the set of all biases
+  </p></div>
+  <div class="deriv-step"><span class="step-num">4</span><p><strong>The forward pass is always:</strong> h = (W₀ + ΔW)x = W₀x + f(φ)·x. The gradient flows only through φ (W₀ is frozen). This is why PEFT is memory-efficient: optimizer states are proportional to |φ|, not |W₀|.</p></div>
+  <div class="deriv-tip"><strong>Interview power move:</strong> When asked about any PEFT method, first write the general framework W<sub>eff</sub> = W₀ + f(φ) and then say "the specific method defines f(φ) as..." This shows you see the unity across methods and can reason about new ones from first principles.</div>
+</div>
+
+<h3>3.2 Additive Methods — Detailed Theory</h3>
+
+<h4>Adapters (Houlsby et al., 2019)</h4>
+<a href="https://arxiv.org/abs/1902.00751" target="_blank" class="paper-ref">Houlsby et al., 2019 — Parameter-Efficient Transfer Learning</a>
+<p>Adapters insert small bottleneck MLP modules after each transformer sublayer (attention and FFN). The architecture is a down-projection, nonlinearity, up-projection, plus a residual connection:</p>
+<div class="formula">h ← h + W<sub>up</sub> · σ(W<sub>down</sub> · h)<br>
+where W<sub>down</sub> ∈ ℝ<sup>d×r</sup>, W<sub>up</sub> ∈ ℝ<sup>r×d</sup>, r ≪ d</div>
+
+<p><strong>Why the bottleneck?</strong> The down-projection compresses the d-dimensional hidden state to r dimensions, forcing the adapter to learn a compact, low-dimensional representation of the task-specific transformation. The nonlinearity σ (typically ReLU or GELU) allows nonlinear transformations that a simple linear layer couldn't capture. The up-projection maps back to d dimensions. The residual connection ensures that if the adapter learns nothing useful (all-zero output), the model behaves identically to the pre-trained base.</p>
+
+<p><strong>Parameter count:</strong> Each adapter adds 2 × r × d + r (bias) parameters. With r = 64 and d = 4096, that's ~524K per insertion point. A 32-layer transformer with adapters after both attention and FFN sublayers adds 32 × 2 × 524K ≈ 33.5M parameters — about <strong>0.5% of a 7B model</strong>.</p>
+
+<p><strong>Downside:</strong> Adapters add sequential computation that cannot be merged into existing weights, introducing <strong>inference latency</strong> (typically 5–15%). This is their main disadvantage vs. LoRA, which can be merged for zero-overhead inference.</p>
+
+<h4>Prefix Tuning (Li &amp; Liang, 2021)</h4>
+<a href="https://arxiv.org/abs/2101.00190" target="_blank" class="paper-ref">Li &amp; Liang, 2021 — Prefix-Tuning</a>
+<p>Prepends learnable continuous vectors ("virtual tokens") to the key and value matrices at <em>every</em> attention layer. For prefix length p and L layers:</p>
+<div class="formula">
+K' = [P<sub>K</sub><sup>(l)</sup> ; K<sup>(l)</sup>],   V' = [P<sub>V</sub><sup>(l)</sup> ; V<sup>(l)</sup>]    ∀ layer l<br>
+Attn(Q, K', V') = softmax(QK'<sup>T</sup> / √d<sub>k</sub>) · V'<br>
+Trainable params = L × 2 × p × d
+</div>
+
+<p><strong>Key insight:</strong> By only modifying K and V (not Q), prefix tuning steers <em>what the model attends to</em> without changing <em>what generates the queries</em>. The prefix acts as a "virtual context" that biases attention patterns toward task-relevant representations.</p>
+
+<p><strong>Reparameterization trick:</strong> Directly optimizing the prefix vectors is unstable (high-dimensional, unconstrained optimization). Instead, Li &amp; Liang parameterize the prefixes through a small MLP: P = MLP(P<sub>base</sub>) during training. After training, the MLP is discarded and only the final prefix vectors are kept. This is analogous to how VAEs use an encoder to produce latent representations — the reparameterization provides a smoother optimization landscape.</p>
+
+<p><strong>Downside:</strong> The prefix tokens consume sequence length budget. If your model supports 4096 tokens and your prefix is 128 tokens, you effectively have 3968 tokens for actual input. This matters for long-context applications.</p>
+
+<h4>Prompt Tuning (Lester et al., 2021)</h4>
+<a href="https://arxiv.org/abs/2104.08691" target="_blank" class="paper-ref">Lester et al., 2021 — The Power of Scale for Prompt Tuning</a>
+<p>The simplest PEFT method: prepend learnable soft prompt embeddings <strong>only at the input layer</strong>. No modification to intermediate layers.</p>
+<div class="formula">Trainable params = p × d    (just p vectors of dimension d)</div>
+
+<p>For p=20 and d=4096, this is only 80K parameters — less than 0.001% of a 7B model. The remarkable finding from Lester et al. is that <strong>prompt tuning closes the gap with full fine-tuning as model size increases</strong>. At 11B parameters (T5-XXL), prompt tuning achieves nearly identical performance to full fine-tuning on SuperGLUE. At smaller scales (under 1B), it's significantly worse.</p>
+
+<p><strong>Why does scale help?</strong> Larger models have more expressive attention mechanisms that can extract richer information from the soft prompt. The soft prompt acts as a compressed task descriptor, and a more capable model can "decode" it more effectively.</p>
+
+<h4>Selective Methods</h4>
+<ul>
+  <li><strong>BitFit</strong> (<a href="https://arxiv.org/abs/2106.10199" target="_blank" class="paper-ref">Ben-Zaken et al., 2022</a>): Trains only bias terms (~0.1% of parameters). Surprisingly competitive on NLU tasks (GLUE benchmarks). The intuition: biases control the "activation threshold" of neurons, and shifting these thresholds can significantly change model behavior without altering the learned feature representations in the weight matrices.</li>
+  <li><strong>Layer-selective fine-tuning:</strong> Freeze lower layers, train upper layers. Justified by the observation that <strong>lower layers learn universal features</strong> (tokenization, basic syntax, part-of-speech) while <strong>upper layers learn task-specific features</strong> (semantics, reasoning patterns). For a 32-layer model, fine-tuning only the top 8 layers modifies ~25% of parameters while capturing most of the task-specific adaptation.</li>
+</ul>
+
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION 4: LORA AND VARIANTS -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2 id="s4"><span class="section-num">04</span> LoRA &amp; Its Variants</h2>
+
+<h3>4.1 LoRA: Low-Rank Adaptation — Full Theory</h3>
+<a href="https://arxiv.org/abs/2106.09685" target="_blank" class="paper-ref">Hu et al., 2022 — LoRA</a>
+<a href="https://github.com/microsoft/LoRA" target="_blank" class="repo-ref">microsoft/LoRA</a>
+<a href="https://github.com/huggingface/peft" target="_blank" class="repo-ref">huggingface/peft</a>
+
+<p>LoRA is the most widely used PEFT method and understanding it deeply is essential for any Gen AI researcher interview.</p>
+
+<p><strong>Core insight:</strong> The weight updates ΔW during fine-tuning have <strong>low intrinsic rank</strong>. Instead of learning a dense update to W ∈ ℝ<sup>d×k</sup>, decompose it into two low-rank matrices:</p>
+<div class="formula">
+W' = W₀ + ΔW = W₀ + B · A<br>
+where B ∈ ℝ<sup>d×r</sup>, A ∈ ℝ<sup>r×k</sup>, r ≪ min(d, k)<br><br>
+Forward pass: h = W₀x + (α/r) · B(Ax)
+</div>
+
+<p><strong>Why this works mathematically:</strong> Any matrix ΔW ∈ ℝ<sup>d×k</sup> can be decomposed via SVD as ΔW = UΣV<sup>T</sup> where U ∈ ℝ<sup>d×d</sup>, Σ is diagonal, V ∈ ℝ<sup>k×k</sup>. If the singular values decay rapidly (i.e., σ₁ ≫ σ₂ ≫ ... ≫ σ<sub>r</sub> ≫ σ<sub>r+1</sub> ≈ 0), then ΔW is well-approximated by its rank-r truncation: ΔW ≈ U<sub>r</sub>Σ<sub>r</sub>V<sub>r</sub><sup>T</sup> = BA where B = U<sub>r</sub>Σ<sub>r</sub><sup>1/2</sup> and A = Σ<sub>r</sub><sup>1/2</sup>V<sub>r</sub><sup>T</sup>. Hu et al. verified empirically that learned ΔW matrices have rapidly decaying singular values — the top 1–4 singular values capture the majority of the "useful" update, with the rest being noise.</p>
+
+<div class="derive">
+  <div class="derive-title">🧮 Derive It Yourself — LoRA from First Principles</div>
+  <p>Here's how to derive LoRA from scratch on a whiteboard, starting from the SVD insight:</p>
+  <div class="deriv-step"><span class="step-num">1</span><p><strong>Observation:</strong> When we full-fine-tune and compute ΔW = W<sub>finetuned</sub> − W<sub>pretrained</sub>, the SVD shows that ΔW has low rank. Most singular values are near zero. Formalize: rank(ΔW) ≈ r where r ≪ min(d,k).</p></div>
+  <div class="deriv-step"><span class="step-num">2</span><p><strong>If ΔW is low-rank, factor it:</strong> Any rank-r matrix can be written as a product of two thin matrices: ΔW = B · A where B ∈ ℝ<sup>d×r</sup> and A ∈ ℝ<sup>r×k</sup>. Parameter savings: d×k → d×r + r×k = r(d+k). For d=k=4096, r=16: from 16.7M to 131K — a <strong>128× reduction</strong>.</p></div>
+  <div class="deriv-step"><span class="step-num">3</span><p><strong>Design the forward pass:</strong> h = W₀x + BAx. Since W₀ is frozen, only B and A receive gradients. Memory: optimizer states scale with r(d+k) instead of d×k.</p></div>
+  <div class="deriv-step"><span class="step-num">4</span><p><strong>Handle the scaling problem:</strong> The norm of BAx depends on r (larger r → larger output norm on average). We want changing r to not change the scale of the output. So add a scaling factor: h = W₀x + (α/r) · BAx. Now the effective output magnitude is controlled by α (a hyperparameter), independent of r.</p></div>
+  <div class="deriv-step"><span class="step-num">5</span><p><strong>Choose initialization:</strong> We need ΔW = BA = 0 at start (to preserve pre-trained behavior). Set B = 0. Keep A random (Kaiming) so that Ax gives diverse projections — this provides a non-zero gradient signal for B immediately: ∂L/∂B = (∂L/∂(BAx)) · (Ax)<sup>T</sup> ≠ 0 since Ax ≠ 0.</p></div>
+  <div class="deriv-step"><span class="step-num">6</span><p><strong>At inference, merge:</strong> W' = W₀ + (α/r)BA. This is a single d×k matrix. No architectural change, no latency overhead. This is the key advantage over adapters (which add sequential computation) and prefix tuning (which consumes context length).</p></div>
+  <div class="deriv-tip"><strong>The SVD connection is key:</strong> If an interviewer asks "why low-rank?", draw the singular value spectrum: σ₁ ≫ σ₂ > σ₃ > ... > σ<sub>r</sub> ≫ σ<sub>r+1</sub> ≈ 0. The rapid decay means the true ΔW lives in a rank-r subspace. LoRA simply searches within that subspace directly, rather than searching the full d×k space and hoping to land in the subspace.</div>
+</div>
+
+<div class="callout callout-insight">
+  <div class="callout-title">⚡ Initialization — Why It Matters Deeply</div>
+  <p><strong>A</strong> is initialized with Kaiming uniform (random Gaussian with appropriate variance) and <strong>B</strong> is initialized to all zeros. This is a deliberate and critical design choice:</p>
+  <ul>
+    <li><strong>ΔW = BA = 0 at initialization</strong> — the model starts with <em>exact</em> pre-trained behavior. This means LoRA is a <strong>strictly conservative</strong> modification: if training doesn't find a useful update, the model falls back to the base model exactly.</li>
+    <li><strong>Why not initialize both randomly?</strong> Random BA would produce a random perturbation to the pre-trained weights, potentially destroying the good initialization. Zero-init of one matrix guarantees no initial damage.</li>
+    <li><strong>Why zero B and not A?</strong> The gradient of the loss with respect to B is ∂L/∂B = (∂L/∂(BAx)) · (Ax)<sup>T</sup>. Since A is random, Ax produces diverse projections of the input, providing a rich gradient signal for B from the first step. If A were zero instead, BAx = 0 regardless of B, and the gradient for A would be B<sup>T</sup> · (∂L/∂h) = 0 — training would never start.</li>
+  </ul>
+</div>
+
+<h4>The Scaling Factor α/r</h4>
+<p>The scaling factor α/r controls the magnitude of the adaptation. Its purpose and tuning is a common source of confusion:</p>
+<div class="formula">h = W₀x + (α/r) · BAx</div>
+<ul>
+  <li><strong>Why divide by r?</strong> When you increase rank, the norm of BAx tends to increase proportionally to √r (by random matrix theory, since A is randomly initialized). Dividing by r compensates, ensuring that the scale of the adapter output doesn't change dramatically when you change r. This makes hyperparameter transfer across ranks easier.</li>
+  <li><strong>α is a separate tuning knob</strong> that controls the overall scale. Common heuristics: α = r (effective scaling of 1), α = 2r (effective scaling of 2, more aggressive adaptation), or α = 16 as a fixed value regardless of r.</li>
+  <li><strong>The effective learning rate for LoRA</strong> is approximately η × α/r. This means if you double r, you should also double α to keep the effective learning rate constant. If you change α, you implicitly change the learning rate for the adapter parameters. This interaction is the source of many failed experiments.</li>
+</ul>
+
+<h4>Which Modules to Target?</h4>
+<p>The original paper only applied LoRA to W<sub>Q</sub> and W<sub>V</sub> in attention layers. Subsequent research has conclusively shown:</p>
+<div class="callout callout-tip">
+  <div class="callout-title">💡 Module Selection Best Practice</div>
+  <p>Apply LoRA to <strong>all linear layers</strong> (Q, K, V, O in attention + up, gate, down in MLP) at a <strong>lower rank per module</strong>. For a fixed total parameter budget, this consistently outperforms applying LoRA to fewer modules at a higher rank. The intuition: each layer needs only a small correction, and spreading the capacity across all layers captures more diverse adaptations than concentrating it in a few layers.</p>
+  <p><strong>Practical config for a 7B model:</strong> <code>target_modules=["q_proj", "k_proj", "v_proj", "o_proj", "up_proj", "gate_proj", "down_proj"]</code>, <code>r=32</code>, <code>alpha=64</code>. This gives ~82M trainable parameters (~1.2% of model) and matches or exceeds full fine-tuning on most benchmarks.</p>
+</div>
+
+<h4>Merging at Inference</h4>
+<p>After training, the adapter can be folded back into the base weights: W' = W₀ + (α/r)BA. This is a single matrix addition that produces a new weight matrix. At inference, the merged model has <strong>identical architecture and latency</strong> to the original — no extra parameters, no extra computation. This is LoRA's killer feature vs. adapters or prefix tuning.</p>
+<p><strong>Multi-adapter serving:</strong> You can maintain one base model in GPU memory and dynamically load different LoRA adapters (which are tiny — ~100MB for a 7B model at r=32). This enables multi-tenant serving where different users get different fine-tuned behaviors from a single base model.</p>
+
+<h3>4.2 Rank Selection — Going Deeper</h3>
+<div class="cheat-grid">
+  <div class="cheat-card">
+    <div class="cheat-label">Simple Tasks</div>
+    <div class="cheat-value">r = 4–16</div>
+    <div class="cheat-note">Classification, sentiment, style transfer. The task-specific subspace is very low-dimensional.</div>
+  </div>
+  <div class="cheat-card">
+    <div class="cheat-label">Standard Tasks</div>
+    <div class="cheat-value">r = 32–64</div>
+    <div class="cheat-note">Instruction tuning, moderate domain adaptation, chat. Good default starting point.</div>
+  </div>
+  <div class="cheat-card">
+    <div class="cheat-label">Complex Tasks</div>
+    <div class="cheat-value">r = 128–256</div>
+    <div class="cheat-note">Language adaptation, code gen from general base, heavy domain shifts, reasoning.</div>
+  </div>
+</div>
+
+<div class="deep-dive">
+  <div class="deep-dive-title">🔬 How to Empirically Determine the Right Rank</div>
+  <p><strong>Method 1 — Singular value analysis:</strong> After training at a high rank (e.g., r=256), compute the SVD of each BA product. Plot the singular values. If they decay to near-zero by rank 16, you're over-parameterized — r=16 would suffice. If they're still significant at rank 256, you may need higher rank.</p>
+  <p><strong>Method 2 — Rank sweep:</strong> Train at r ∈ {4, 8, 16, 32, 64, 128} and plot validation loss. There's typically a clear elbow where increasing rank stops helping. This is the most reliable method but requires multiple training runs.</p>
+  <p><strong>Method 3 — Dynamic rank (AdaLoRA):</strong> <a href="https://arxiv.org/abs/2303.10512" target="_blank" class="paper-ref">Zhang et al., 2023 — AdaLoRA</a> automatically allocates rank across layers based on importance scores. Layers that need more adaptation get higher rank; layers that are already well-suited get lower rank. This can squeeze more performance from a fixed parameter budget.</p>
+  <p><strong>Important nuance:</strong> Increasing rank beyond what the task requires doesn't just plateau — it can actively <em>hurt</em> performance through overfitting. The extra capacity memorizes training noise rather than learning generalizable patterns. This is counterintuitive to people who expect "more parameters = better" but is consistently observed in practice.</p>
+</div>
+
+<h3>4.3 LoRA Variants — Comprehensive Guide</h3>
+
+<h4>QLoRA (Dettmers et al., 2023)</h4>
+<a href="https://arxiv.org/abs/2305.14314" target="_blank" class="paper-ref">Dettmers et al., 2023 — QLoRA</a>
+<a href="https://github.com/artidoro/qlora" target="_blank" class="repo-ref">artidoro/qlora</a>
+
+<p>QLoRA is arguably the most impactful practical contribution to fine-tuning accessibility. It combines LoRA with aggressive quantization of the base model, enabling fine-tuning of models that would otherwise require enterprise-grade hardware.</p>
+
+<p><strong>Three key innovations:</strong></p>
+<ol>
+  <li>
+    <strong>4-bit NormalFloat (NF4):</strong> A non-uniform quantization data type optimally designed for normally-distributed weights. Neural network weights empirically follow a near-normal distribution. Standard uniform INT4 spaces 16 quantization bins equally across the value range, but since weights concentrate around zero, most bins cover sparse regions while the dense center is under-represented. NF4 solves this by placing bin edges at the <strong>quantiles of N(0, σ²)</strong> — each of the 16 bins has equal probability mass under the normal distribution. This is provably information-theoretically optimal (minimizes expected quantization error) for normally-distributed data. The improvement: <strong>~30–50% less quantization error than uniform INT4</strong>.
+  </li>
+  <li>
+    <strong>Double quantization:</strong> NF4 requires per-block scaling factors (one fp32 scale per 64 parameters = 0.5 bits/param overhead). Double quantization quantizes these scaling factors themselves from fp32 to fp8, reducing the overhead to <strong>0.127 bits/param</strong>. This seems small, but for a 70B model, it saves ~3.3GB — significant when you're memory-constrained.
+  </li>
+  <li>
+    <strong>Paged optimizers:</strong> Uses NVIDIA unified memory (managed CUDA memory) to automatically page optimizer states between GPU and CPU memory. When a gradient spike temporarily requires more memory than available GPU VRAM, states are paged to CPU rather than crashing with OOM. This is transparent to the training loop.
+  </li>
+</ol>
+
+<div class="callout callout-insight">
+  <div class="callout-title">⚡ How Gradients Flow Through Quantized Weights</div>
+  <p>During the forward pass, quantized base weights are <strong>dequantized on-the-fly</strong>: W<sub>dequant</sub> = scale × (W<sub>4bit</sub> - zero_point). The LoRA adapters operate in bf16: h = W<sub>dequant</sub>x + (α/r) · BAx. During the backward pass, gradients flow through the dequantization operation using the <strong>straight-through estimator</strong> — the gradient of the dequantization is treated as identity. Crucially, only the LoRA parameters (A, B) receive optimizer updates; the quantized base weights are <em>never modified</em>.</p>
+  <p><strong>Result:</strong> A 65B model can be fine-tuned on a single 48GB A6000 GPU. A 7B model fits on a consumer RTX 3090 (24GB). A 13B model fits on an RTX 4090 (24GB). This democratized fine-tuning enormously.</p>
+</div>
+
+<h4>DoRA — Weight-Decomposed Low-Rank Adaptation</h4>
+<a href="https://arxiv.org/abs/2402.09353" target="_blank" class="paper-ref">Liu et al., 2024 — DoRA</a>
+<div class="formula">W' = m · (W₀ + BA) / ||W₀ + BA||<sub>c</sub></div>
+<p>DoRA decomposes weight matrices into <strong>magnitude</strong> and <strong>direction</strong> components, inspired by weight normalization (<a href="https://arxiv.org/abs/1602.07868" target="_blank" class="paper-ref">Salimans &amp; Kingma, 2016</a>). The insight: LoRA's update BA simultaneously changes both the magnitude and direction of weight vectors. These are conceptually different operations — scaling (how strongly the layer responds) vs. rotation (what features the layer computes) — and conflating them limits LoRA's expressiveness.</p>
+<p>In DoRA, <strong>m</strong> is a learnable magnitude vector (one scalar per output neuron), and the direction is given by the normalized (W₀ + BA). The magnitude and direction are optimized independently, allowing more precise adaptation. Empirically, DoRA improves over LoRA by <strong>1–3% across tasks</strong> with negligible parameter increase (just d additional scalars for the magnitude vector).</p>
+
+<h4>rsLoRA — Rank-Stabilized LoRA</h4>
+<a href="https://arxiv.org/abs/2312.03732" target="_blank" class="paper-ref">Kalajdzievski, 2024</a>
+<p>Standard LoRA's scaling α/r causes the effective learning rate to depend on rank. The analysis: when A is initialized with variance 1/r (Kaiming), the expected norm of BAx scales as √r (by random matrix theory). With scaling α/r, the adapter output scales as α/√r — which <em>decreases</em> with rank. This means higher rank actually starts with <em>weaker</em> adaptation signal.</p>
+<p>rsLoRA corrects this by using <strong>α/√r</strong> as the scaling factor. Since ||BAx|| ∝ √r, the product (α/√r) × √r = α remains constant regardless of rank. This stabilization makes hyperparameter transfer across ranks much more reliable — you can change rank without needing to retune learning rate or α.</p>
+
+<div class="derive">
+  <div class="derive-title">🧮 Derive It Yourself — Why α/r Is Wrong and α/√r Is Right</div>
+  <p>This requires a bit of random matrix theory, but the argument is clean:</p>
+  <div class="deriv-step"><span class="step-num">1</span><p><strong>At initialization:</strong> B = 0 and A has entries ~ N(0, 1/r) (Kaiming initialization for a d→r mapping). After a few gradient steps, B also has non-trivial entries. Consider the scale of BAx.</p></div>
+  <div class="deriv-step"><span class="step-num">2</span><p><strong>Compute ||Ax||:</strong> A ∈ ℝ<sup>r×k</sup> with entries ~ N(0, 1/r). For input x ∈ ℝ<sup>k</sup>, each component of Ax is a sum of k terms, each ~ N(0, ||x||²/r). So each component of Ax has variance ||x||²/r, and ||Ax||² ≈ r · ||x||²/r = ||x||². So ||Ax|| ≈ ||x|| — independent of r (by Kaiming design).</p></div>
+  <div class="deriv-step"><span class="step-num">3</span><p><strong>Compute ||BAx||:</strong> After training, B entries have some scale σ<sub>B</sub>. ||BAx||² ≈ d · σ<sub>B</sub>² · ||Ax||² ≈ d · σ<sub>B</sub>² · ||x||². But wait — this ignores the <em>accumulation across r dimensions</em>. The matrix product BAx sums r terms (one per LoRA dimension). By CLT, the norm scales as √r. So: <strong>||BAx|| ∝ √r · ||x||</strong>.</p></div>
+  <div class="deriv-step"><span class="step-num">4</span><p><strong>With standard LoRA (α/r scaling):</strong> The adapter output is (α/r) · BAx. Its norm ∝ (α/r) · √r = α/√r. This <strong>shrinks with r</strong>! Doubling r halves the effective adapter contribution — counterintuitive and harmful.</p></div>
+  <div class="deriv-step"><span class="step-num">5</span><p><strong>With rsLoRA (α/√r scaling):</strong> The adapter output is (α/√r) · BAx. Its norm ∝ (α/√r) · √r = α. <strong>Constant regardless of r.</strong> Now changing rank doesn't change the initialization scale, so hyperparameters transfer cleanly.</p></div>
+  <div class="deriv-tip"><strong>The quick version for interviews:</strong> "BAx norm scales as √r due to the sum over r dimensions. Standard LoRA divides by r, making the effective signal shrink as 1/√r with rank. rsLoRA divides by √r instead, keeping the signal constant. This is why rsLoRA enables clean hyperparameter transfer across ranks."</div>
+</div>
+
+<h4>LoRA+ (Hayou et al., 2024)</h4>
+<a href="https://arxiv.org/abs/2402.12354" target="_blank" class="paper-ref">Hayou et al., 2024</a>
+<p>Observes that the optimal learning rates for A and B matrices differ significantly. The theoretical analysis uses random matrix theory: for model width d, the gradient norm for A scales as O(1) while for B it scales as O(1/d). With a fixed learning rate, B receives effectively too-small updates relative to A.</p>
+<p><strong>Solution:</strong> Use η<sub>B</sub> = λ × η<sub>A</sub> with λ ≈ 16. This compensates for the scale difference and improves convergence speed by 1.5–2× with no additional compute cost. Simple to implement — just assign different parameter groups in the optimizer.</p>
+
+<h4>VeRA — Vector-based Random Matrix Adaptation</h4>
+<a href="https://arxiv.org/abs/2310.11454" target="_blank" class="paper-ref">Kopiczko et al., 2024</a>
+<div class="formula">ΔW = Λ<sub>b</sub> · B<sub>shared</sub> · Λ<sub>a</sub> · A<sub>shared</sub><br>
+where Λ<sub>b</sub> = diag(d<sub>b</sub>), Λ<sub>a</sub> = diag(d<sub>a</sub>), and A<sub>shared</sub>, B<sub>shared</sub> are frozen random matrices shared across ALL layers</div>
+<p>VeRA pushes parameter efficiency to the extreme. Instead of learning separate A and B for each layer (which is the LoRA approach), VeRA generates random A<sub>shared</sub> and B<sub>shared</sub> matrices once (shared globally across all layers) and learns only small <strong>per-layer scaling vectors</strong> d<sub>a</sub> and d<sub>b</sub>. The trainable parameters per layer are just 2 × r scalars instead of (d + k) × r for LoRA. For r = 256, d = 4096, k = 4096, LoRA has 2M params/layer while VeRA has just 512 — a <strong>~4000× reduction</strong>. Total trainable parameters can be as low as 0.01% of the model.</p>
+<p><strong>Why does this work?</strong> Random projection theory (Johnson-Lindenstrauss lemma) shows that random matrices preserve geometric structure. The shared random matrices provide a rich enough basis that per-layer scaling can select the appropriate subspace. It's lossy compared to LoRA (each layer has less freedom) but the savings are enormous, making it ideal for extremely memory-constrained settings.</p>
+
+<h4>GaLore — Gradient Low-Rank Projection</h4>
+<a href="https://arxiv.org/abs/2403.03507" target="_blank" class="paper-ref">Zhao et al., 2024</a>
+<a href="https://github.com/jiaweizzhao/GaLore" target="_blank" class="repo-ref">jiaweizzhao/GaLore</a>
+<div class="formula">
+Every T steps: compute SVD of gradient G, extract P = top-r left singular vectors<br>
+For each step: G<sub>proj</sub> = P<sup>T</sup> · G    (project gradient to rank-r subspace)<br>
+Optimizer states maintained in rank-r space: m, v ∈ ℝ<sup>r×k</sup> instead of ℝ<sup>d×k</sup>
+</div>
+<p>GaLore takes a fundamentally different approach from LoRA: instead of constraining the <em>weights</em> to be low-rank, it constrains the <em>gradients</em>. The full weight matrix is updated, but through a low-rank gradient subspace. The subspace (defined by P) is periodically refreshed every T steps (typically T = 200) to track the changing optimization landscape.</p>
+
+<p><strong>Advantages over LoRA:</strong> (1) The full weight matrix evolves, so there's no rank bottleneck on the final solution. (2) Optimizer states are low-rank (r × k instead of d × k), saving proportionally more memory for large d. (3) Can be combined with 8-bit optimizers for further savings.</p>
+<p><strong>Disadvantages:</strong> (1) Periodic SVD computation adds overhead. (2) Cannot merge adapters (the full model changes). (3) More complex implementation.</p>
+
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION 5: QUANTIZATION -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2 id="s5"><span class="section-num">05</span> Quantization-Aware Fine-Tuning</h2>
+
+<h3>5.1 Quantization Fundamentals</h3>
+<p>Quantization maps continuous-valued parameters to a discrete set with fewer bits. The goal is to represent the model in fewer bits to save memory and speed up inference, while preserving as much model quality as possible.</p>
+
+<p><strong>Uniform (symmetric) quantization:</strong></p>
+<div class="formula">
+x<sub>q</sub> = round(x / s)             where s = max(|x|) / (2<sup>b-1</sup> - 1)<br>
+x<sub>dequant</sub> = s × x<sub>q</sub><br>
+Quantization error: ε = x - x<sub>dequant</sub>
+</div>
+
+<p><strong>Asymmetric quantization (with zero-point):</strong></p>
+<div class="formula">
+x<sub>q</sub> = round(x / s + z)         where s = (x<sub>max</sub> - x<sub>min</sub>) / (2<sup>b</sup> - 1)<br>
+x<sub>dequant</sub> = s × (x<sub>q</sub> - z)
+</div>
+
+<p>Asymmetric is more flexible (can represent non-symmetric distributions) but adds the overhead of storing zero-points. For neural network weights, which are approximately symmetric around zero, symmetric quantization is often preferred for simplicity.</p>
+
+<div class="derive">
+  <div class="derive-title">🧮 Derive It Yourself — Quantization Formulas</div>
+  <p>Quantization is just rounding with a scale factor. Build the formula from the problem statement:</p>
+  <div class="deriv-step"><span class="step-num">1</span><p><strong>The goal:</strong> Map a continuous value x ∈ ℝ to one of 2<sup>b</sup> discrete levels (where b is the bit-width). For 4-bit, that's 16 levels.</p></div>
+  <div class="deriv-step"><span class="step-num">2</span><p><strong>Symmetric case — find the scale:</strong> The largest representable integer in b bits (signed) is 2<sup>b-1</sup>−1. For 4-bit: 7. We want to map the range [−max|x|, +max|x|] to [−7, +7]. So: scale s = max(|x|) / (2<sup>b-1</sup>−1). Division by s maps x into [−7, +7], and rounding gives an integer: x<sub>q</sub> = round(x / s).</p></div>
+  <div class="deriv-step"><span class="step-num">3</span><p><strong>Dequantize:</strong> To recover the approximate original value: x<sub>dequant</sub> = s × x<sub>q</sub>. The error ε = x − x<sub>dequant</sub> is bounded by s/2 (half a quantization bin width).</p></div>
+  <div class="deriv-step"><span class="step-num">4</span><p><strong>Asymmetric — add a zero-point:</strong> If the values aren't centered at zero, symmetric wastes bins. Map [x<sub>min</sub>, x<sub>max</sub>] to [0, 2<sup>b</sup>−1]. Now: s = (x<sub>max</sub>−x<sub>min</sub>)/(2<sup>b</sup>−1), and z = round(−x<sub>min</sub>/s) is the zero-point (the integer representing 0). Quantize: x<sub>q</sub> = round(x/s + z). Dequantize: x<sub>dequant</sub> = s × (x<sub>q</sub> − z).</p></div>
+  <div class="deriv-step"><span class="step-num">5</span><p><strong>NF4 twist — non-uniform bins:</strong> Instead of equally-spaced bins, place bin edges at the quantiles of N(0,1). For 16 levels, each bin captures 1/16 = 6.25% of the probability mass. Bin edges: Φ⁻¹(k/16) for k=0,...,16. Representation values are the conditional means E[X | X ∈ bin<sub>k</sub>]. This minimizes E[(X − x<sub>q</sub>)²] over all 16-level quantizers when X ~ N(0,σ²).</p></div>
+  <div class="deriv-tip"><strong>Why NF4 is optimal — the Lloyd-Max argument:</strong> The Lloyd-Max quantizer minimizes expected distortion for a given number of levels and a known source distribution. When the source is Gaussian (as neural network weights approximately are), the optimal Lloyd-Max quantizer places bins at the Gaussian quantiles. NF4 is exactly this. If an interviewer asks "prove NF4 is optimal," invoke the Lloyd-Max optimality condition: each representation point is the centroid of its bin (conditional mean), and each bin boundary is the midpoint between adjacent representation points.</div>
+</div>
+
+<div class="deep-dive">
+  <div class="deep-dive-title">🔬 Block-Wise Quantization: Why It Matters</div>
+  <p>Quantizing an entire weight matrix with a single scale factor is suboptimal because outlier values force a wide range, reducing precision for the majority of values. <strong>Block-wise quantization</strong> partitions weights into blocks (typically 64 or 128 parameters) and uses a separate scale factor per block. This allows each block's scale to be adapted to its local range, dramatically reducing quantization error.</p>
+  <p>The trade-off is storage for the scale factors: 1 fp16 scale per 64 params = 2 bytes / 64 params = 0.25 bits/param overhead. QLoRA's double quantization reduces this to ~0.127 bits/param by quantizing the scales themselves to fp8.</p>
+  <p><strong>Group size matters:</strong> Smaller groups = better accuracy but more overhead. 64 is the sweet spot for NF4. Some methods use group_size=128 for 4-bit (slightly worse accuracy, slightly less overhead) or group_size=32 for 2–3 bit quantization (needs finer granularity to maintain quality).</p>
+</div>
+
+<h3>5.2 Post-Training Quantization (PTQ) — Deep Dive</h3>
+
+<h4>GPTQ — Second-Order Quantization</h4>
+<a href="https://arxiv.org/abs/2210.17323" target="_blank" class="paper-ref">Frantar et al., 2022 — GPTQ</a>
+<a href="https://github.com/AutoGPTQ/AutoGPTQ" target="_blank" class="repo-ref">AutoGPTQ/AutoGPTQ</a>
+<p>GPTQ quantizes each layer independently by solving an optimization problem: minimize the layer-wise output error ||WX - W<sub>q</sub>X||² subject to W<sub>q</sub> being quantized. It uses <strong>second-order (Hessian) information</strong> to determine quantization order — parameters with high curvature (sensitive to perturbation) are quantized more carefully, and errors from quantizing one parameter are compensated by adjusting remaining parameters.</p>
+<p>The algorithm is based on Optimal Brain Quantization (OBQ) but dramatically accelerated: GPTQ can quantize a 175B model in ~4 hours on a single GPU. Requires a calibration dataset (typically 128–512 samples) to compute the Hessian approximation. Quality at 4-bit is excellent for most models.</p>
+
+<h4>AWQ — Activation-Aware Weight Quantization</h4>
+<a href="https://arxiv.org/abs/2306.00978" target="_blank" class="paper-ref">Lin et al., 2023 — AWQ</a>
+<p>Key insight: not all weight channels are equally important. A small fraction of weights, corresponding to channels with <strong>large activation magnitudes</strong>, disproportionately affect output quality. AWQ identifies these "salient" channels from calibration data and protects them by <strong>scaling</strong> them before quantization (then inversely scaling the next layer's input). This redistributes the quantization budget to protect the most important weights.</p>
+<p>AWQ is simpler and faster than GPTQ (no Hessian computation), requires less calibration data (as few as 32 samples), and produces comparable or better quality at 4-bit. Especially effective for long-context scenarios where the activation distribution shifts with position.</p>
+
+<h3>5.3 QAT vs. PTQ</h3>
+<div class="compare-grid">
+  <div class="compare-card">
+    <h5>Post-Training Quantization (PTQ)</h5>
+    <p>Quantize a pre-trained model without training. Methods: GPTQ, AWQ, SqueezeLLM. <strong>Fast</strong> (minutes to hours) but quality degrades at aggressive bit-widths (≤3 bit).</p>
+    <p><strong>When to use:</strong> Standard 4-bit inference deployment; you want fast turnaround and the quality is acceptable.</p>
+  </div>
+  <div class="compare-card">
+    <h5>QAT (Quantization-Aware Training)</h5>
+    <p>Simulate quantization during training via the <strong>Straight-Through Estimator (STE)</strong>:</p>
+    <div class="formula" style="font-size: 12px;">Forward: w<sub>q</sub> = Q(w)    (quantize)<br>Backward: ∂L/∂w ≈ ∂L/∂w<sub>q</sub>    (identity gradient)</div>
+    <p>The STE is a practical hack: quantization is a step function (non-differentiable), so during backprop we pretend it's the identity function. This is mathematically unjustified but works remarkably well in practice because the gradients still point in approximately the right direction.</p>
+    <p><strong>When to use:</strong> Aggressive quantization (2–3 bit), or when PTQ quality isn't sufficient for your application.</p>
+  </div>
+</div>
+
+<h3>5.4 Practical Formats</h3>
+<div class="table-wrap">
+<table>
+  <tr><th>Format</th><th>Approach</th><th>Strengths</th><th>Typical Use</th></tr>
+  <tr>
+    <td><strong>GPTQ</strong></td>
+    <td>Layer-wise Hessian-based quantization</td>
+    <td>Best quality at 4-bit for large batches; well-supported in vLLM</td>
+    <td>GPU server inference</td>
+  </tr>
+  <tr>
+    <td><strong>AWQ</strong></td>
+    <td>Activation-aware channel scaling</td>
+    <td>Fast, minimal calibration, good long-context quality</td>
+    <td>GPU inference, especially long-context</td>
+  </tr>
+  <tr>
+    <td><strong>GGUF</strong></td>
+    <td>CPU/mixed format for llama.cpp</td>
+    <td>Cross-platform, flexible layer-wise quantization (e.g., Q4_K_M mixes 4/6-bit)</td>
+    <td>Local/edge deployment, CPU + GPU offloading</td>
+  </tr>
+  <tr>
+    <td><strong>bitsandbytes</strong></td>
+    <td>Dynamic NF4/FP4 quantization</td>
+    <td>Seamless HuggingFace integration, dequantize-on-the-fly</td>
+    <td>QLoRA fine-tuning</td>
+  </tr>
+  <tr>
+    <td><strong>EXL2</strong></td>
+    <td>Per-layer mixed bit-width (ExLlamaV2)</td>
+    <td>Optimal quality for a given total model size; assigns more bits to sensitive layers</td>
+    <td>High-quality local inference</td>
+  </tr>
+</table>
+</div>
+
+<a href="https://github.com/ggerganov/llama.cpp" target="_blank" class="repo-ref">ggerganov/llama.cpp</a>
+<a href="https://github.com/TimDettmers/bitsandbytes" target="_blank" class="repo-ref">TimDettmers/bitsandbytes</a>
+<a href="https://github.com/turboderp/exllamav2" target="_blank" class="repo-ref">turboderp/exllamav2</a>
+
+<div class="callout callout-critical">
+  <div class="callout-title">🚨 Interview Nuance: The LoRA → Merge → Quantize Pipeline Problem</div>
+  <p>If you fine-tune with full-precision LoRA, merge adapters back (W' = W₀ + (α/r)BA), and then quantize the merged model to 4-bit, quality often degrades more than expected. <strong>Why?</strong> The merged weights W' have a different distribution than W₀ — the LoRA adaptation shifts the weight statistics. Quantization parameters (scale, zero-point) calibrated for W₀'s distribution are suboptimal for W'. Even recalibrating with GPTQ/AWQ helps but doesn't fully recover quality because the model never learned to operate with quantized weights.</p>
+  <p><strong>Best practices:</strong> (1) If deploying at 4-bit, use <strong>QLoRA from the start</strong> — the adapters learn to compensate for quantization artifacts during training. (2) If you used full-precision LoRA, re-quantize the merged model using GPTQ/AWQ with <strong>calibration data from your target distribution</strong> (not generic C4 data). (3) Consider a few hundred steps of QAT-style fine-tuning after merging to adapt the model to quantization noise.</p>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION 6: INSTRUCTION TUNING -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2 id="s6"><span class="section-num">06</span> Instruction Tuning &amp; Alignment</h2>
+
+<h3>6.1 Supervised Fine-Tuning (SFT) — The Complete Picture</h3>
+<p>SFT is the first step in the alignment pipeline. It transforms a base model (which just completes text) into an assistant (which follows instructions).</p>
+<div class="formula">L<sub>SFT</sub>(θ) = − Σ<sub>(x,y)∈D</sub> Σ<sub>t=1</sub><sup>|y|</sup> log P<sub>θ</sub>(y<sub>t</sub> | x, y<sub>&lt;t</sub>)    [loss only on response tokens]</div>
+
+<p><strong>What SFT actually teaches the model:</strong> The base model <em>already knows</em> most of the information it needs. It can write code, answer questions, and generate text — but it doesn't know it should do these things in response to instructions. SFT provides examples of the <strong>desired input-output mapping</strong>, teaching the model to recognize the structure of instructions and produce appropriate responses. Think of it as teaching the model "when you see text that looks like an instruction, generate text that looks like a helpful response" rather than teaching it new knowledge.</p>
+
+<h3>6.2 Chat Templates — Why They're Critical</h3>
+<p>Modern instruction-tuned models use structured chat templates with special tokens. These tokens are not cosmetic — the model's behavior is <strong>deeply conditioned</strong> on them. Using the wrong template at inference can cause dramatic quality degradation because the model has never seen that token pattern during training.</p>
+
+<div class="table-wrap">
+<table>
+  <tr><th>Format</th><th>Template Structure</th><th>Used By</th></tr>
+  <tr><td><strong>ChatML</strong></td><td><code>&lt;|im_start|&gt;system\n{sys}&lt;|im_end|&gt;\n&lt;|im_start|&gt;user\n{msg}&lt;|im_end|&gt;\n&lt;|im_start|&gt;assistant\n</code></td><td>Qwen, Yi, many open models</td></tr>
+  <tr><td><strong>Llama 3</strong></td><td><code>&lt;|begin_of_text|&gt;&lt;|start_header_id|&gt;system&lt;|end_header_id|&gt;\n{sys}&lt;|eot_id|&gt;...</code></td><td>Llama 3, Llama 3.1/3.2/3.3</td></tr>
+  <tr><td><strong>Mistral v3</strong></td><td><code>[INST] {msg} [/INST]</code></td><td>Mistral, Mixtral</td></tr>
+  <tr><td><strong>Gemma</strong></td><td><code>&lt;start_of_turn&gt;user\n{msg}&lt;end_of_turn&gt;\n&lt;start_of_turn&gt;model\n</code></td><td>Gemma, Gemma 2</td></tr>
+</table>
+</div>
+
+<div class="callout callout-warning">
+  <div class="callout-title">⚠️ Common Production Mistake</div>
+  <p>Using the wrong template is one of the most frequent causes of "my fine-tuned model is worse than the base model" complaints. <strong>Always:</strong> (1) Use the tokenizer's <code>apply_chat_template()</code> method rather than manually constructing the template string. (2) Verify that the template used at inference exactly matches what was used during fine-tuning. (3) When fine-tuning an already-instruction-tuned model (e.g., Llama-3-Instruct), use its existing template — don't create a new one.</p>
+</div>
+
+<h3>6.3 Data Quality vs. Quantity — The Full Story</h3>
+<a href="https://arxiv.org/abs/2305.11206" target="_blank" class="paper-ref">Zhou et al., 2023 — LIMA: Less Is More for Alignment</a>
+
+<div class="callout callout-insight">
+  <div class="callout-title">⚡ The LIMA Revelation</div>
+  <p><strong>1,000 carefully curated examples can outperform 50,000+ noisy examples.</strong> The LIMA paper fine-tuned LLaMA-65B on just 1,000 hand-selected, high-quality instruction-response pairs and showed competitive or superior performance to models trained on orders of magnitude more data (like Alpaca's 52K or Vicuna's 70K). This has been consistently validated across multiple follow-up studies.</p>
+  <p><strong>Implication:</strong> Pre-training already gives the model its knowledge and capabilities. SFT primarily teaches it the <em>format</em> of being an assistant. A small number of high-quality examples are sufficient to teach this format; drowning the model in noisy data teaches bad habits (verbosity, inconsistency, incorrect responses).</p>
+</div>
+
+<p><strong>Quality signals to optimize for:</strong></p>
+<ul>
+  <li><strong>Instruction diversity:</strong> Cover a wide range of task types — factual questions, creative writing, coding, analysis, multi-step reasoning, role-play, etc. A model trained only on factual QA won't learn to write creatively, even if it could before fine-tuning.</li>
+  <li><strong>Response correctness:</strong> Every response should be factually accurate and logically sound. A single wrong response in the training data can reinforce that specific error pattern, and models are remarkably good at memorizing examples.</li>
+  <li><strong>Length calibration:</strong> Responses should be appropriately long for the question — short answers for simple questions, detailed answers for complex ones. If all training responses are 500+ words, the model learns to be verbose even for "What is 2+2?"</li>
+  <li><strong>Formatting consistency:</strong> Pick a style and stick with it. If some examples use markdown headers and others use plain text, the model learns inconsistent formatting.</li>
+  <li><strong>Refusal quality:</strong> Include examples of the model appropriately declining harmful requests. Without these, the model may either refuse too aggressively or not at all.</li>
+</ul>
+
+<div class="callout callout-critical">
+  <div class="callout-title">🚨 Decontamination: Non-Negotiable</div>
+  <p>Ensure training data <strong>doesn't contain evaluation benchmarks</strong>. If MMLU questions appear in your training data, your MMLU score is meaningless — the model has memorized the answers rather than learned the skill. This is a critical source of inflated results in the open-source community. Use n-gram overlap checks or embedding similarity to filter potential contamination. Also check for rephrased versions of benchmark questions, which can appear in synthetic data generated by strong models.</p>
+</div>
+
+<h3>6.4 Multi-Turn Fine-Tuning</h3>
+<div class="formula">L = − Σ<sub>turns</sub> Σ<sub>t ∈ assistant_tokens</sub> log P(y<sub>t</sub> | full_context, y<sub>&lt;t</sub>; θ)</div>
+<p>Only assistant tokens contribute to the loss — user messages and system prompts are masked. This ensures the model learns to generate responses, not to generate user messages.</p>
+
+<p><strong>Sequence packing for efficiency:</strong> Short conversations waste GPU memory when padded to max sequence length. <strong>Packing</strong> concatenates multiple conversations into a single sequence, separated by special tokens, with attention masking that prevents cross-conversation information leakage. This can improve training throughput by 2–5×. However, packing requires careful implementation — each conversation must see only its own tokens in the attention mask, which means creating a block-diagonal attention matrix within each sequence.</p>
+
+<p><strong>Conversation length distribution:</strong> If your training data is mostly 1–2 turn conversations but your deployment will handle 10+ turn conversations, the model may degrade at longer contexts. Include diverse conversation lengths in training data, with emphasis on the lengths you expect in production.</p>
+
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION 7: RLHF AND DPO -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2 id="s7"><span class="section-num">07</span> RLHF, DPO &amp; Preference Optimization</h2>
+
+<h3>7.1 RLHF — Full Pipeline Explained</h3>
+<a href="https://arxiv.org/abs/2203.02155" target="_blank" class="paper-ref">Ouyang et al., 2022 — InstructGPT / RLHF</a>
+<a href="https://arxiv.org/abs/1909.08593" target="_blank" class="paper-ref">Ziegler et al., 2019 — Fine-Tuning LMs from Human Preferences</a>
+
+<p>RLHF aligns a language model with human preferences through a three-stage pipeline. It's the technique behind ChatGPT and most major commercial models. Understanding it deeply — including its limitations — is essential.</p>
+
+<h4>Stage 1: SFT (Supervised Fine-Tuning)</h4>
+<p>Produces an initial policy π<sub>SFT</sub> that can follow instructions. This is the starting point for alignment — the model knows <em>how</em> to generate responses but doesn't yet know which responses are <em>preferred</em>.</p>
+
+<h4>Stage 2: Reward Model Training</h4>
+<p>A reward model R<sub>φ</sub>(x, y) → ℝ is trained to predict human preferences. Human annotators are shown pairs of responses (y<sub>w</sub>, y<sub>l</sub>) to the same prompt x and select which they prefer. The reward model is trained with the <strong>Bradley-Terry loss</strong>:</p>
+<div class="formula">L<sub>RM</sub>(φ) = −𝔼<sub>(x,y<sub>w</sub>,y<sub>l</sub>)</sub> [log σ(R<sub>φ</sub>(x, y<sub>w</sub>) − R<sub>φ</sub>(x, y<sub>l</sub>))]</div>
+
+<div class="deep-dive">
+  <div class="deep-dive-title">🔬 Understanding the Bradley-Terry Model</div>
+  <p>The Bradley-Terry model assumes that the probability of preferring y<sub>w</sub> over y<sub>l</sub> is:</p>
+  <div class="formula">P(y<sub>w</sub> ≻ y<sub>l</sub> | x) = σ(R(x, y<sub>w</sub>) − R(x, y<sub>l</sub>)) = 1 / (1 + exp(−(R(x, y<sub>w</sub>) − R(x, y<sub>l</sub>))))</div>
+  <p>This is a logistic model on the <em>difference</em> in rewards. Key properties: (1) Only the <strong>relative</strong> reward matters, not the absolute values (adding a constant to all rewards changes nothing). (2) The model is <strong>transitive</strong> — if A is preferred to B and B is preferred to C, then A is preferred to C (since R(A) > R(B) > R(C)). (3) The gradient pushes the reward of preferred responses up and dispreferred responses down, with the push strongest when the model is most "wrong" (assigning higher reward to the dispreferred response).</p>
+  <p><strong>Practical consideration:</strong> The reward model is typically the same architecture as the LLM (e.g., a Llama-7B) with the language modeling head replaced by a scalar head (a linear layer that outputs a single number). It's initialized from the SFT checkpoint to inherit the model's understanding of language quality. Training uses 50K–500K comparison pairs; more data helps, but quality matters more than quantity.</p>
+</div>
+
+<div class="derive">
+  <div class="derive-title">🧮 Derive It Yourself — Bradley-Terry Reward Model Loss</div>
+  <p>This derivation connects human preferences to a trainable loss function:</p>
+  <div class="deriv-step"><span class="step-num">1</span><p><strong>Assume a latent quality score:</strong> Each response y to prompt x has a "true quality" R(x,y) ∈ ℝ. Humans prefer higher-quality responses. We want to learn R from preference comparisons.</p></div>
+  <div class="deriv-step"><span class="step-num">2</span><p><strong>Model the preference probability:</strong> The probability that a human prefers y<sub>w</sub> over y<sub>l</sub> should depend on their quality difference. Use the logistic function (sigmoid): P(y<sub>w</sub> ≻ y<sub>l</sub>) = σ(R(y<sub>w</sub>) − R(y<sub>l</sub>)) = 1/(1 + exp(−(R(y<sub>w</sub>) − R(y<sub>l</sub>)))). <em>Why sigmoid?</em> It maps any real-valued difference to [0,1], is symmetric (swapping w and l gives 1 − P), and is the maximum-entropy model for binary outcomes given a linear sufficient statistic.</p></div>
+  <div class="deriv-step"><span class="step-num">3</span><p><strong>Write the maximum likelihood objective:</strong> Given N preference pairs, maximize Π<sub>i</sub> P(y<sub>w</sub><sup>(i)</sup> ≻ y<sub>l</sub><sup>(i)</sup>). Take the log: maximize Σ<sub>i</sub> log σ(R(y<sub>w</sub><sup>(i)</sup>) − R(y<sub>l</sub><sup>(i)</sup>)).</p></div>
+  <div class="deriv-step"><span class="step-num">4</span><p><strong>Negate to get a loss:</strong> L = −(1/N) Σ<sub>i</sub> log σ(R<sub>φ</sub>(x<sup>(i)</sup>, y<sub>w</sub><sup>(i)</sup>) − R<sub>φ</sub>(x<sup>(i)</sup>, y<sub>l</sub><sup>(i)</sup>)). This is the Bradley-Terry loss. It's essentially binary cross-entropy where the "logit" is the reward difference.</p></div>
+  <div class="deriv-step"><span class="step-num">5</span><p><strong>Understand the gradient intuitively:</strong> When the model is wrong (assigns higher reward to the losing response), σ is close to 0, log σ is very negative, and the gradient is large — strong push to correct the ranking. When correct, σ ≈ 1, log σ ≈ 0, gradient is small — less push. This focuses learning on the hardest pairs.</p></div>
+  <div class="deriv-tip"><strong>The key insight to mention:</strong> Only the <em>difference</em> R(y<sub>w</sub>) − R(y<sub>l</sub>) matters, not absolute values. You can add any constant to all rewards without changing the loss. This means the reward model learns a <em>preference ordering</em>, not absolute quality scores. This has implications for reward hacking — the model may find that a high reward doesn't correspond to high quality in absolute terms.</div>
+</div>
+
+<h4>Stage 3: RL Optimization (PPO)</h4>
+<div class="formula">
+Objective: max<sub>θ</sub> 𝔼<sub>x∼D, y∼π<sub>θ</sub></sub> [R<sub>φ</sub>(x, y)] − β · 𝔼<sub>x∼D</sub> [KL(π<sub>θ</sub>(·|x) || π<sub>ref</sub>(·|x))]
+</div>
+
+<p>This objective has two competing terms:</p>
+<ul>
+  <li><strong>Reward maximization:</strong> Generate responses that score highly under the reward model. Without the KL term, the model would find degenerate solutions that exploit reward model weaknesses (e.g., producing repetitive phrases the reward model rates highly, or generating extremely long responses if the reward model has a length bias).</li>
+  <li><strong>KL penalty:</strong> Stay close to the reference policy (typically π<sub>SFT</sub>). This acts as a regularizer, preventing the model from departing too far from sensible language. β controls the trade-off — higher β = more conservative (closer to SFT), lower β = more aligned with reward (but higher risk of reward hacking).</li>
+</ul>
+
+<div class="derive">
+  <div class="derive-title">🧮 Derive It Yourself — KL Divergence for Language Models</div>
+  <p>KL divergence appears everywhere in alignment. Know how to compute it for LLMs:</p>
+  <div class="deriv-step"><span class="step-num">1</span><p><strong>General definition:</strong> KL(P || Q) = 𝔼<sub>x~P</sub>[log P(x) − log Q(x)] = 𝔼<sub>x~P</sub>[log(P(x)/Q(x))]. It measures how "surprised" Q would be by samples from P. Always ≥ 0 (by Jensen's inequality). Not symmetric: KL(P||Q) ≠ KL(Q||P).</p></div>
+  <div class="deriv-step"><span class="step-num">2</span><p><strong>For autoregressive LLMs:</strong> P(y|x) = Π<sub>t</sub> P(y<sub>t</sub>|x,y<sub>&lt;t</sub>). So: KL(π<sub>θ</sub> || π<sub>ref</sub>) = 𝔼<sub>y~π<sub>θ</sub></sub>[Σ<sub>t</sub> (log π<sub>θ</sub>(y<sub>t</sub>|x,y<sub>&lt;t</sub>) − log π<sub>ref</sub>(y<sub>t</sub>|x,y<sub>&lt;t</sub>))]. This decomposes into a <strong>per-token KL sum</strong> — each token contributes log(π<sub>θ</sub>/π<sub>ref</sub>) to the total.</p></div>
+  <div class="deriv-step"><span class="step-num">3</span><p><strong>In practice (for RLHF/DPO):</strong> You compute per-token log-probs from both models, subtract them, and sum. This is exactly what DPO's loss computes: the log(π<sub>θ</sub>/π<sub>ref</sub>) ratios. The β multiplier converts this into the KL penalty scale. A KL of 0 means the models assign identical probabilities to all tokens; larger KL means the policy has diverged more.</p></div>
+  <div class="deriv-tip"><strong>Why KL(π<sub>θ</sub> || π<sub>ref</sub>) and not KL(π<sub>ref</sub> || π<sub>θ</sub>)?</strong> The "forward" KL (as used in RLHF) is <em>mean-seeking</em>: π<sub>θ</sub> tries to cover all modes of π<sub>ref</sub>. The "reverse" KL would be <em>mode-seeking</em>: π<sub>θ</sub> would collapse to one mode. For alignment, we want the policy to remain broad and diverse (not collapse to one response style), so forward KL is correct.</div>
+</div>
+
+<p><strong>PPO (Proximal Policy Optimization)</strong> optimizes this with clipped surrogate objectives:</p>
+<div class="formula">
+L<sub>PPO</sub> = −min(r<sub>t</sub>(θ) · A<sub>t</sub>, clip(r<sub>t</sub>(θ), 1−ε, 1+ε) · A<sub>t</sub>)<br>
+where r<sub>t</sub>(θ) = π<sub>θ</sub>(a<sub>t</sub>|s<sub>t</sub>) / π<sub>old</sub>(a<sub>t</sub>|s<sub>t</sub>) is the probability ratio<br>
+A<sub>t</sub> is the advantage estimate (from GAE)
+</div>
+
+<p>In the LLM context: "states" are token sequences generated so far, "actions" are next tokens, and the "advantage" measures how much better a token choice was compared to the expected reward. The clipping (1±ε, typically ε=0.2) prevents overly large policy updates that could destabilize training.</p>
+
+<div class="derive">
+  <div class="derive-title">🧮 Derive It Yourself — PPO Clipped Objective for LLMs</div>
+  <p>PPO looks intimidating but builds logically from policy gradient:</p>
+  <div class="deriv-step"><span class="step-num">1</span><p><strong>Start from REINFORCE (vanilla policy gradient):</strong> ∇<sub>θ</sub> J = 𝔼[Σ<sub>t</sub> ∇<sub>θ</sub> log π<sub>θ</sub>(a<sub>t</sub>|s<sub>t</sub>) · R<sub>t</sub>]. In LLM terms: a<sub>t</sub> = next token, s<sub>t</sub> = tokens so far, R<sub>t</sub> = total reward from this point forward. Problem: high variance, unstable.</p></div>
+  <div class="deriv-step"><span class="step-num">2</span><p><strong>Replace R<sub>t</sub> with advantage A<sub>t</sub>:</strong> A<sub>t</sub> = Q(s<sub>t</sub>,a<sub>t</sub>) − V(s<sub>t</sub>) — "how much better was this action than the expected action?" Subtracting the baseline V reduces variance dramatically. In practice, use GAE (Generalized Advantage Estimation) for a smooth bias-variance trade-off.</p></div>
+  <div class="deriv-step"><span class="step-num">3</span><p><strong>Use importance sampling to reuse old data:</strong> We collected data with policy π<sub>old</sub> but are updating π<sub>θ</sub>. Correction factor: r<sub>t</sub>(θ) = π<sub>θ</sub>(a<sub>t</sub>|s<sub>t</sub>) / π<sub>old</sub>(a<sub>t</sub>|s<sub>t</sub>). The surrogate objective becomes: L = 𝔼[r<sub>t</sub>(θ) · A<sub>t</sub>]. When π<sub>θ</sub> = π<sub>old</sub>, r<sub>t</sub> = 1 and we recover the original objective.</p></div>
+  <div class="deriv-step"><span class="step-num">4</span><p><strong>Add clipping to prevent large updates (→ PPO):</strong> If r<sub>t</sub> gets too far from 1 (policy changed too much), the importance sampling estimate becomes unreliable. Clip: L<sub>PPO</sub> = −𝔼[min(r<sub>t</sub> · A<sub>t</sub>, clip(r<sub>t</sub>, 1−ε, 1+ε) · A<sub>t</sub>)]. The min ensures we take the <em>more pessimistic</em> estimate — if the advantage is positive, we don't let r<sub>t</sub> grow beyond 1+ε (caps the benefit); if negative, we don't let it shrink below 1−ε (caps the penalty). This creates a "trust region" around π<sub>old</sub>.</p></div>
+  <div class="deriv-step"><span class="step-num">5</span><p><strong>For RLHF, add the KL penalty:</strong> The reward at the end of the sequence is R(x,y) − β · KL(π<sub>θ</sub>||π<sub>ref</sub>). The KL penalty is typically implemented as a per-token KL: −β · (log π<sub>θ</sub>(y<sub>t</sub>|...) − log π<sub>ref</sub>(y<sub>t</sub>|...)) added to the reward at each step. This keeps the policy close to the SFT model throughout training.</p></div>
+  <div class="deriv-tip"><strong>The progression to remember:</strong> REINFORCE → subtract baseline (advantage) → importance sampling → clip the ratio → add KL to reward. Each step addresses one practical problem: variance, data reuse, stability, and alignment drift.</div>
+</div>
+
+<div class="callout callout-warning">
+  <div class="callout-title">⚠️ RLHF Challenges in Detail</div>
+  <ul>
+    <li><strong>Infrastructure complexity:</strong> PPO requires running <strong>4 models simultaneously</strong>: the policy model (being trained), the reference model (for KL computation), the reward model (for scoring), and the value model (for advantage estimation). For a 7B model, that's ~56GB in bf16 just for parameters. This is why RLHF is expensive.</li>
+    <li><strong>Training instability:</strong> PPO is notoriously sensitive to hyperparameters. Common failure modes: reward hacking (model finds degenerate high-reward outputs), KL collapse (model diverges completely from reference), mode collapse (model produces nearly identical outputs for all inputs). Each requires different remediation — there's no one-size-fits-all config.</li>
+    <li><strong>Reward model quality ceiling:</strong> RLHF can't produce a better model than the reward model can evaluate. If the reward model can't distinguish good reasoning from plausible-sounding wrong reasoning, the aligned model will learn to produce plausible-sounding wrong reasoning.</li>
+    <li><strong>Reward hacking examples:</strong> Models have learned to: produce longer outputs (many reward models have length bias), include confident-sounding phrases ("Certainly!", "Great question!"), and avoid hedging even when appropriate — all because these patterns score higher on flawed reward models.</li>
+  </ul>
+</div>
+
+<h3>7.2 DPO — Direct Preference Optimization</h3>
+<a href="https://arxiv.org/abs/2305.18290" target="_blank" class="paper-ref">Rafailov et al., 2023 — DPO</a>
+
+<p>DPO is the most important innovation in alignment since RLHF. It eliminates the reward model and RL loop entirely.</p>
+
+<p><strong>The mathematical derivation (critical for interviews):</strong></p>
+<p>Start from the RLHF objective. The optimal policy under the KL-constrained reward maximization has a <strong>closed-form solution</strong>:</p>
+<div class="formula">
+π*(y|x) = (1/Z(x)) · π<sub>ref</sub>(y|x) · exp(r(x,y) / β)
+</div>
+<p>This is a Boltzmann distribution centered on the reference policy, tilted by the reward function. Taking the log and rearranging gives us an expression for the reward in terms of the policy:</p>
+<div class="formula">
+r(x, y) = β · log(π*(y|x) / π<sub>ref</sub>(y|x)) + β · log Z(x)
+</div>
+<p>The key insight: <strong>we can express the reward as a function of the policy itself</strong>. We don't need a separate reward model — the policy <em>is</em> the reward model. Substituting this into the Bradley-Terry preference model:</p>
+<div class="formula">
+P(y<sub>w</sub> ≻ y<sub>l</sub>) = σ(r(y<sub>w</sub>) − r(y<sub>l</sub>))<br>
+= σ(β · log(π<sub>θ</sub>(y<sub>w</sub>|x)/π<sub>ref</sub>(y<sub>w</sub>|x)) − β · log(π<sub>θ</sub>(y<sub>l</sub>|x)/π<sub>ref</sub>(y<sub>l</sub>|x)))
+</div>
+<p>(Note: Z(x) cancels in the subtraction!) This gives us the DPO loss:</p>
+<div class="formula">
+L<sub>DPO</sub>(θ) = −𝔼<sub>(x,y<sub>w</sub>,y<sub>l</sub>)</sub> [log σ(β · (log π<sub>θ</sub>(y<sub>w</sub>|x)/π<sub>ref</sub>(y<sub>w</sub>|x) − log π<sub>θ</sub>(y<sub>l</sub>|x)/π<sub>ref</sub>(y<sub>l</sub>|x)))]
+</div>
+
+<p><strong>What this loss does intuitively:</strong> It increases the log-probability of preferred responses relative to the reference model, and decreases the log-probability of rejected responses. The β parameter controls how aggressively it does this. The reference model provides the "anchor" — without it, the model would just increase the probability of preferred responses to infinity (degenerate solution).</p>
+
+<div class="derive">
+  <div class="derive-title">🧮 Derive It Yourself — DPO from RLHF (The Full Derivation)</div>
+  <p>This is <strong>the most important derivation for interviews</strong>. It shows how DPO eliminates the reward model entirely. Practice until you can do it fluently on a whiteboard.</p>
+  <div class="deriv-step"><span class="step-num">1</span><p><strong>Start from the RLHF objective:</strong> max<sub>π</sub> 𝔼<sub>y~π</sub>[r(x,y)] − β · KL(π || π<sub>ref</sub>). We want to maximize reward while staying close to the reference policy.</p></div>
+  <div class="deriv-step"><span class="step-num">2</span><p><strong>Expand the KL and solve for the optimum:</strong> The KL is KL(π || π<sub>ref</sub>) = 𝔼<sub>y~π</sub>[log π(y|x) − log π<sub>ref</sub>(y|x)]. The full objective becomes: 𝔼<sub>y~π</sub>[r(x,y) − β log π(y|x) + β log π<sub>ref</sub>(y|x)]. This is a maximum-entropy / KL-constrained optimization. The closed-form solution (by calculus of variations or by recognizing the Gibbs distribution form) is: <strong>π*(y|x) = (1/Z(x)) · π<sub>ref</sub>(y|x) · exp(r(x,y)/β)</strong> where Z(x) = Σ<sub>y</sub> π<sub>ref</sub>(y|x) · exp(r(x,y)/β) is the partition function.</p></div>
+  <div class="deriv-step"><span class="step-num">3</span><p><strong>Solve for the reward:</strong> Take log of both sides: log π*(y|x) = log π<sub>ref</sub>(y|x) + r(x,y)/β − log Z(x). Rearrange: <strong>r(x,y) = β · log(π*(y|x) / π<sub>ref</sub>(y|x)) + β · log Z(x)</strong>. This expresses the reward <em>in terms of the optimal policy</em>. We don't need a separate reward model — the policy encodes the reward!</p></div>
+  <div class="deriv-step"><span class="step-num">4</span><p><strong>Substitute into Bradley-Terry:</strong> P(y<sub>w</sub> ≻ y<sub>l</sub>) = σ(r(y<sub>w</sub>) − r(y<sub>l</sub>)). The reward difference is: r(y<sub>w</sub>) − r(y<sub>l</sub>) = β[log(π*(y<sub>w</sub>|x)/π<sub>ref</sub>(y<sub>w</sub>|x)) − log(π*(y<sub>l</sub>|x)/π<sub>ref</sub>(y<sub>l</sub>|x))] + β·log Z(x) − β·log Z(x). The <strong>partition function Z(x) cancels!</strong> This is the magic step — we never need to compute the intractable Z(x).</p></div>
+  <div class="deriv-step"><span class="step-num">5</span><p><strong>Replace π* with π<sub>θ</sub> and write the loss:</strong> We don't have the optimal π*, but we're training π<sub>θ</sub> to approximate it. Substitute and negate the log-likelihood: <strong>L<sub>DPO</sub>(θ) = −𝔼 [log σ(β · (log(π<sub>θ</sub>(y<sub>w</sub>|x)/π<sub>ref</sub>(y<sub>w</sub>|x)) − log(π<sub>θ</sub>(y<sub>l</sub>|x)/π<sub>ref</sub>(y<sub>l</sub>|x))))]</strong>. This is a supervised loss — compute 4 log-probabilities (policy and reference on both preferred and rejected), combine, pass through sigmoid, take log. No RL, no sampling, no value function.</p></div>
+  <div class="deriv-tip"><strong>The 5 key steps to remember:</strong> (1) RLHF objective, (2) closed-form optimal policy (Gibbs/Boltzmann), (3) invert for reward, (4) substitute into Bradley-Terry (Z cancels!), (5) parameterize with π<sub>θ</sub>. Each step is one line on the whiteboard. The partition function cancellation in step 4 is the "aha moment" — emphasize it.</div>
+</div>
+
+<div class="compare-grid">
+  <div class="compare-card">
+    <h5 style="color: var(--green);">✅ DPO Advantages</h5>
+    <ul>
+      <li><strong>2 models</strong> (policy + reference) vs. 4 for RLHF</li>
+      <li><strong>Simple supervised loop</strong> — just compute log-probs and take gradient</li>
+      <li><strong>2–4× cheaper</strong> compute than RLHF</li>
+      <li><strong>No reward model overfitting</strong> — no separate model to overfit</li>
+      <li><strong>Stable training</strong> — no RL instability, no reward hacking</li>
+      <li>Easy to implement — ~50 lines of PyTorch code for the core loss</li>
+    </ul>
+  </div>
+  <div class="compare-card">
+    <h5 style="color: var(--red);">⚠️ DPO Limitations</h5>
+    <ul>
+      <li><strong>Lower ceiling</strong> than well-tuned RLHF on certain complex tasks</li>
+      <li><strong>Noisy preference sensitivity</strong> — no reward model to smooth noise</li>
+      <li><strong>Fixed reference model</strong> — can't do iterative alignment easily</li>
+      <li><strong>No reusable reward model</strong> — can't use for rejection sampling or best-of-N</li>
+      <li><strong>Offline only</strong> — can't generate new data during training (unlike online RLHF)</li>
+      <li>Can overfit to surface-level preference patterns (e.g., length, formatting) rather than genuine quality</li>
+    </ul>
+  </div>
+</div>
+
+<h3>7.3 Modern Preference Optimization Variants</h3>
+
+<h4>IPO — Identity Preference Optimization</h4>
+<a href="https://arxiv.org/abs/2310.12036" target="_blank" class="paper-ref">Azar et al., 2024</a>
+<div class="formula">L<sub>IPO</sub> = 𝔼[(log(π<sub>θ</sub>(y<sub>w</sub>|x)/π<sub>ref</sub>(y<sub>w</sub>|x)) − log(π<sub>θ</sub>(y<sub>l</sub>|x)/π<sub>ref</sub>(y<sub>l</sub>|x)) − 1/(2β))²]</div>
+<p>Replaces DPO's log-sigmoid with a squared loss. <strong>Why?</strong> DPO's loss can approach zero only by pushing the log-ratio to ±∞, leading to degenerate solutions where the model assigns near-zero probability to rejected responses. IPO bounds the implicit reward gap by targeting a specific margin (1/(2β)), preventing this degenerate behavior. More robust when preference data is noisy or inconsistent.</p>
+
+<h4>KTO — Kahneman-Tversky Optimization</h4>
+<a href="https://arxiv.org/abs/2402.01306" target="_blank" class="paper-ref">Ethayarajh et al., 2024</a>
+<p>Works with <strong>unpaired</strong> preference data — you only need a "good" or "bad" label per response, not pairwise comparisons. This is a major practical advantage because unpaired labels are much cheaper to collect (a single annotator scores each response) vs. paired comparisons (same annotator must evaluate two responses together). Inspired by Kahneman &amp; Tversky's prospect theory, KTO applies <strong>asymmetric loss weighting</strong>: losses from undesirable outputs are weighted more heavily than gains from desirable outputs, reflecting human loss aversion.</p>
+
+<h4>ORPO — Odds Ratio Preference Optimization</h4>
+<a href="https://arxiv.org/abs/2403.07691" target="_blank" class="paper-ref">Hong et al., 2024</a>
+<div class="formula">L<sub>ORPO</sub> = L<sub>SFT</sub> + λ · L<sub>OR</sub>    (single-stage: combines SFT and preference)</div>
+<p>Eliminates the need for a separate reference model by combining SFT loss with an odds-ratio-based preference loss. The odds ratio compares P(y<sub>w</sub>)/(1−P(y<sub>w</sub>)) vs. P(y<sub>l</sub>)/(1−P(y<sub>l</sub>)). <strong>Key benefit:</strong> Single-stage training (no SFT → DPO pipeline), simpler implementation, and no reference model forward passes during training.</p>
+
+<h4>SimPO — Simple Preference Optimization</h4>
+<a href="https://arxiv.org/abs/2405.14734" target="_blank" class="paper-ref">Meng et al., 2024</a>
+<div class="formula">Implicit reward: r(x, y) = (1/|y|) · Σ<sub>t</sub> log π<sub>θ</sub>(y<sub>t</sub> | x, y<sub>&lt;t</sub>)    [length-normalized log-prob]</div>
+<p>SimPO uses the model's own length-normalized log-probability as the implicit reward, completely eliminating the reference model. The length normalization is critical — without it, the model can game the reward by generating shorter (higher avg log-prob) or longer (higher total log-prob) responses depending on how the metric is computed. SimPO is often <strong>simpler and more effective</strong> than DPO, and has become a popular default for practical alignment.</p>
+
+<h4>GRPO — Group Relative Policy Optimization</h4>
+<a href="https://arxiv.org/abs/2501.12948" target="_blank" class="paper-ref">DeepSeek-AI, 2025 — DeepSeek-R1</a>
+<a href="https://github.com/deepseek-ai/DeepSeek-R1" target="_blank" class="repo-ref">deepseek-ai/DeepSeek-R1</a>
+<div class="formula">
+For each prompt x, sample G responses {y₁, ..., y<sub>G</sub>}<br>
+Compute rewards: r<sub>i</sub> = R(x, y<sub>i</sub>)<br>
+Normalize: A<sub>i</sub> = (r<sub>i</sub> − mean(r₁,...,r<sub>G</sub>)) / std(r₁,...,r<sub>G</sub>)
+</div>
+<p>GRPO was the key algorithm behind <strong>DeepSeek-R1</strong>'s remarkable reasoning capabilities. It replaces PPO's value network with group-based advantage estimation — no separate value model needed. For each prompt, sample G responses (typically 4–16), compute rewards (can be outcome-based like math correctness), normalize within the group, and use the normalized advantage for policy gradient updates. This is simpler, more memory-efficient, and was shown to <strong>discover chain-of-thought reasoning without explicit CoT training data</strong> — purely from reward signal.</p>
+
+<div class="derive">
+  <div class="derive-title">🧮 Derive It Yourself — GRPO from PPO</div>
+  <p>GRPO simplifies PPO by replacing the value network with group statistics:</p>
+  <div class="deriv-step"><span class="step-num">1</span><p><strong>PPO's problem:</strong> The advantage A<sub>t</sub> = Q(s<sub>t</sub>,a<sub>t</sub>) − V(s<sub>t</sub>) requires a separate value model V to estimate how good each state is. For LLMs, this is another full-size model — doubling memory requirements.</p></div>
+  <div class="deriv-step"><span class="step-num">2</span><p><strong>GRPO's insight:</strong> For each prompt x, sample G complete responses {y₁, ..., y<sub>G</sub>}. Compute the reward for each: r<sub>i</sub> = R(x, y<sub>i</sub>). The "advantage" of response i is simply how much better it was than the group average: A<sub>i</sub> = (r<sub>i</sub> − μ) / σ, where μ = mean(r₁...r<sub>G</sub>), σ = std(r₁...r<sub>G</sub>).</p></div>
+  <div class="deriv-step"><span class="step-num">3</span><p><strong>Why does normalization work?</strong> The z-score normalization serves two purposes: (a) centering by subtracting the mean ensures responses below average get negative advantage (pushed down) and above-average get positive advantage (pushed up) — this is the baseline subtraction that reduces variance in REINFORCE. (b) dividing by std makes the advantage scale-invariant — whether rewards are in [0,1] or [0,100], the normalized advantage has unit variance.</p></div>
+  <div class="deriv-step"><span class="step-num">4</span><p><strong>Apply the PPO clipped objective with these advantages:</strong> L = −𝔼<sub>i</sub>[min(r<sub>t</sub>(θ) · A<sub>i</sub>, clip(r<sub>t</sub>(θ), 1−ε, 1+ε) · A<sub>i</sub>)] + β · KL(π<sub>θ</sub>||π<sub>ref</sub>). Same clipping as PPO, same KL penalty — but no value model. Memory: 2 models (policy + reference) instead of PPO's 4 (policy + reference + reward + value).</p></div>
+  <div class="deriv-tip"><strong>Why GRPO is a big deal:</strong> It's not just simpler — the group-based advantage with verifiable rewards (e.g., "did the math answer match?") enabled DeepSeek-R1 to <em>discover reasoning from scratch</em>. The model learned to produce chain-of-thought because longer, more careful reasoning led to higher reward (correct answers). No CoT training data was needed. This is emergent reasoning from reward alone.</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION 8: MoE -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2 id="s8"><span class="section-num">08</span> Mixture of Experts (MoE) Fine-Tuning</h2>
+
+<h3>8.1 MoE Architecture</h3>
+<a href="https://arxiv.org/abs/2401.04088" target="_blank" class="paper-ref">Jiang et al., 2024 — Mixtral</a>
+<div class="formula">y = Σ<sub>i ∈ TopK(G(x))</sub> G(x)<sub>i</sub> · E<sub>i</sub>(x)    where G(x) = Softmax(W<sub>g</sub> · x)</div>
+<p>MoE replaces the dense FFN with N expert networks (each a full FFN) and a learned router G(x) that selects the top-k experts per token. Mixtral 8×7B has 8 experts/layer with top-2 routing: ~47B total parameters but only ~13B active per forward pass. This means MoE models have the <strong>capacity</strong> of a much larger model (good for knowledge storage) with the <strong>inference cost</strong> of a smaller one.</p>
+
+<p><strong>Why this matters for fine-tuning:</strong> The router creates a natural specialization — different experts learn to handle different types of inputs. Fine-tuning can disrupt this specialization or leverage it, depending on your approach.</p>
+
+<div class="derive">
+  <div class="derive-title">🧮 Derive It Yourself — MoE Forward Pass &amp; Load Balancing Loss</div>
+  <p>MoE formulas look complex but are straightforward once you decompose them:</p>
+  <div class="deriv-step"><span class="step-num">1</span><p><strong>Start with a dense FFN:</strong> y = FFN(x). One network, processes every token. Now imagine you have N different FFNs (experts). Which one should process each token?</p></div>
+  <div class="deriv-step"><span class="step-num">2</span><p><strong>Add a router:</strong> G(x) = Softmax(W<sub>g</sub> · x) produces a probability distribution over N experts. G(x)<sub>i</sub> is the probability that expert i should handle input x.</p></div>
+  <div class="deriv-step"><span class="step-num">3</span><p><strong>Select top-k and combine:</strong> For efficiency, only activate k experts (typically k=2). y = Σ<sub>i ∈ TopK(G(x))</sub> G(x)<sub>i</sub> · E<sub>i</sub>(x). Each selected expert's output is weighted by its gating score. This is a <strong>sparse mixture</strong> — only k out of N experts run per token.</p></div>
+  <div class="deriv-step"><span class="step-num">4</span><p><strong>Derive the load-balancing loss:</strong> Without regularization, the router might send all tokens to one expert (collapse). Define: f<sub>i</sub> = fraction of tokens routed to expert i, P<sub>i</sub> = average gating probability for expert i. The balancing loss: L<sub>bal</sub> = α · N · Σ<sub>i</sub> f<sub>i</sub> · P<sub>i</sub>. This is minimized when both f<sub>i</sub> and P<sub>i</sub> are uniform (= 1/N each), giving L<sub>bal</sub> = α. Any concentration increases the loss because the product f<sub>i</sub>·P<sub>i</sub> is convex. The factor N normalizes so the loss equals α at perfect balance.</p></div>
+  <div class="deriv-tip"><strong>Why the f·P product?</strong> If we just penalized the variance of f, the router could maintain balanced routing probabilities P while actual routing (after top-k selection) is imbalanced. The product f·P captures the interaction: an expert that has both high probability AND high actual usage is penalized most, which is exactly the collapse mode we want to prevent.</div>
+</div>
+
+<h3>8.2 Fine-Tuning Considerations — In Depth</h3>
+<ul>
+  <li><strong>Router stability:</strong> The router learns during pre-training to assign tokens to appropriate experts. Fine-tuning on a narrow domain can cause the router to collapse — routing all tokens to 1–2 experts while the rest become unused. <strong>Mitigation:</strong> Use a lower LR for router weights (e.g., 10% of the main LR), or freeze the router entirely. Monitor expert utilization: if any expert handles &lt;5% or &gt;50% of tokens, there's an imbalance problem.</li>
+  <li><strong>Load-balancing loss:</strong> Pre-training includes an auxiliary loss that penalizes uneven expert utilization: L<sub>balance</sub> = α · N · Σ<sub>i</sub> f<sub>i</sub> · P<sub>i</sub>, where f<sub>i</sub> is the fraction of tokens routed to expert i and P<sub>i</sub> is the average routing probability for expert i. <strong>Keep this loss during fine-tuning</strong> (even at a reduced weight) to prevent expert collapse.</li>
+  <li><strong>LoRA for MoE — the shared vs. separate question:</strong>
+    <ul>
+      <li><strong>Shared adapters:</strong> Same LoRA (B, A) applied to all experts. Fewer parameters, but ignores expert specialization — each expert gets the same modification.</li>
+      <li><strong>Separate adapters:</strong> Different LoRA per expert. Preserves and extends specialization, but multiplies parameters by the number of experts. For 8 experts × 2 active, you have 8× the LoRA parameters but only use 2× per forward pass.</li>
+      <li><strong>Best practice:</strong> Use separate adapters if your parameter budget allows it. The per-expert cost is small (each adapter is tiny), and the benefit of maintaining expert specialization is significant. With shared adapters, you're essentially asking all experts to adapt identically, which undermines the point of MoE.</li>
+    </ul>
+  </li>
+  <li><strong>Selective expert fine-tuning:</strong> Analyze which experts activate most on your domain data (run inference on a sample and log router decisions). Fine-tune only the top 2–3 most activated experts. This focuses compute where it matters and minimizes disruption to the rest of the model.</li>
+</ul>
+
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION 9: CONTINUAL AND DOMAIN -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2 id="s9"><span class="section-num">09</span> Continual &amp; Domain-Adaptive Fine-Tuning</h2>
+
+<h3>9.1 Continual Pre-Training (CPT)</h3>
+<p>When the domain shift is large enough that SFT alone can't bridge the gap (medical, legal, scientific, multilingual), you need <strong>continual pre-training</strong> — extending the next-token-prediction objective on domain-specific corpora before doing SFT:</p>
+<div class="formula">
+Phase 1: θ<sub>domain</sub> = CPT(θ<sub>base</sub>, D<sub>domain</sub>)    — next-token prediction, 1–10B tokens<br>
+Phase 2: θ<sub>final</sub>  = SFT(θ<sub>domain</sub>, D<sub>instructions</sub>) — instruction tuning, 10K–100K examples
+</div>
+
+<p><strong>Why two phases?</strong> CPT and SFT serve fundamentally different purposes. CPT teaches the model <em>what</em> — domain vocabulary, concepts, relationships, reasoning patterns, and style. SFT teaches the model <em>how</em> — to respond to instructions using its domain knowledge. Skipping CPT and going straight to SFT works for moderate domain shifts but fails when the model lacks foundational domain understanding. You can't teach a model to answer medical questions well if it doesn't understand medical terminology and reasoning.</p>
+
+<p><strong>CPT learning rate:</strong> Start at 50–80% of the original pre-training peak LR, with cosine decay. Starting too high causes catastrophic forgetting of general knowledge; starting too low makes CPT inefficient. A typical schedule for a model originally trained with peak LR 3e-4: CPT peak LR of 1.5e-4 to 2e-4, decaying over the CPT phase.</p>
+
+<h3>9.2 Catastrophic Forgetting — Deep Analysis</h3>
+<div class="deep-dive">
+  <div class="deep-dive-title">🔬 What Happens Neurally During Forgetting</div>
+  <p>Catastrophic forgetting occurs when gradient updates on new data <strong>overwrite representations</strong> that encode previous knowledge. At the neural level:</p>
+  <ul>
+    <li>Pre-training distributes knowledge across many parameters via superposition — each "fact" is encoded as a pattern distributed across thousands of neurons.</li>
+    <li>Fine-tuning on narrow data creates strong gradients in the directions relevant to the new task, pushing weights away from the pre-trained configuration.</li>
+    <li>Because knowledge is distributed, modifying weights in one direction can inadvertently destroy unrelated knowledge that happened to share the same parameter subspace.</li>
+    <li>The severity of forgetting correlates with: (1) the magnitude of weight changes (higher LR → more forgetting), (2) the narrowness of the fine-tuning distribution (less diverse data → more forgetting), and (3) the number of parameters modified (full FT → more forgetting than LoRA).</li>
+  </ul>
+</div>
+
+<p><strong>Mitigation strategies, ranked by effectiveness:</strong></p>
+<ol>
+  <li><strong>PEFT (LoRA/QLoRA):</strong> Freeze base weights entirely. Zero forgetting by construction. The adapter can be removed to restore exact pre-trained behavior. <strong>This is the default recommendation.</strong></li>
+  <li><strong>Replay buffers (data mixing):</strong> Mix 5–20% of diverse general-purpose data into each training batch. This provides a continuous "reminder" of general capabilities. The ratio depends on the forgetting severity — start at 10% and increase if general benchmarks degrade. Use data from a similar distribution to the pre-training data (RedPajama, SlimPajama, or similar).</li>
+  <li><strong>Low learning rate:</strong> Use 1e-6 to 5e-6 for CPT/full FT (vs. 1e-5 to 5e-5 for standard SFT). Smaller weight changes = less forgetting. Combine with longer training to compensate for slower convergence.</li>
+  <li><strong>EWC (Elastic Weight Consolidation):</strong> <a href="https://arxiv.org/abs/1612.00796" target="_blank" class="paper-ref">Kirkpatrick et al., 2017</a> Add a penalty that discourages changes to important parameters:
+    <div class="formula">L<sub>EWC</sub> = L<sub>task</sub> + (λ/2) · Σ<sub>i</sub> F<sub>i</sub> · (θ<sub>i</sub> − θ*<sub>i</sub>)²</div>
+    F<sub>i</sub> is the Fisher Information for parameter i, measuring how important it is for previous tasks. Computationally expensive for large models (need to compute/store Fisher for all parameters), but effective when applicable.
+
+    <div class="derive" style="margin-top:14px;">
+      <div class="derive-title">🧮 Derive It Yourself — EWC Loss</div>
+      <p>EWC is intuitive once you see the Bayesian interpretation:</p>
+      <div class="deriv-step"><span class="step-num">1</span><p><strong>Bayesian framing:</strong> After training on task A, our knowledge of good parameters is captured by the posterior P(θ|D<sub>A</sub>). When learning task B, we want: max<sub>θ</sub> log P(D<sub>B</sub>|θ) + log P(θ|D<sub>A</sub>). The first term is the task B loss; the second is our "prior" from task A.</p></div>
+      <div class="deriv-step"><span class="step-num">2</span><p><strong>Approximate the posterior:</strong> P(θ|D<sub>A</sub>) is intractable. Use a Laplace approximation (second-order Taylor around the MAP estimate θ*<sub>A</sub>): log P(θ|D<sub>A</sub>) ≈ const − ½ Σ<sub>i</sub> F<sub>i</sub>(θ<sub>i</sub> − θ*<sub>A,i</sub>)², where F<sub>i</sub> is the diagonal of the Fisher Information Matrix at θ*<sub>A</sub>.</p></div>
+      <div class="deriv-step"><span class="step-num">3</span><p><strong>Combine:</strong> L<sub>EWC</sub> = L<sub>task B</sub>(θ) + (λ/2) Σ<sub>i</sub> F<sub>i</sub>(θ<sub>i</sub> − θ*<sub>A,i</sub>)². Parameters with high Fisher (important for task A) are penalized heavily for moving away from θ*<sub>A</sub>. Parameters with low Fisher (unimportant for A) are free to change.</p></div>
+      <div class="deriv-tip"><strong>The Fisher intuition:</strong> F<sub>i</sub> = 𝔼[(∂ log P(x|θ)/∂θ<sub>i</sub>)²]. It measures how much the output distribution changes when you perturb θ<sub>i</sub>. High Fisher = the output is sensitive to this parameter = it encodes important knowledge = protect it.</div>
+    </div>
+  </li>
+  <li><strong>Progressive LoRA:</strong> Train separate LoRA adapters for each task/domain. Compose at inference by summing or dynamically loading. Completely avoids forgetting since base weights are never modified. The trade-off is managing multiple adapters.</li>
+</ol>
+
+<div class="callout callout-tip">
+  <div class="callout-title">💡 Monitoring Forgetting in Practice</div>
+  <p>Set up a "forgetting dashboard" that tracks perplexity on 3–4 diverse held-out sets alongside your domain metrics: (1) general text (Wikipedia/C4 sample), (2) code (if applicable), (3) instruction-following (a subset of a general eval like MT-Bench), (4) your domain eval. If general perplexity increases by &gt;5% while domain metrics improve, you're forgetting too much. If it increases &gt;15%, you're likely losing useful capabilities.</p>
+</div>
+
+<h3>9.3 Domain Adaptation Case Studies</h3>
+<div class="table-wrap">
+<table>
+  <tr><th>Domain</th><th>Approach</th><th>Key Findings &amp; Nuances</th></tr>
+  <tr>
+    <td><strong>Medical</strong><br><span class="tag tag-purple">BioMistral, Med-PaLM, PMC-LLaMA</span></td>
+    <td>CPT on PubMed/PMC + SFT on medical QA (MedQA, PubMedQA)</td>
+    <td>CPT essential for medical terminology and reasoning. Models without CPT hallucinate medical facts confidently. SFT alone gives format but not substance. Important: medical fine-tuning requires careful safety evaluation — wrong medical advice is high-stakes.</td>
+  </tr>
+  <tr>
+    <td><strong>Code</strong><br><span class="tag tag-blue">CodeLlama, DeepSeek-Coder, StarCoder</span></td>
+    <td>CPT on code corpus (500B–1T tokens) + infilling objective + long-context extension + instruction tuning</td>
+    <td>Long-context CPT (16K→64K→128K) is critical — code has long-range dependencies. Infilling objective (predict middle given prefix+suffix) enables code completion at arbitrary positions. Language-balanced CPT maintains natural language reasoning alongside code capability.</td>
+  </tr>
+  <tr>
+    <td><strong>Legal</strong><br><span class="tag tag-orange">SaulLM, LegalBERT</span></td>
+    <td>CPT on legal corpora (case law, statutes, contracts) + task-specific SFT</td>
+    <td>Legal language has unique syntax, terminology, and reasoning structure (precedent-based). CPT on 30B+ legal tokens significantly improves legal reasoning. Critical: models must cite sources correctly and distinguish between jurisdictions — fine-tuning without this creates dangerous tools.</td>
+  </tr>
+  <tr>
+    <td><strong>Math</strong><br><span class="tag tag-green">Llemma, DeepSeek-Math, InternLM-Math</span></td>
+    <td>CPT on math corpora (papers, textbooks, Lean/Isabelle proofs) + reasoning-focused SFT</td>
+    <td>Quality of reasoning chains matters more than quantity. Process reward models (PRMs) for step-level verification dramatically improve math performance. CPT on formal math (proof assistants) transfers to informal math reasoning.</td>
+  </tr>
+</table>
+</div>
+
+<a href="https://arxiv.org/abs/2308.12950" target="_blank" class="paper-ref">Rozière et al., 2023 — Code Llama</a>
+<a href="https://arxiv.org/abs/2310.10631" target="_blank" class="paper-ref">Azerbayev et al., 2023 — Llemma</a>
+<a href="https://arxiv.org/abs/2402.00159" target="_blank" class="paper-ref">DeepSeek-AI, 2024 — DeepSeek-Math</a>
+
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION 10: DATA -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2 id="s10"><span class="section-num">10</span> Data Curation, Quality &amp; Scaling Laws</h2>
+
+<h3>10.1 The Data Pipeline — Detailed Walkthrough</h3>
+<p>Data quality is the <strong>single most impactful factor</strong> in fine-tuning success. A rigorous pipeline:</p>
+
+<ol class="step-list">
+  <li><strong>Collection &amp; Sourcing:</strong> Gather raw instruction-response data from multiple sources: human-written, synthetic (generated by strong models), curated from existing datasets, or extracted from domain documentation. Diversity of sources prevents monoculture bias. Track provenance for each example (source, date, quality score).</li>
+  <li><strong>Deduplication:</strong> Remove exact duplicates (hash-based) and near-duplicates (<strong>MinHash LSH</strong> is the standard algorithm — creates signature-based fingerprints and uses locality-sensitive hashing to find similar pairs in O(n) time). Duplicates cause: (1) memorization of specific examples rather than learning patterns, (2) evaluation contamination if duplicates span train/eval splits, (3) biased loss weighting (duplicated examples contribute disproportionately to gradients).</li>
+  <li><strong>Quality filtering:</strong> Use a <strong>model-based scorer</strong> — typically a reward model or quality classifier — to rate each example on a 1–5 scale. Filter out examples below threshold (typically 3/5). The Phi models (<a href="https://arxiv.org/abs/2306.11644" target="_blank" class="paper-ref">Li et al., 2023 — Textbooks Are All You Need</a>) demonstrated that aggressive quality filtering (keeping only top-tier data) produces better models than using all available data. A 1.3B model trained on high-quality data outperformed 7B models trained on lower-quality data.</li>
+  <li><strong>Toxicity &amp; safety filtering:</strong> Use classifiers (not keyword lists) to remove harmful content. Keyword lists have high false-positive rates (flagging medical or educational content) and miss sophisticated harmful content. Include a toxicity classifier, a PII detector, and a copyright filter.</li>
+  <li><strong>Diversity sampling:</strong> Compute embeddings for all instructions (using a sentence embedding model like all-MiniLM or BGE). Cluster with k-means or HDBSCAN. Sample uniformly across clusters, possibly with stratification by difficulty level. This ensures broad coverage — without it, your dataset might be 60% simple factual questions and 5% reasoning tasks, when you want a more balanced distribution.</li>
+  <li><strong>Length distribution matching:</strong> Plot the response length distribution and compare to your target. If all training responses are 300+ words, the model learns to be verbose. If all are under 50 words, it learns to be terse. Include a range of lengths appropriate for different complexity levels.</li>
+  <li><strong>Instruction complexity:</strong> Ensure a spectrum from simple to complex. <strong>Evol-Instruct</strong> (<a href="https://arxiv.org/abs/2304.12244" target="_blank" class="paper-ref">Xu et al., 2023 — WizardLM</a>) synthetically increases instruction complexity through iterative rewriting: adding constraints, requiring reasoning steps, combining multiple sub-tasks. This teaches the model to handle complex, multi-faceted instructions.</li>
+  <li><strong>Final validation:</strong> Manually review 100–500 random samples from the final dataset. Look for: incorrect responses, formatting inconsistencies, instructions that are ambiguous or unanswerable, responses that don't actually address the instruction. Even with automated filtering, human review catches issues that models miss.</li>
+</ol>
+
+<h3>10.2 Scaling Laws for Fine-Tuning</h3>
+<a href="https://arxiv.org/abs/2203.15556" target="_blank" class="paper-ref">Hoffmann et al., 2022 — Chinchilla Scaling Laws</a>
+
+<p>Pre-training scaling laws (Chinchilla): L(N, D) ∝ N<sup>−α</sup> + D<sup>−β</sup>, with optimal compute allocation roughly N ∝ C<sup>0.5</sup> and D ∝ C<sup>0.5</sup>. Fine-tuning dynamics differ:</p>
+<ul>
+  <li><strong>Data efficiency is much higher:</strong> A 7B model can be effectively fine-tuned with 10K–100K examples (compared to ~1T tokens for pre-training). The model already has knowledge; you're teaching format and behavior, which requires far fewer examples.</li>
+  <li><strong>Quality dominates quantity:</strong> Below ~10K examples, quality improvements have a near-linear effect on performance. Above ~50K examples, adding more data has diminishing returns unless it adds genuinely new task types or edge cases. The LIMA paper showed this starkly: 1K high-quality > 52K moderate-quality.</li>
+  <li><strong>More epochs can substitute for more data:</strong> With high-quality data, training for 3–5 epochs often produces better results than 1 epoch on 3–5× more lower-quality data. However, monitor for overfitting — eval loss should guide epoch selection.</li>
+  <li><strong>Model size matters for fine-tuning ceiling:</strong> A 7B model fine-tuned on perfect data will still underperform a 70B model fine-tuned on the same data for complex reasoning tasks. Fine-tuning can't add capabilities that aren't latent in the pre-trained weights.</li>
+</ul>
+
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION 11: DISTRIBUTED TRAINING -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2 id="s11"><span class="section-num">11</span> Distributed Training &amp; Infrastructure</h2>
+
+<h3>11.1 Parallelism Strategies — When to Use What</h3>
+
+<h4>Data Parallelism (DP)</h4>
+<p>Replicate the full model on each GPU. Each processes different data, gradients are synchronized via <strong>all-reduce</strong> (sum gradients across all GPUs, then divide by GPU count). Linear throughput scaling with GPU count. <strong>Limitation:</strong> Each GPU must hold the complete model (parameters + optimizer + gradients), so it doesn't help when a single model doesn't fit on one GPU.</p>
+
+<h4>FSDP / DeepSpeed ZeRO — The Workhorses of Fine-Tuning</h4>
+<a href="https://arxiv.org/abs/1910.02054" target="_blank" class="paper-ref">Rajbhandari et al., 2020 — ZeRO</a>
+<a href="https://github.com/microsoft/DeepSpeed" target="_blank" class="repo-ref">microsoft/DeepSpeed</a>
+
+<div class="table-wrap">
+<table>
+  <tr><th>Stage</th><th>What's Sharded</th><th>Memory per GPU (N GPUs)</th><th>Communication</th></tr>
+  <tr><td><strong>ZeRO-1</strong></td><td>Optimizer states only</td><td>params + grads + (optimizer/N)</td><td>Same as DP</td></tr>
+  <tr><td><strong>ZeRO-2</strong></td><td>Optimizer + gradients</td><td>params + (grads + optimizer)/N</td><td>~Same as DP</td></tr>
+  <tr><td><strong>ZeRO-3 / FSDP</strong></td><td>Everything</td><td>(params + grads + optimizer)/N</td><td>Higher: all-gather before each fwd/bwd layer</td></tr>
+</table>
+</div>
+
+<div class="deep-dive">
+  <div class="deep-dive-title">🔬 FSDP Communication Patterns</div>
+  <p>In ZeRO-3/FSDP, parameters are sharded across GPUs. Before each layer's forward pass, an <strong>all-gather</strong> operation reconstructs the full parameters for that layer from all shards. After the forward pass, the full parameters are discarded (only the shard is kept). The backward pass does another all-gather, computes gradients, and then a <strong>reduce-scatter</strong> distributes gradient shards back. This means each layer triggers two collective communications per training step.</p>
+  <p><strong>Practical implication:</strong> FSDP works best with <strong>high-bandwidth interconnects</strong> (NVLink at 600 GB/s within a node, InfiniBand at 200–400 Gb/s across nodes). Over PCIe (32 GB/s), the communication overhead can eat 40–60% of theoretical throughput. For fine-tuning, prefer ZeRO-2 over ZeRO-3 when the model fits in ZeRO-2 configuration, since it has less communication overhead.</p>
+</div>
+
+<h4>Tensor Parallelism (TP)</h4>
+<p>Split individual weight matrices across GPUs. For a linear layer Y = XW where W ∈ ℝ<sup>d×d</sup>:</p>
+<ul>
+  <li><strong>Column parallel:</strong> W = [W₁ | W₂], Y = [XW₁ | XW₂]. Each GPU computes a subset of output features. Followed by all-reduce or all-gather depending on the next layer.</li>
+  <li><strong>Row parallel:</strong> W = [W₁; W₂], X = [X₁ | X₂], Y = X₁W₁ + X₂W₂. Each GPU has different input features and a subset of weight rows. Followed by all-reduce.</li>
+</ul>
+<p>TP requires <strong>NVLink</strong> because the communication happens multiple times per layer per step. Not practical across nodes. Typically used within a single node (2–8 GPUs) combined with FSDP across nodes.</p>
+
+<h4>Pipeline Parallelism (PP)</h4>
+<p>Assign different layers to different GPUs: GPU₀ = layers 0–15, GPU₁ = layers 16–31. <strong>Problem:</strong> naive PP leaves all but one GPU idle (pipeline bubble). Solutions: micro-batching (GPipe — split the batch into micro-batches that pipeline through), or interleaving (PipeDream — overlap forward and backward passes). The pipeline bubble is typically 10–30% of compute time with good scheduling.</p>
+
+<h3>11.2 Practical Training Recipes</h3>
+<div class="table-wrap">
+<table>
+  <tr><th>Scenario</th><th>Recommended Setup</th><th>Why</th></tr>
+  <tr><td>7B full FT, 4×A100-80GB</td><td>FSDP (ZeRO-2) + bf16 + gradient checkpointing</td><td>Model fits in ZeRO-2; less communication than ZeRO-3</td></tr>
+  <tr><td>7B QLoRA, 1×RTX 4090</td><td>bitsandbytes 4-bit + LoRA r=32 + gradient checkpointing</td><td>Model fits on consumer GPU; QLoRA designed for this</td></tr>
+  <tr><td>70B full FT, 8×A100-80GB</td><td>FSDP (ZeRO-3) + bf16 + gradient checkpointing + Flash Attention</td><td>Need full sharding; Flash Attention critical for memory</td></tr>
+  <tr><td>70B QLoRA, 2×A100-80GB</td><td>bitsandbytes 4-bit + FSDP + LoRA r=64</td><td>4-bit model fits easily; FSDP distributes LoRA gradients</td></tr>
+  <tr><td>405B, 64×H100</td><td>TP(8) × PP(2) × FSDP(4) + bf16 + extensive checkpointing</td><td>3D parallelism needed; TP within node, PP+FSDP across nodes</td></tr>
+</table>
+</div>
+
+<h3>11.3 Tooling Ecosystem</h3>
+<div class="table-wrap">
+<table>
+  <tr><th>Framework</th><th>Key Features</th><th>Best For</th></tr>
+  <tr>
+    <td><strong>HuggingFace TRL</strong></td>
+    <td>Unified SFT, DPO, RLHF, ORPO, KTO; PEFT integration; DeepSpeed/FSDP support</td>
+    <td>Quick experimentation, standard training recipes</td>
+  </tr>
+  <tr>
+    <td><strong>Axolotl</strong></td>
+    <td>Config-driven (YAML), multi-dataset mixing, extensive model support</td>
+    <td>Production fine-tuning workflows with reproducibility</td>
+  </tr>
+  <tr>
+    <td><strong>LLaMA-Factory</strong></td>
+    <td>100+ models, WebUI, QLoRA/full FT/DPO, Chinese+English</td>
+    <td>Rapid prototyping, accessibility</td>
+  </tr>
+  <tr>
+    <td><strong>torchtune</strong></td>
+    <td>PyTorch-native, clean modular recipes, memory-efficient</td>
+    <td>Research, custom loops, understanding internals</td>
+  </tr>
+  <tr>
+    <td><strong>OpenRLHF</strong></td>
+    <td>Dedicated RLHF/DPO framework, Ray-based distributed training</td>
+    <td>Large-scale RLHF with PPO</td>
+  </tr>
+</table>
+</div>
+
+<a href="https://github.com/huggingface/trl" target="_blank" class="repo-ref">huggingface/trl</a>
+<a href="https://github.com/axolotl-ai-cloud/axolotl" target="_blank" class="repo-ref">axolotl-ai-cloud/axolotl</a>
+<a href="https://github.com/hiyouga/LLaMA-Factory" target="_blank" class="repo-ref">hiyouga/LLaMA-Factory</a>
+<a href="https://github.com/pytorch/torchtune" target="_blank" class="repo-ref">pytorch/torchtune</a>
+<a href="https://github.com/OpenRLHF/OpenRLHF" target="_blank" class="repo-ref">OpenRLHF/OpenRLHF</a>
+
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION 12: EVALUATION -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2 id="s12"><span class="section-num">12</span> Evaluation, Overfitting &amp; Debugging</h2>
+
+<h3>12.1 Multi-Faceted Evaluation Strategy</h3>
+<p>No single metric captures fine-tuning success. A comprehensive evaluation framework:</p>
+
+<ul>
+  <li><strong>Task-specific benchmarks:</strong> MMLU (multi-domain knowledge), HumanEval/MBPP (code), GSM8K/MATH (math reasoning), ARC/HellaSwag (common sense). Always compare against: (1) the base model (to measure improvement), (2) the same model fine-tuned by others (to benchmark your pipeline), (3) the commercial frontier (to understand the gap). Use <a href="https://github.com/EleutherAI/lm-evaluation-harness" target="_blank" class="repo-ref">EleutherAI/lm-evaluation-harness</a> for consistent evaluation.</li>
+  <li><strong>Held-out test set from your target distribution:</strong> This is the most important metric. It should be completely unseen during training and representative of real-world usage. If your model will answer customer support queries, your eval should contain real customer support queries (not generic benchmarks). Randomly splitting your fine-tuning data is a start, but be careful of data leakage through paraphrasing or shared topics.</li>
+  <li><strong>LLM-as-judge:</strong> Use GPT-4 or Claude to evaluate open-ended responses. <strong>Pairwise comparisons are more reliable than absolute scores</strong> — "Is response A or B better?" gives more consistent results than "Rate this response 1–5." Standard benchmarks: MT-Bench (multi-turn), AlpacaEval (single-turn). <strong>Caveat:</strong> LLM judges have biases — they tend to prefer longer responses, responses that use markdown formatting, and responses that start with "Certainly!" Calibrate against human judgments for your specific use case.</li>
+  <li><strong>Human evaluation:</strong> Gold standard but expensive. Blind A/B testing with clear rubrics. At minimum, have domain experts manually review 50–100 outputs for correctness and quality. For alignment work, red-teaming (adversarial human evaluation) is essential.</li>
+  <li><strong>Perplexity on general benchmarks:</strong> Track perplexity on C4/Wikipedia held-out data. If general perplexity increases by &gt;10% during fine-tuning, you're experiencing significant catastrophic forgetting. This is a proxy for "is the model getting dumber in general while getting smarter on my task?"</li>
+</ul>
+
+<h3>12.2 Overfitting — Deep Diagnosis</h3>
+<p>Overfitting in fine-tuning is <strong>more dangerous</strong> than in traditional ML because the model can memorize responses verbatim while appearing to perform well on in-distribution eval.</p>
+
+<p><strong>Detection signals:</strong></p>
+<ol>
+  <li><strong>Train loss ↓ but eval loss ↑:</strong> The classic indicator. Plot both curves on the same chart and identify the divergence point. Save checkpoints every 100 steps and select the best based on eval loss, not train loss.</li>
+  <li><strong>Decreased output diversity:</strong> Generate 10 responses for the same prompt with temperature 0.7. If they're nearly identical, the model has collapsed to a narrow output distribution. Measure diversity with self-BLEU or unique n-gram ratio.</li>
+  <li><strong>Verbatim memorization:</strong> Prompt the model with the first 20 tokens of a training example. If it reproduces the rest exactly, it's memorizing rather than generalizing. This is especially problematic for privacy (leaking training data at inference) and for decontamination (if benchmark answers were in training data).</li>
+  <li><strong>Sensitivity to minor prompt changes:</strong> If the model performs well on "What is X?" but poorly on "Explain X to me" or "Tell me about X", it has memorized specific prompt patterns rather than learning generalizable instruction-following.</li>
+</ol>
+
+<p><strong>Prevention strategies:</strong></p>
+<ul>
+  <li><strong>Early stopping:</strong> Stop training when eval loss starts increasing. This is the most reliable technique but requires frequent evaluation (every 50–200 steps).</li>
+  <li><strong>Fewer epochs:</strong> 1–2 for large datasets. With 100K+ examples, a single epoch provides sufficient gradient signal for most tasks.</li>
+  <li><strong>LoRA dropout (0.05–0.1):</strong> Apply dropout to the LoRA matrices during training. This is the dropout analog for PEFT — it regularizes the adapter by randomly zeroing out adapter outputs during training.</li>
+  <li><strong>NEFTune (Noise Embedding Fine-Tuning):</strong> <a href="https://arxiv.org/abs/2310.05914" target="_blank" class="paper-ref">Jain et al., 2023</a> Add uniform noise to input embeddings during training: embed' = embed + α·U(-1,1). This simple trick improves generalization by 1–3% on open-ended evaluations. Works because it prevents the model from relying too precisely on the exact embedding values of training examples.</li>
+  <li><strong>Data augmentation:</strong> Rephrase instructions (paraphrasing), shuffle few-shot examples, vary response styles, add/remove system prompts. This increases the effective diversity of your dataset without collecting new data.</li>
+</ul>
+
+<h3>12.3 Common Failure Modes — Diagnostic Guide</h3>
+<div class="table-wrap">
+<table>
+  <tr><th>Symptom</th><th>Likely Cause</th><th>Diagnostic Steps</th><th>Fix</th></tr>
+  <tr><td>Loss spikes or NaN</td><td>LR too high; bf16 overflow; bad data examples</td><td>Check for inf/nan in data; log grad norms; reduce to micro-batch=1 to find problematic examples</td><td>Reduce LR; enable gradient clipping (1.0); filter bad examples</td></tr>
+  <tr><td>Model outputs gibberish</td><td>Tokenizer mismatch; corrupted data; wrong chat template</td><td>Verify tokenizer matches model checkpoint; inspect a few decoded training examples; check special tokens</td><td>Use model's native tokenizer; reprocess data</td></tr>
+  <tr><td>Good eval, bad real-world</td><td>Eval contamination; distribution mismatch</td><td>Check training data for eval questions (n-gram overlap); compare eval distribution to production</td><td>Rebuild eval with truly held-out data; add production-like examples to eval</td></tr>
+  <tr><td>Forgetting general knowledge</td><td>LR too high; narrow training distribution</td><td>Track perplexity on general benchmarks throughout training</td><td>Lower LR; add 10–20% general data; switch to LoRA</td></tr>
+  <tr><td>Repetitive outputs</td><td>Overfitting; temperature/generation config</td><td>Check train/eval loss gap; test with higher temperature</td><td>Fewer epochs; add data diversity; tune repetition penalty</td></tr>
+  <tr><td>Poor instruction following</td><td>Wrong chat template; prompt masking error</td><td>Decode a few training examples and visually inspect template/labels</td><td>Match template to model; verify only response tokens have loss</td></tr>
+  <tr><td>Model agrees with everything</td><td>Training data bias (sycophancy)</td><td>Test with factually wrong user statements</td><td>Add examples of respectful disagreement; add preference data penalizing sycophancy</td></tr>
+</table>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION 13: EMERGING -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2 id="s13"><span class="section-num">13</span> Emerging Techniques (2025–2026)</h2>
+
+<h3>13.1 Reasoning-Focused Fine-Tuning</h3>
+<p>The frontier of LLM fine-tuning in 2025–2026 is <strong>reasoning</strong>. Following DeepSeek-R1 and OpenAI o1/o3, training models to produce explicit, verifiable reasoning traces has become a central research focus.</p>
+
+<ul>
+  <li><strong>Chain-of-thought SFT:</strong> Fine-tune on examples with detailed reasoning steps before the final answer. The format matters — the reasoning should be genuine problem-solving, not post-hoc explanation. Models trained on authentic reasoning chains (where the chain actually leads to the answer) outperform models trained on rationalized chains (where the answer is known and the chain is reverse-engineered).</li>
+  <li><strong>Process Reward Models (PRMs):</strong> <a href="https://arxiv.org/abs/2305.20050" target="_blank" class="paper-ref">Lightman et al., 2023</a> Score each reasoning step independently, not just the final answer. In a 10-step chain, an outcome reward model (ORM) provides 1 bit of signal; a PRM provides 10. This enables precise credit assignment — identify exactly where reasoning went wrong. PRMs consistently outperform ORMs for best-of-N selection and for RL training signal.</li>
+  <li><strong>GRPO for reasoning:</strong> DeepSeek-R1 showed that GRPO with verifiable rewards (math correctness, code tests) can <strong>discover chain-of-thought reasoning from scratch</strong>. The model was not given any CoT examples — it learned to reason step-by-step purely because doing so increased the probability of getting correct final answers. This suggests that reasoning ability is latent in pre-trained models and can be unlocked through appropriate RL incentives.</li>
+  <li><strong>STaR (Self-Taught Reasoner):</strong> <a href="https://arxiv.org/abs/2203.14465" target="_blank" class="paper-ref">Zelikman et al., 2022</a> Iterative self-improvement: (1) generate reasoning traces for problems, (2) filter for those that reach correct answers, (3) fine-tune on the successful traces, (4) repeat. Each iteration improves reasoning quality. The model bootstraps from a few seed examples to increasingly sophisticated reasoning over multiple rounds.</li>
+</ul>
+
+<h3>13.2 RLVR — Reinforcement Learning with Verifiable Rewards</h3>
+<p>For tasks with programmatic verification (math — check answer; code — run tests; formal logic — proof checker), RLVR bypasses human annotation entirely. The reward function is binary: 1 if the output passes verification, 0 otherwise. This is: (1) perfectly accurate (no reward model errors), (2) infinitely scalable (no human bottleneck), (3) provides clear signal for RL optimization. RLVR has been shown to be remarkably effective for math (DeepSeek-R1 achieves near-frontier math scores) and code (models that pass test suites reliably).</p>
+
+<h3>13.3 Multimodal Fine-Tuning</h3>
+<a href="https://arxiv.org/abs/2304.08485" target="_blank" class="paper-ref">Liu et al., 2023 — LLaVA</a>
+<a href="https://arxiv.org/abs/2408.12637" target="_blank" class="paper-ref">InternVL2, 2024</a>
+
+<p>Vision-language model (VLM) fine-tuning has distinct considerations:</p>
+<ul>
+  <li><strong>Architecture:</strong> Most VLMs use a frozen visual encoder (SigLIP/CLIP) → projection layer → LLM. Fine-tuning options: (1) train only the projection layer (cheapest, good for format adaptation), (2) train projection + LLM (standard, best quality), (3) train everything including visual encoder (expensive, only for major domain shifts like medical imaging).</li>
+  <li><strong>Resolution vs. cost:</strong> Higher image resolution → more visual tokens → quadratically more attention compute. A 384×384 image might produce 256 tokens, while 768×768 produces 1024 tokens. Dynamic resolution approaches (process images at their native resolution, up to a maximum) balance quality and efficiency.</li>
+  <li><strong>Data format:</strong> Training data requires (image, question, answer) triples. For fine-tuning, generating high-quality visual QA pairs is harder than text-only — you need descriptions that accurately describe image content, spatial relationships, and visual details.</li>
+</ul>
+
+<h3>13.4 Long-Context Fine-Tuning</h3>
+<a href="https://arxiv.org/abs/2306.15595" target="_blank" class="paper-ref">Chen et al., 2023 — Position Interpolation</a>
+<a href="https://arxiv.org/abs/2309.00071" target="_blank" class="paper-ref">Peng et al., 2023 — YaRN</a>
+
+<p>Extending context length post-training involves modifying the positional encoding:</p>
+<ul>
+  <li><strong>Position interpolation:</strong> Scale RoPE position indices: f(θ, m) → f(θ, m × L<sub>orig</sub>/L<sub>target</sub>). This compresses positions into the originally trained range. Requires a short continued-training phase (1K–10K steps) to adapt. NTK-aware scaling modifies the frequency base instead: θ' = θ × (L<sub>target</sub>/L<sub>orig</sub>)<sup>2/(d-2)</sup>, which preserves short-range position resolution better.</li>
+  <li><strong>YaRN:</strong> Combines NTK scaling with attention temperature correction (divides attention logits by √(s) where s is the scale factor) for sequences beyond the interpolation range. Handles extrapolation better than pure interpolation methods.</li>
+  <li><strong>Critical caveat:</strong> Extending context length makes the model <em>accept</em> longer inputs, but doesn't automatically make it <em>use</em> information from distant positions effectively. The "Lost in the Middle" phenomenon (<a href="https://arxiv.org/abs/2307.03172" target="_blank" class="paper-ref">Liu et al., 2023</a>) shows models perform worse on information in the middle of long contexts. Continued training on long documents (100M–1B tokens with the extended context) is necessary to teach the model to attend to distant information.</li>
+</ul>
+
+<h3>13.5 Model Merging &amp; Task Arithmetic</h3>
+<a href="https://arxiv.org/abs/2212.04089" target="_blank" class="paper-ref">Ilharco et al., 2022 — Task Arithmetic</a>
+<a href="https://arxiv.org/abs/2306.01708" target="_blank" class="paper-ref">Yadav et al., 2023 — TIES-Merging</a>
+
+<ul>
+  <li><strong>Task vectors:</strong> ΔW = W<sub>finetuned</sub> − W<sub>base</sub> defines a direction in weight space corresponding to a task. These vectors can be:
+    <ul>
+      <li><strong>Scaled:</strong> W<sub>new</sub> = W<sub>base</sub> + λΔW (λ &lt; 1 for partial adaptation, λ &gt; 1 for stronger effect)</li>
+      <li><strong>Combined:</strong> W<sub>merged</sub> = W<sub>base</sub> + λ₁ΔW₁ + λ₂ΔW₂ (multi-task model from single-task fine-tunes)</li>
+      <li><strong>Negated:</strong> W<sub>new</sub> = W<sub>base</sub> − λΔW (removes the task-specific behavior — used for unlearning)</li>
+    </ul>
+  </li>
+  <li><strong>TIES-Merging:</strong> Addresses interference between task vectors by: (1) trimming small-magnitude changes (noise), (2) resolving sign conflicts (when different task vectors push the same parameter in opposite directions), (3) merging only the surviving consistent changes. Significantly outperforms naive averaging.</li>
+  <li><strong>SLERP (Spherical Linear Interpolation):</strong> Interpolates between two model checkpoints on the hypersphere (normalizing weight vectors before interpolation). Preserves the "direction" of each model's knowledge better than linear interpolation.</li>
+  <li><strong>LoRA adapter composition:</strong> For LoRA-based fine-tunes, you can merge adapters by summing BA products: W' = W₀ + (α₁/r₁)B₁A₁ + (α₂/r₂)B₂A₂. This is particularly useful for multi-task serving where different capabilities (code, math, language-specific) are trained as separate adapters and composed based on user needs.</li>
+</ul>
+
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION 14: MOCK INTERVIEW Q&A -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2 id="s14"><span class="section-num">14</span> Mock Interview Questions &amp; Model Answers</h2>
+
+<div class="qa">
+  <div class="qa-question"><span class="q-badge">Q</span> Explain the theoretical justification for why LoRA works. Why should weight updates be low-rank?</div>
+  <div class="qa-answer">
+    <p>The theoretical foundation comes from the <strong>intrinsic dimensionality</strong> work by Aghajanyan et al. (2021), which showed that pre-trained models have very low intrinsic dimensionality for downstream tasks. Specifically, they demonstrated that 200-dimensional reparameterizations suffice for a 355M parameter model to reach 90% of full fine-tuning performance — meaning the task-specific adaptation lies in a tiny subspace of the full parameter space.</p>
+    <p>LoRA operationalizes this by constraining ΔW = BA to have rank at most r. <strong>Why is the optimal ΔW low-rank?</strong> After pre-training, the model is positioned in a well-conditioned region of the loss landscape. The downstream task requires only a small perturbation from this initialization — and this perturbation lies in a low-dimensional manifold. The singular value analysis of learned LoRA adapters confirms this: the top 1-4 singular values capture the vast majority of the adaptation signal, with remaining singular values near zero.</p>
+    <p>From an optimization perspective: the loss landscape around the pre-trained initialization is approximately quadratic (locally convex), and the Hessian has a rapidly decaying eigenspectrum. The significant eigendirections correspond to the dimensions where the loss changes meaningfully — these are exactly the directions LoRA captures with its rank-r constraint. As models get larger, they move closer to many downstream solutions during pre-training, so the required perturbation becomes proportionally smaller — explaining why PEFT methods become <em>more</em> effective at scale.</p>
+  </div>
+</div>
+
+<div class="qa">
+  <div class="qa-question"><span class="q-badge">Q</span> You fine-tuned with DPO and it performs well on preference eval but poorly on general benchmarks. Diagnose and fix.</div>
+  <div class="qa-answer">
+    <p>This is a classic <strong>alignment tax</strong> / over-optimization scenario. I'd investigate systematically:</p>
+    <p><strong>Diagnosis step 1 — Check β:</strong> If β is too low (e.g., 0.01), the implicit KL regularization is too weak, allowing the model to diverge far from the reference policy. The implicit reward (log π_θ/π_ref ratio) may be growing unboundedly — check training curves for this. Fix: increase β to 0.3–0.5.</p>
+    <p><strong>Diagnosis step 2 — Analyze preference data:</strong> Is the data biased toward a narrow quality dimension? For example, if preferred responses are consistently longer and more verbose, the model learns "verbose = good" at the expense of conciseness and accuracy. Check: average length of preferred vs. rejected responses, diversity of preference signals (helpfulness, correctness, safety, conciseness), and whether the data covers reasoning tasks or only superficial quality.</p>
+    <p><strong>Diagnosis step 3 — Reference model quality:</strong> DPO optimizes <em>relative to</em> the reference model. If the SFT checkpoint (reference) was weak on general benchmarks, the DPO model inherits this weakness — DPO can't add capabilities the reference model didn't have. Check: reference model's general benchmark scores.</p>
+    <p><strong>Diagnosis step 4 — Training duration:</strong> DPO can overfit quickly, especially with small datasets. Training for 3 epochs on 10K preference pairs is very different from 1 epoch on 100K. Check: eval loss trajectory — was there an overfitting inflection point?</p>
+    <p><strong>Fixes (in priority order):</strong> (1) Increase β. (2) Add diverse general-purpose preference pairs (20-30% of data). (3) Reduce training duration (1 epoch max). (4) Try SimPO or ORPO which may be less prone to this issue. (5) Switch to iterative DPO: use the DPO model to generate new responses, collect new preferences, and do another round with a higher β.</p>
+  </div>
+</div>
+
+<div class="qa">
+  <div class="qa-question"><span class="q-badge">Q</span> How would you fine-tune a 70B model on a cluster of 8×A100 80GB GPUs?</div>
+  <div class="qa-answer">
+    <p><strong>Option 1 — Full fine-tuning:</strong> Use FSDP (ZeRO Stage 3) + bf16 mixed precision + gradient checkpointing + Flash Attention. Memory math: 70B parameters → ~140GB in bf16 for weights alone. With ZeRO-3, parameters are sharded: ~17.5GB/GPU for params. AdamW optimizer states (2 × fp32 copies): ~560GB total, ~70GB/GPU. Gradients: ~140GB total, ~17.5GB/GPU. Per-GPU total: ~105GB. This exceeds 80GB, so gradient checkpointing is essential (reducing activation memory from ~40GB to ~12GB) and we might need to use CPU offloading for some optimizer states. Micro-batch size 1 with gradient accumulation steps 8 → effective batch size 64.</p>
+    <p><strong>Option 2 — QLoRA (recommended unless full FT is required):</strong> Quantize to 4-bit NF4 (~35GB total, ~4.4GB/GPU with sharding). LoRA adapters in bf16 with rank 64-128 on all linear layers: ~160-320M trainable parameters. With gradient checkpointing and Flash Attention, this comfortably fits with micro-batch 2-4 per GPU. Much faster per-step and typically reaches 95%+ of full fine-tuning quality.</p>
+    <p><strong>Framework choice:</strong> HuggingFace TRL + DeepSpeed ZeRO-3 for the most battle-tested stack, or Axolotl for config-driven reproducible pipelines. For RLHF specifically, OpenRLHF handles the multi-model scheduling well. Communication: NCCL over NVLink within the node (assuming DGX or HGX topology with NVSwitch).</p>
+    <p><strong>Key considerations:</strong> Flash Attention is non-negotiable at this scale — it saves 40-60% activation memory on long sequences. Gradient clipping (max_norm=1.0) as a safety net against loss spikes. Checkpointing every 200 steps to enable recovery. A 2TB NVMe SSD or shared filesystem (NFS/Lustre) for checkpoints, since each full checkpoint is ~140GB in bf16.</p>
+  </div>
+</div>
+
+<div class="qa">
+  <div class="qa-question"><span class="q-badge">Q</span> What is NF4 and why is it information-theoretically optimal for neural network weights?</div>
+  <div class="qa-answer">
+    <p>NF4 (4-bit NormalFloat) is a <strong>non-uniform quantization scheme</strong> designed specifically for the statistical distribution of neural network weights. The key insight: transformer weights empirically follow an approximately normal distribution N(0, σ²). Standard uniform INT4 spaces 16 bins equally across the value range — but because weights concentrate around zero (the peak of the Gaussian), most bins cover low-probability tail regions while the high-probability center is poorly resolved.</p>
+    <p>NF4 instead places bin edges at the <strong>quantiles of the standard normal distribution</strong>. This means each of the 16 bins captures exactly 1/16 of the probability mass. By the theory of optimal quantization, when each quantization bin is utilized with equal probability, the expected quantization error is minimized for a given number of bits. This is because information-theoretically, you want each code point to carry equal amounts of information — if some bins are used rarely, those bits are "wasted."</p>
+    <p><strong>Concrete construction:</strong> Compute the 17 quantiles of N(0,1): q₀ = -∞, q₁ = Φ⁻¹(1/16), q₂ = Φ⁻¹(2/16), ..., q₁₆ = +∞. The representation values are the midpoints of these bins (the conditional mean of N(0,1) within each bin). This gives 16 non-uniformly spaced values, densely packed near zero and sparse in the tails.</p>
+    <p><strong>Empirical impact:</strong> NF4 reduces quantization error by ~30-50% compared to uniform INT4 for typical transformer weights, which directly translates to better model quality at the same bit width. QLoRA additionally applies double quantization: the per-block scale factors (one fp32 scalar per 64 parameters) are themselves quantized to fp8, reducing the overhead from 0.5 bits/param to 0.127 bits/param — saving ~3.3GB for a 70B model.</p>
+  </div>
+</div>
+
+<div class="qa">
+  <div class="qa-question"><span class="q-badge">Q</span> How do you handle catastrophic forgetting when fine-tuning for a specialized domain?</div>
+  <div class="qa-answer">
+    <p>My approach depends on the severity of the domain shift and the importance of retaining general capabilities.</p>
+    <p><strong>For moderate shifts</strong> (e.g., customer support, specific writing style): Use <strong>LoRA/QLoRA</strong>. Since base weights are frozen, forgetting is eliminated by construction. The adapter captures domain-specific behavior while the frozen weights retain all pre-trained knowledge. This is my default recommendation because it's simple, effective, and reversible (remove the adapter to restore the base model).</p>
+    <p><strong>For significant shifts requiring more parameter modification</strong> (e.g., new language, medical domain): A multi-pronged approach: (1) <strong>Data mixing</strong> — add 10-20% of diverse general-purpose data to each training batch. This is the single most effective technique. Use a high-quality general dataset like SlimPajama or a filtered subset of RedPajama. (2) <strong>Low learning rate</strong> with warmup — peak LR of 1e-5 to 3e-5 with 5-10% warmup. (3) <strong>Continuous monitoring</strong> — track perplexity on a held-out general benchmark (Wikipedia, C4 subset) every 100 steps. If general perplexity rises >5-10% from baseline, I'm forgetting too much and need to increase the mixing ratio or decrease LR.</p>
+    <p><strong>For major domain shifts</strong> (e.g., English model → Japanese): Two-phase approach: (1) Continual pre-training on domain corpus (1-10B tokens) with aggressive data mixing (30-40% English/general data). (2) Domain-specific SFT with the adapted base. The CPT phase naturally overlaps with general language, reducing forgetting.</p>
+    <p><strong>For multi-task scenarios:</strong> Progressive LoRA — train separate adapters per task, compose at inference. Zero forgetting since base weights are never modified. Can even do online adapter selection based on input classification.</p>
+  </div>
+</div>
+
+<div class="qa">
+  <div class="qa-question"><span class="q-badge">Q</span> LoRA adapter works well, but quality degrades after merging and quantizing to 4-bit. Why and how to fix?</div>
+  <div class="qa-answer">
+    <p>This is a well-documented issue in the LoRA pipeline. The root cause is a <strong>distribution mismatch</strong> between the weights the quantizer was designed for and the weights it actually receives.</p>
+    <p><strong>Detailed explanation:</strong> When you train LoRA in full precision, the base model weights W₀ are in bf16/fp32. The adapter learns BA such that W₀ + (α/r)BA produces good outputs. After merging, the new weight matrix W' = W₀ + (α/r)BA has a different statistical distribution than W₀ — the LoRA update shifts means, changes variances, and may introduce new outliers. When you then quantize W' to 4-bit, the quantization parameters (scale, zero-point per block) are computed for W's distribution but W' has a different distribution. The quantization error is therefore higher than it would be for a model that was <em>designed</em> to operate with quantized weights.</p>
+    <p>Additionally, during QLoRA training, the adapter implicitly learns to <strong>compensate for quantization artifacts</strong> — it sees dequantized (noisy) base weights during forward passes and adapts accordingly. Full-precision LoRA never sees this noise, so it hasn't learned to be robust to it.</p>
+    <p><strong>Solutions in priority order:</strong> (1) <strong>Use QLoRA from the start</strong> — the adapters learn in the quantized regime, producing a system that's inherently compatible with 4-bit inference. (2) <strong>Re-quantize with target-distribution calibration</strong> — after merging, run GPTQ or AWQ using calibration data from <em>your</em> target distribution (not generic C4). This adapts the quantization parameters to W's actual distribution. (3) <strong>QAT-style fine-tuning after merge</strong> — do 200-500 steps of fine-tuning with simulated quantization (STE) on the merged model to adapt it to quantization noise. (4) <strong>Use higher bit-width</strong> — if 4-bit degrades too much, 6-bit or 8-bit may be acceptable for your deployment constraints.</p>
+  </div>
+</div>
+
+<div class="qa">
+  <div class="qa-question"><span class="q-badge">Q</span> Compare PRMs vs. ORMs for mathematical reasoning. When would you use each?</div>
+  <div class="qa-answer">
+    <p><strong>Outcome Reward Models (ORMs)</strong> assign a single scalar reward based on the final answer — correct or incorrect. <strong>Process Reward Models (PRMs)</strong> assign rewards to each intermediate reasoning step independently.</p>
+    <p><strong>The credit assignment problem:</strong> In a 10-step mathematical derivation, an ORM provides 1 bit of signal: "the final answer was right/wrong." A PRM provides 10 separate evaluations: "step 1 was correct, step 2 was correct, step 3 had an error, ..." This is a <strong>10× denser supervision signal</strong>. The model can identify exactly where reasoning went wrong — was it a calculation error in step 3, or a flawed logical step in step 7? With ORM-only feedback, the model can't distinguish between these scenarios and must average over all possible error locations.</p>
+    <p>OpenAI's work on Let's Verify Step by Step (Lightman et al., 2023) showed PRMs significantly outperform ORMs for: (1) best-of-N selection (choosing the best solution from N candidates — PRMs identify solutions with correct reasoning chains, not just lucky answers), (2) RL training signal (denser rewards lead to faster, more stable convergence).</p>
+    <p><strong>Trade-off:</strong> PRMs require step-level annotations, which are much more expensive. Each step must be labeled as correct/incorrect by a qualified annotator. <strong>Practical compromise:</strong> Automated PRM labeling via Monte Carlo estimation. For each step in a solution, sample K completions from that point onward. The step-level "correctness score" is the fraction of completions that reach the correct final answer. This is noisy but scalable (no human annotators) and has been shown to produce effective PRMs.</p>
+    <p><strong>When to use which:</strong> Use ORMs when you need quick iteration (much cheaper to build), for tasks where individual step quality is hard to define, or as a starting point. Use PRMs when precision matters (math competitions, formal reasoning), when you have the budget for step-level labeling, or when you can use automated labeling (verifiable tasks).</p>
+  </div>
+</div>
+
+<div class="qa">
+  <div class="qa-question"><span class="q-badge">Q</span> Design a production fine-tuning pipeline end-to-end.</div>
+  <div class="qa-answer">
+    <p><strong>Stage 1 — Data preparation (2-3 weeks):</strong> Collect 10K-50K task-specific instruction-response pairs from multiple sources (human-written, synthetic, extracted from docs). Run deduplication (MinHash LSH), quality filtering (reward model scoring, keep top 70%), safety filtering (toxicity + PII classifiers), and diversity sampling (cluster-based). Format into the target model's chat template with proper prompt masking. Split 90/5/5 into train/val/test with decontamination against all planned evaluation benchmarks (n-gram overlap check).</p>
+    <p><strong>Stage 2 — Baseline establishment (1 day):</strong> Evaluate the base model on the test set using few-shot prompting (0, 1, 3, 5 shots). Record: accuracy/quality metrics, latency, cost per query. This is the floor your fine-tuned model must beat — and it sets expectations for what improvement is possible.</p>
+    <p><strong>Stage 3 — Training (1-3 days):</strong> Use QLoRA (4-bit NF4 base + bf16 adapters, rank 64, all linear layers, α=128) with TRL/Axolotl. Cosine LR schedule: peak 2e-4, warmup 3%, decay to 2e-5. 1-3 epochs depending on dataset size. Eval every 200 steps on val set. Save top-3 checkpoints by val loss. Enable WandB/MLflow for experiment tracking.</p>
+    <p><strong>Stage 4 — Evaluation (2-3 days):</strong> Multi-faceted: (1) Test set performance vs. baseline (must show clear improvement). (2) General benchmarks (MMLU, etc.) to check forgetting (must not drop >5%). (3) LLM-as-judge on 200 examples (pairwise: fine-tuned vs. base, fine-tuned vs. GPT-4). (4) Human review of 100 examples by domain experts (correctness, helpfulness, safety). (5) Red-teaming: adversarial prompts to test safety guardrails.</p>
+    <p><strong>Stage 5 — Deployment (1-2 days):</strong> Merge LoRA adapters. Re-quantize with GPTQ/AWQ using 256 calibration samples from target distribution. Validate quantized model quality (should not drop >2% from merged model). Serve with vLLM (for GPU) or llama.cpp (for edge). Set up A/B testing in production: route 10% traffic to fine-tuned model, 90% to baseline, compare metrics over 1 week.</p>
+    <p><strong>Throughout:</strong> Version everything — data (with hash), training configs, checkpoints, eval results. Use reproducible random seeds. Document all decisions and their rationale.</p>
+  </div>
+</div>
+
+<div class="qa">
+  <div class="qa-question"><span class="q-badge">Q</span> Explain the β parameter in DPO and its mathematical relationship to KL constraint in RLHF.</div>
+  <div class="qa-answer">
+    <p>β in DPO directly corresponds to the KL penalty coefficient in the RLHF objective: max<sub>π</sub> 𝔼[r(x,y)] − β·KL(π||π<sub>ref</sub>). The derivation shows the optimal policy is π*(y|x) ∝ π<sub>ref</sub>(y|x)·exp(r(x,y)/β). Taking log and rearranging: r(x,y) = β·log(π*(y|x)/π<sub>ref</sub>(y|x)) + β·log Z(x). Substituting into Bradley-Terry gives the DPO loss, where β appears as log σ(β × [log-probability ratio difference]).</p>
+    <p><strong>What β controls intuitively:</strong> Higher β = the model stays closer to the reference policy. Each preference pair pulls the model less. The implicit reward gap between preferred and rejected responses is bounded more tightly. Lower β = each preference pair has stronger influence, the model departs more from the reference, and the implicit reward gap can grow larger.</p>
+    <p><strong>Practical ranges:</strong> β = 0.5–0.7 → very conservative, model barely changes from SFT. Good when you want subtle alignment refinements. β = 0.1–0.3 → standard range, balanced adaptation. This is where most successful DPO runs operate. β = 0.01–0.05 → aggressive, risk of overfitting to preference data patterns.</p>
+    <p><strong>Key nuance:</strong> Because DPO has no explicit reward model, there's no reward model to overfit (unlike RLHF where the policy can exploit reward model weaknesses). This means DPO is generally <em>safer</em> at lower β values than RLHF would be. However, DPO can still overfit to surface-level patterns in the preference data (length bias, formatting preferences) rather than genuine quality improvements. Monitoring output diversity and general benchmark performance is essential regardless of β choice.</p>
+    <p><strong>Tuning strategy:</strong> Start at β = 0.1. If the model is too conservative (general benchmarks fine but preference eval barely improved), decrease to 0.05. If general benchmarks degrade, increase to 0.3. Validate on held-out preference pairs.</p>
+  </div>
+</div>
+
+<div class="qa">
+  <div class="qa-question"><span class="q-badge">Q</span> Explain the mathematical difference between DPO and RLHF. When would you choose one over the other?</div>
+  <div class="qa-answer">
+    <p><strong>RLHF:</strong> Three separate components: (1) a reward model R<sub>φ</sub> trained on human preferences via Bradley-Terry loss, (2) a value model V for advantage estimation, (3) PPO optimization of the policy π<sub>θ</sub> to maximize 𝔼[R(x,y)] − β·KL(π<sub>θ</sub>||π<sub>ref</sub>). The reward model is an <em>explicit</em> function that scores any response. The policy uses RL (PPO) to explore the response space, guided by the reward signal.</p>
+    <p><strong>DPO:</strong> Derives the closed-form for the optimal policy: π*(y|x) ∝ π<sub>ref</sub>(y|x)·exp(r(x,y)/β). Rearranges to express the reward as r(x,y) = β·log(π<sub>θ</sub>/π<sub>ref</sub>) + C. Substitutes into Bradley-Terry to get a supervised loss directly on the policy. No separate reward model, no RL, no value function.</p>
+    <p><strong>The mathematical distinction:</strong> RLHF separates the reward model from the policy and uses RL to bridge them. DPO collapses the reward model into the policy itself — the policy <em>is</em> the reward model (up to a partition function). This is mathematically elegant but has a consequence: you lose the ability to query the reward for arbitrary (x, y) pairs, which RLHF's explicit reward model allows.</p>
+    <p><strong>Choose RLHF when:</strong> (1) You need the reward model for other purposes — rejection sampling, best-of-N selection, real-time response quality monitoring, or reward-weighted training data selection. (2) Your preference data is noisy — the reward model acts as a denoising bottleneck that smooths inconsistent annotations. (3) You want online/iterative alignment — generate new data with the current policy, score it, and continue training. (4) You're at frontier scale (like OpenAI/Anthropic) where the extra infrastructure cost is justified by marginal quality gains.</p>
+    <p><strong>Choose DPO when:</strong> (1) You want simplicity and speed — most practical use cases. DPO achieves comparable results with 2-4× less compute and a much simpler codebase. (2) You're resource-constrained — only 2 models needed vs. 4. (3) You're doing your first alignment experiment — DPO is easier to debug and iterate on. (4) Your preference data is high-quality and consistent (less need for reward model smoothing).</p>
+    <p><strong>Consider newer alternatives:</strong> SimPO (no reference model needed), ORPO (single-stage SFT + alignment), or GRPO (RL-style but simpler than PPO, used by DeepSeek-R1 to great effect).</p>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION 15: CHEAT SHEETS -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<h2 id="s15"><span class="section-num">15</span> Quick-Reference Cheat Sheets</h2>
+
+<h3>15.1 Hyperparameter Defaults</h3>
+<div class="table-wrap">
+<table>
+  <tr><th>Parameter</th><th>Full FT</th><th>LoRA / QLoRA</th><th>DPO</th></tr>
+  <tr><td>Learning Rate</td><td><code>1e-5 — 5e-5</code></td><td><code>1e-4 — 3e-4</code></td><td><code>1e-6 — 5e-6</code></td></tr>
+  <tr><td>Batch Size (effective)</td><td>32–256</td><td>16–128</td><td>16–64</td></tr>
+  <tr><td>Epochs</td><td>1–3</td><td>1–5</td><td>1–3</td></tr>
+  <tr><td>Warmup Ratio</td><td>0.03–0.1</td><td>0.03–0.1</td><td>0.1</td></tr>
+  <tr><td>Weight Decay</td><td>0.01–0.1</td><td>0.01–0.05</td><td>0.01</td></tr>
+  <tr><td>LR Scheduler</td><td>Cosine</td><td>Cosine</td><td>Linear or Cosine</td></tr>
+  <tr><td>Max Grad Norm</td><td>1.0</td><td>1.0</td><td>1.0</td></tr>
+  <tr><td>LoRA Rank</td><td>—</td><td>16–128</td><td>16–64</td></tr>
+  <tr><td>LoRA Alpha</td><td>—</td><td>2× rank</td><td>2× rank</td></tr>
+  <tr><td>LoRA Dropout</td><td>—</td><td>0.05–0.1</td><td>0.05</td></tr>
+  <tr><td>LoRA Targets</td><td>—</td><td>all linear layers</td><td>all linear layers</td></tr>
+  <tr><td>β (KL coeff)</td><td>—</td><td>—</td><td>0.1–0.5</td></tr>
+  <tr><td>Sequence Length</td><td>2048–4096</td><td>2048–4096</td><td>1024–2048</td></tr>
+</table>
+</div>
+
+<h3>15.2 Memory Estimation (7B Model)</h3>
+<div class="cheat-grid">
+  <div class="cheat-card">
+    <div class="cheat-label">Parameters (bf16)</div>
+    <div class="cheat-value">~14 GB</div>
+    <div class="cheat-note">2 bytes × 7B params</div>
+  </div>
+  <div class="cheat-card">
+    <div class="cheat-label">Gradients (bf16)</div>
+    <div class="cheat-value">~14 GB</div>
+    <div class="cheat-note">2 bytes × 7B params</div>
+  </div>
+  <div class="cheat-card">
+    <div class="cheat-label">AdamW States (fp32)</div>
+    <div class="cheat-value">~56 GB</div>
+    <div class="cheat-note">8 bytes × 7B (m + v)</div>
+  </div>
+</div>
+<div class="cheat-grid">
+  <div class="cheat-card">
+    <div class="cheat-label">Full FT Total</div>
+    <div class="cheat-value" style="color: var(--red);">~90–100 GB</div>
+    <div class="cheat-note">+ 10-40 GB activations</div>
+  </div>
+  <div class="cheat-card">
+    <div class="cheat-label">QLoRA 4-bit</div>
+    <div class="cheat-value" style="color: var(--green);">~6–12 GB</div>
+    <div class="cheat-note">0.5B/param + LoRA + activations</div>
+  </div>
+  <div class="cheat-card">
+    <div class="cheat-label">Inference Only (bf16)</div>
+    <div class="cheat-value">~14 GB</div>
+    <div class="cheat-note">Just model params + KV cache</div>
+  </div>
+</div>
+
+<h3>15.3 Decision Framework</h3>
+<div class="flow">
+  <span class="flow-step">Base Model</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-step">Try Few-Shot</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-step">LoRA / QLoRA</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-step">CPT + SFT</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-step">DPO / SimPO</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-step">GRPO / RLVR</span>
+</div>
+<p style="color: var(--text-muted); font-size: 13px; text-align: center; margin-top: 8px;">Start with the cheapest effective method. Escalate only when the previous step is insufficient.</p>
+
+<h3>15.4 Key Papers — Complete Reading List</h3>
+<div class="table-wrap">
+<table>
+  <tr><th>Topic</th><th>Paper</th><th>Link</th><th>Must-Read?</th></tr>
+  <tr><td>LoRA</td><td>Hu et al., 2022</td><td><a href="https://arxiv.org/abs/2106.09685" target="_blank">arxiv:2106.09685</a></td><td><span class="tag tag-red">Essential</span></td></tr>
+  <tr><td>QLoRA</td><td>Dettmers et al., 2023</td><td><a href="https://arxiv.org/abs/2305.14314" target="_blank">arxiv:2305.14314</a></td><td><span class="tag tag-red">Essential</span></td></tr>
+  <tr><td>DPO</td><td>Rafailov et al., 2023</td><td><a href="https://arxiv.org/abs/2305.18290" target="_blank">arxiv:2305.18290</a></td><td><span class="tag tag-red">Essential</span></td></tr>
+  <tr><td>RLHF / InstructGPT</td><td>Ouyang et al., 2022</td><td><a href="https://arxiv.org/abs/2203.02155" target="_blank">arxiv:2203.02155</a></td><td><span class="tag tag-red">Essential</span></td></tr>
+  <tr><td>GRPO / DeepSeek-R1</td><td>DeepSeek-AI, 2025</td><td><a href="https://arxiv.org/abs/2501.12948" target="_blank">arxiv:2501.12948</a></td><td><span class="tag tag-red">Essential</span></td></tr>
+  <tr><td>Intrinsic Dimensionality</td><td>Aghajanyan et al., 2021</td><td><a href="https://arxiv.org/abs/2012.13255" target="_blank">arxiv:2012.13255</a></td><td><span class="tag tag-orange">Important</span></td></tr>
+  <tr><td>DoRA</td><td>Liu et al., 2024</td><td><a href="https://arxiv.org/abs/2402.09353" target="_blank">arxiv:2402.09353</a></td><td><span class="tag tag-orange">Important</span></td></tr>
+  <tr><td>SimPO</td><td>Meng et al., 2024</td><td><a href="https://arxiv.org/abs/2405.14734" target="_blank">arxiv:2405.14734</a></td><td><span class="tag tag-orange">Important</span></td></tr>
+  <tr><td>GaLore</td><td>Zhao et al., 2024</td><td><a href="https://arxiv.org/abs/2403.03507" target="_blank">arxiv:2403.03507</a></td><td><span class="tag tag-orange">Important</span></td></tr>
+  <tr><td>LIMA</td><td>Zhou et al., 2023</td><td><a href="https://arxiv.org/abs/2305.11206" target="_blank">arxiv:2305.11206</a></td><td><span class="tag tag-orange">Important</span></td></tr>
+  <tr><td>Scaling Laws (Chinchilla)</td><td>Hoffmann et al., 2022</td><td><a href="https://arxiv.org/abs/2203.15556" target="_blank">arxiv:2203.15556</a></td><td><span class="tag tag-orange">Important</span></td></tr>
+  <tr><td>Flash Attention</td><td>Dao et al., 2022</td><td><a href="https://arxiv.org/abs/2205.14135" target="_blank">arxiv:2205.14135</a></td><td><span class="tag tag-orange">Important</span></td></tr>
+  <tr><td>Process Reward Models</td><td>Lightman et al., 2023</td><td><a href="https://arxiv.org/abs/2305.20050" target="_blank">arxiv:2305.20050</a></td><td><span class="tag tag-blue">Recommended</span></td></tr>
+  <tr><td>ZeRO</td><td>Rajbhandari et al., 2020</td><td><a href="https://arxiv.org/abs/1910.02054" target="_blank">arxiv:1910.02054</a></td><td><span class="tag tag-blue">Recommended</span></td></tr>
+  <tr><td>Task Arithmetic</td><td>Ilharco et al., 2022</td><td><a href="https://arxiv.org/abs/2212.04089" target="_blank">arxiv:2212.04089</a></td><td><span class="tag tag-blue">Recommended</span></td></tr>
+  <tr><td>Position Interpolation</td><td>Chen et al., 2023</td><td><a href="https://arxiv.org/abs/2306.15595" target="_blank">arxiv:2306.15595</a></td><td><span class="tag tag-blue">Recommended</span></td></tr>
+  <tr><td>TIES-Merging</td><td>Yadav et al., 2023</td><td><a href="https://arxiv.org/abs/2306.01708" target="_blank">arxiv:2306.01708</a></td><td><span class="tag tag-blue">Recommended</span></td></tr>
+  <tr><td>Code Llama</td><td>Rozière et al., 2023</td><td><a href="https://arxiv.org/abs/2308.12950" target="_blank">arxiv:2308.12950</a></td><td><span class="tag tag-green">Good to Know</span></td></tr>
+  <tr><td>NEFTune</td><td>Jain et al., 2023</td><td><a href="https://arxiv.org/abs/2310.05914" target="_blank">arxiv:2310.05914</a></td><td><span class="tag tag-green">Good to Know</span></td></tr>
+  <tr><td>LLaVA</td><td>Liu et al., 2023</td><td><a href="https://arxiv.org/abs/2304.08485" target="_blank">arxiv:2304.08485</a></td><td><span class="tag tag-green">Good to Know</span></td></tr>
+</table>
+</div>
+
+<div style="text-align: center; margin-top: 60px; padding-top: 32px; border-top: 1px solid var(--border);">
+  <p style="font-family: 'Playfair Display', serif; font-size: 22px; color: var(--accent);">Good luck, Kumar!</p>
+  <p style="color: var(--text-muted); font-size: 13px; margin-top: 8px;">Prepared March 2026 · 15 Sections · 10 Mock Q&As · 35+ Paper Links · 15+ Repository Links</p>
+</div>
+
+</main>
+</body>
+</html>
