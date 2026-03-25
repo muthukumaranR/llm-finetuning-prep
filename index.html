@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LLM Fine-Tuning Interview Prep — Gen AI Researcher</title>
+<title>LLM Fine-Tuning Comprehensive Guide — Gen AI Researcher</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Playfair+Display:wght@700;800&display=swap');
 
@@ -474,7 +474,7 @@
 
 <!-- ═══════ NAVIGATION ═══════ -->
 <nav>
-  <div class="nav-title">LLM Fine-Tuning<br>Interview Prep</div>
+  <div class="nav-title">LLM Fine-Tuning<br>Comprehensive Guide</div>
   <div class="nav-section">Foundations</div>
   <a href="#s1">1. Foundations of Fine-Tuning</a>
   <a href="#s2">2. Full Fine-Tuning</a>
@@ -492,8 +492,8 @@
   <a href="#s12">12. Evaluation &amp; Debugging</a>
   <div class="nav-section">Frontier</div>
   <a href="#s13">13. Emerging Techniques (2025–26)</a>
-  <div class="nav-section">Preparation</div>
-  <a href="#s14">14. Mock Interview Q&amp;A</a>
+  <div class="nav-section">Practice</div>
+  <a href="#s14">14. Deep-Dive Q&amp;A</a>
   <a href="#s15">15. Cheat Sheets</a>
 </nav>
 
@@ -501,9 +501,9 @@
 <main>
 
 <div class="hero">
-  <div class="hero-badge">Gen AI Researcher — Interview Preparation</div>
+  <div class="hero-badge">Gen AI Researcher — Comprehensive Guide</div>
   <h1>Fine-Tuning Large<br>Language Models</h1>
-  <p>Modern techniques, mathematical foundations, practical applications, and nuanced insights for a comprehensive researcher interview. Every section includes deep theory, intuitions, formulations, and production-tested advice. Look for <span style="color: var(--cyan); font-weight: 700;">🧮 Derive It Yourself</span> blocks — step-by-step guides to reconstruct every formula from scratch on a whiteboard.</p>
+  <p>Modern techniques, mathematical foundations, practical applications, and nuanced insights for Gen AI researchers and practitioners. Every section includes deep theory, intuitions, formulations, and production-tested advice. Look for <span style="color: var(--cyan); font-weight: 700;">🧮 Derive It Yourself</span> blocks — step-by-step guides to reconstruct every formula from scratch on a whiteboard.</p>
 </div>
 
 
@@ -526,15 +526,15 @@
 
 <div class="derive">
   <div class="derive-title">🧮 Derive It Yourself — The Fine-Tuning Objective</div>
-  <p>If an interviewer asks you to write this formula on a whiteboard, here's how to build it from scratch:</p>
+  <p>If asked to write this formula on a whiteboard, here's how to build it from scratch:</p>
   <div class="deriv-step"><span class="step-num">1</span><p><strong>Start from what you know:</strong> All supervised learning minimizes a loss over data. Write the generic form: θ* = arg min<sub>θ</sub> L(D; θ). This is just "find the parameters that minimize loss on the data."</p></div>
   <div class="deriv-step"><span class="step-num">2</span><p><strong>Add the key constraint:</strong> Fine-tuning is <em>not</em> training from scratch. The only thing that makes it "fine-tuning" rather than "training" is the initialization. So annotate: "where θ is initialized at θ₀" (the pre-trained weights). That's the entire formal definition.</p></div>
   <div class="deriv-step"><span class="step-num">3</span><p><strong>Specialize the loss:</strong> For language models, L is the cross-entropy over token predictions. For SFT, it's computed only over response tokens. For continual pre-training, it's the standard next-token loss over all tokens. The choice of L<sub>ft</sub> is what differentiates types of fine-tuning.</p></div>
-  <div class="deriv-tip"><strong>Interview mnemonic:</strong> Fine-tuning = standard optimization + special initialization. That's all. Everything else (loss function choice, which parameters to freeze, regularization) is a design decision layered on top.</div>
+  <div class="deriv-tip"><strong>Key mnemonic:</strong> Fine-tuning = standard optimization + special initialization. That's all. Everything else (loss function choice, which parameters to freeze, regularization) is a design decision layered on top.</div>
 </div>
 
 <h3>1.2 Pre-Training vs. Fine-Tuning: The Loss Functions</h3>
-<p>Understanding the difference between pre-training and fine-tuning losses is foundational for interviews. Pre-training uses self-supervised objectives — the label comes from the data itself. For autoregressive models (GPT family, Llama, Mistral), this is <strong>next-token prediction</strong>:</p>
+<p>Understanding the difference between pre-training and fine-tuning losses is foundational knowledge. Pre-training uses self-supervised objectives — the label comes from the data itself. For autoregressive models (GPT family, Llama, Mistral), this is <strong>next-token prediction</strong>:</p>
 <div class="formula">L<sub>pretrain</sub>(θ) = − Σ<sub>t=1</sub><sup>T</sup> log P(x<sub>t</sub> | x<sub>&lt;t</sub>; θ)</div>
 <p>Every token is predicted given all preceding tokens. The loss sums over <em>all</em> positions — the model learns from every single token in the corpus. This is extraordinarily data-efficient because a sequence of length T provides T training signals.</p>
 
@@ -568,7 +568,7 @@
 </div>
 
 <h3>1.3 The Fine-Tuning Spectrum</h3>
-<p>Modern fine-tuning is not binary — it exists on a continuum from minimal parameter modification (prompt tuning) to full weight updates. Understanding where each method sits and why you'd choose it is a core interview topic.</p>
+<p>Modern fine-tuning is not binary — it exists on a continuum from minimal parameter modification (prompt tuning) to full weight updates. Understanding where each method sits and why you'd choose it is a core topic to master.</p>
 
 <div class="table-wrap">
 <table>
@@ -709,7 +709,7 @@ Optimal k = √L                 (~5–6 for L=32)
   <div class="deriv-step"><span class="step-num">1</span><p><strong>Setup:</strong> L layers total. Place checkpoints every k layers → L/k checkpoints stored. Each stores activations of size C per layer. Memory = (L/k) · C.</p></div>
   <div class="deriv-step"><span class="step-num">2</span><p><strong>Compute cost:</strong> During backward pass, for each checkpoint segment, you re-run the forward pass through k layers to recompute activations. Total recomputation ≈ L layers (one re-forward per segment, each segment has k layers, there are L/k segments → L re-computations total). But the recomputation overhead on top of the normal backward pass is proportional to L — i.e., ~one extra forward pass.</p></div>
   <div class="deriv-step"><span class="step-num">3</span><p><strong>Wait — what about non-uniform checkpointing?</strong> If we don't checkpoint every k layers but choose optimally with a budget of m checkpoints, the memory is proportional to m + L/m (m checkpoints + max segment length). Minimize total cost = αm + βL/m. Take derivative, set to 0: α − βL/m² = 0 → m* = √(βL/α). If costs are equal (α=β): <strong>m* = √L, giving optimal spacing k = √L</strong>.</p></div>
-  <div class="deriv-tip"><strong>Interview-ready version:</strong> "Gradient checkpointing is a memory-compute trade-off. Store activations every k layers: memory scales as L/k, extra compute scales as k (recomputing k layers per segment). Total cost ~ L/k + k, minimized at k = √L by AM-GM inequality. For a 32-layer model, checkpoint every ~6 layers."</div>
+  <div class="deriv-tip"><strong>Concise summary:</strong> "Gradient checkpointing is a memory-compute trade-off. Store activations every k layers: memory scales as L/k, extra compute scales as k (recomputing k layers per segment). Total cost ~ L/k + k, minimized at k = √L by AM-GM inequality. For a 32-layer model, checkpoint every ~6 layers."</div>
 </div>
 
 <div class="callout callout-insight">
@@ -765,7 +765,7 @@ where θ₀ ∈ ℝ<sup>d</sup> is frozen, φ ∈ ℝ<sup>m</sup> is trainable, 
   • <strong>BitFit:</strong> f(φ) = bias terms only — φ is the set of all biases
   </p></div>
   <div class="deriv-step"><span class="step-num">4</span><p><strong>The forward pass is always:</strong> h = (W₀ + ΔW)x = W₀x + f(φ)·x. The gradient flows only through φ (W₀ is frozen). This is why PEFT is memory-efficient: optimizer states are proportional to |φ|, not |W₀|.</p></div>
-  <div class="deriv-tip"><strong>Interview power move:</strong> When asked about any PEFT method, first write the general framework W<sub>eff</sub> = W₀ + f(φ) and then say "the specific method defines f(φ) as..." This shows you see the unity across methods and can reason about new ones from first principles.</div>
+  <div class="deriv-tip"><strong>Pro tip:</strong> When asked about any PEFT method, first write the general framework W<sub>eff</sub> = W₀ + f(φ) and then say "the specific method defines f(φ) as..." This shows you see the unity across methods and can reason about new ones from first principles.</div>
 </div>
 
 <h3>3.2 Additive Methods — Detailed Theory</h3>
@@ -823,7 +823,7 @@ Trainable params = L × 2 × p × d
 <a href="https://github.com/microsoft/LoRA" target="_blank" class="repo-ref">microsoft/LoRA</a>
 <a href="https://github.com/huggingface/peft" target="_blank" class="repo-ref">huggingface/peft</a>
 
-<p>LoRA is the most widely used PEFT method and understanding it deeply is essential for any Gen AI researcher interview.</p>
+<p>LoRA is the most widely used PEFT method and understanding it deeply is essential for any Gen AI researcher.</p>
 
 <p><strong>Core insight:</strong> The weight updates ΔW during fine-tuning have <strong>low intrinsic rank</strong>. Instead of learning a dense update to W ∈ ℝ<sup>d×k</sup>, decompose it into two low-rank matrices:</p>
 <div class="formula">
@@ -843,7 +843,7 @@ Forward pass: h = W₀x + (α/r) · B(Ax)
   <div class="deriv-step"><span class="step-num">4</span><p><strong>Handle the scaling problem:</strong> The norm of BAx depends on r (larger r → larger output norm on average). We want changing r to not change the scale of the output. So add a scaling factor: h = W₀x + (α/r) · BAx. Now the effective output magnitude is controlled by α (a hyperparameter), independent of r.</p></div>
   <div class="deriv-step"><span class="step-num">5</span><p><strong>Choose initialization:</strong> We need ΔW = BA = 0 at start (to preserve pre-trained behavior). Set B = 0. Keep A random (Kaiming) so that Ax gives diverse projections — this provides a non-zero gradient signal for B immediately: ∂L/∂B = (∂L/∂(BAx)) · (Ax)<sup>T</sup> ≠ 0 since Ax ≠ 0.</p></div>
   <div class="deriv-step"><span class="step-num">6</span><p><strong>At inference, merge:</strong> W' = W₀ + (α/r)BA. This is a single d×k matrix. No architectural change, no latency overhead. This is the key advantage over adapters (which add sequential computation) and prefix tuning (which consumes context length).</p></div>
-  <div class="deriv-tip"><strong>The SVD connection is key:</strong> If an interviewer asks "why low-rank?", draw the singular value spectrum: σ₁ ≫ σ₂ > σ₃ > ... > σ<sub>r</sub> ≫ σ<sub>r+1</sub> ≈ 0. The rapid decay means the true ΔW lives in a rank-r subspace. LoRA simply searches within that subspace directly, rather than searching the full d×k space and hoping to land in the subspace.</div>
+  <div class="deriv-tip"><strong>The SVD connection is key:</strong> If asked "why low-rank?", draw the singular value spectrum: σ₁ ≫ σ₂ > σ₃ > ... > σ<sub>r</sub> ≫ σ<sub>r+1</sub> ≈ 0. The rapid decay means the true ΔW lives in a rank-r subspace. LoRA simply searches within that subspace directly, rather than searching the full d×k space and hoping to land in the subspace.</div>
 </div>
 
 <div class="callout callout-insight">
@@ -950,7 +950,7 @@ Forward pass: h = W₀x + (α/r) · B(Ax)
   <div class="deriv-step"><span class="step-num">3</span><p><strong>Compute ||BAx||:</strong> After training, B entries have some scale σ<sub>B</sub>. ||BAx||² ≈ d · σ<sub>B</sub>² · ||Ax||² ≈ d · σ<sub>B</sub>² · ||x||². But wait — this ignores the <em>accumulation across r dimensions</em>. The matrix product BAx sums r terms (one per LoRA dimension). By CLT, the norm scales as √r. So: <strong>||BAx|| ∝ √r · ||x||</strong>.</p></div>
   <div class="deriv-step"><span class="step-num">4</span><p><strong>With standard LoRA (α/r scaling):</strong> The adapter output is (α/r) · BAx. Its norm ∝ (α/r) · √r = α/√r. This <strong>shrinks with r</strong>! Doubling r halves the effective adapter contribution — counterintuitive and harmful.</p></div>
   <div class="deriv-step"><span class="step-num">5</span><p><strong>With rsLoRA (α/√r scaling):</strong> The adapter output is (α/√r) · BAx. Its norm ∝ (α/√r) · √r = α. <strong>Constant regardless of r.</strong> Now changing rank doesn't change the initialization scale, so hyperparameters transfer cleanly.</p></div>
-  <div class="deriv-tip"><strong>The quick version for interviews:</strong> "BAx norm scales as √r due to the sum over r dimensions. Standard LoRA divides by r, making the effective signal shrink as 1/√r with rank. rsLoRA divides by √r instead, keeping the signal constant. This is why rsLoRA enables clean hyperparameter transfer across ranks."</div>
+  <div class="deriv-tip"><strong>The concise version:</strong> "BAx norm scales as √r due to the sum over r dimensions. Standard LoRA divides by r, making the effective signal shrink as 1/√r with rank. rsLoRA divides by √r instead, keeping the signal constant. This is why rsLoRA enables clean hyperparameter transfer across ranks."</div>
 </div>
 
 <h4>LoRA+ (Hayou et al., 2024)</h4>
@@ -1010,7 +1010,7 @@ x<sub>dequant</sub> = s × (x<sub>q</sub> - z)
   <div class="deriv-step"><span class="step-num">3</span><p><strong>Dequantize:</strong> To recover the approximate original value: x<sub>dequant</sub> = s × x<sub>q</sub>. The error ε = x − x<sub>dequant</sub> is bounded by s/2 (half a quantization bin width).</p></div>
   <div class="deriv-step"><span class="step-num">4</span><p><strong>Asymmetric — add a zero-point:</strong> If the values aren't centered at zero, symmetric wastes bins. Map [x<sub>min</sub>, x<sub>max</sub>] to [0, 2<sup>b</sup>−1]. Now: s = (x<sub>max</sub>−x<sub>min</sub>)/(2<sup>b</sup>−1), and z = round(−x<sub>min</sub>/s) is the zero-point (the integer representing 0). Quantize: x<sub>q</sub> = round(x/s + z). Dequantize: x<sub>dequant</sub> = s × (x<sub>q</sub> − z).</p></div>
   <div class="deriv-step"><span class="step-num">5</span><p><strong>NF4 twist — non-uniform bins:</strong> Instead of equally-spaced bins, place bin edges at the quantiles of N(0,1). For 16 levels, each bin captures 1/16 = 6.25% of the probability mass. Bin edges: Φ⁻¹(k/16) for k=0,...,16. Representation values are the conditional means E[X | X ∈ bin<sub>k</sub>]. This minimizes E[(X − x<sub>q</sub>)²] over all 16-level quantizers when X ~ N(0,σ²).</p></div>
-  <div class="deriv-tip"><strong>Why NF4 is optimal — the Lloyd-Max argument:</strong> The Lloyd-Max quantizer minimizes expected distortion for a given number of levels and a known source distribution. When the source is Gaussian (as neural network weights approximately are), the optimal Lloyd-Max quantizer places bins at the Gaussian quantiles. NF4 is exactly this. If an interviewer asks "prove NF4 is optimal," invoke the Lloyd-Max optimality condition: each representation point is the centroid of its bin (conditional mean), and each bin boundary is the midpoint between adjacent representation points.</div>
+  <div class="deriv-tip"><strong>Why NF4 is optimal — the Lloyd-Max argument:</strong> The Lloyd-Max quantizer minimizes expected distortion for a given number of levels and a known source distribution. When the source is Gaussian (as neural network weights approximately are), the optimal Lloyd-Max quantizer places bins at the Gaussian quantiles. NF4 is exactly this. If asked "prove NF4 is optimal," invoke the Lloyd-Max optimality condition: each representation point is the centroid of its bin (conditional mean), and each bin boundary is the midpoint between adjacent representation points.</div>
 </div>
 
 <div class="deep-dive">
@@ -1091,7 +1091,7 @@ x<sub>dequant</sub> = s × (x<sub>q</sub> - z)
 <a href="https://github.com/turboderp/exllamav2" target="_blank" class="repo-ref">turboderp/exllamav2</a>
 
 <div class="callout callout-critical">
-  <div class="callout-title">🚨 Interview Nuance: The LoRA → Merge → Quantize Pipeline Problem</div>
+  <div class="callout-title">🚨 Critical Nuance: The LoRA → Merge → Quantize Pipeline Problem</div>
   <p>If you fine-tune with full-precision LoRA, merge adapters back (W' = W₀ + (α/r)BA), and then quantize the merged model to 4-bit, quality often degrades more than expected. <strong>Why?</strong> The merged weights W' have a different distribution than W₀ — the LoRA adaptation shifts the weight statistics. Quantization parameters (scale, zero-point) calibrated for W₀'s distribution are suboptimal for W'. Even recalibrating with GPTQ/AWQ helps but doesn't fully recover quality because the model never learned to operate with quantized weights.</p>
   <p><strong>Best practices:</strong> (1) If deploying at 4-bit, use <strong>QLoRA from the start</strong> — the adapters learn to compensate for quantization artifacts during training. (2) If you used full-precision LoRA, re-quantize the merged model using GPTQ/AWQ with <strong>calibration data from your target distribution</strong> (not generic C4 data). (3) Consider a few hundred steps of QAT-style fine-tuning after merging to adapt the model to quantization noise.</p>
 </div>
@@ -1250,7 +1250,7 @@ A<sub>t</sub> is the advantage estimate (from GAE)
 
 <p>DPO is the most important innovation in alignment since RLHF. It eliminates the reward model and RL loop entirely.</p>
 
-<p><strong>The mathematical derivation (critical for interviews):</strong></p>
+<p><strong>The mathematical derivation (critical to understand):</strong></p>
 <p>Start from the RLHF objective. The optimal policy under the KL-constrained reward maximization has a <strong>closed-form solution</strong>:</p>
 <div class="formula">
 π*(y|x) = (1/Z(x)) · π<sub>ref</sub>(y|x) · exp(r(x,y) / β)
@@ -1273,7 +1273,7 @@ L<sub>DPO</sub>(θ) = −𝔼<sub>(x,y<sub>w</sub>,y<sub>l</sub>)</sub> [log σ(
 
 <div class="derive">
   <div class="derive-title">🧮 Derive It Yourself — DPO from RLHF (The Full Derivation)</div>
-  <p>This is <strong>the most important derivation for interviews</strong>. It shows how DPO eliminates the reward model entirely. Practice until you can do it fluently on a whiteboard.</p>
+  <p>This is <strong>the most important derivation to master</strong>. It shows how DPO eliminates the reward model entirely. Practice until you can do it fluently on a whiteboard.</p>
   <div class="deriv-step"><span class="step-num">1</span><p><strong>Start from the RLHF objective:</strong> max<sub>π</sub> 𝔼<sub>y~π</sub>[r(x,y)] − β · KL(π || π<sub>ref</sub>). We want to maximize reward while staying close to the reference policy.</p></div>
   <div class="deriv-step"><span class="step-num">2</span><p><strong>Expand the KL and solve for the optimum:</strong> The KL is KL(π || π<sub>ref</sub>) = 𝔼<sub>y~π</sub>[log π(y|x) − log π<sub>ref</sub>(y|x)]. The full objective becomes: 𝔼<sub>y~π</sub>[r(x,y) − β log π(y|x) + β log π<sub>ref</sub>(y|x)]. This is a maximum-entropy / KL-constrained optimization. The closed-form solution (by calculus of variations or by recognizing the Gibbs distribution form) is: <strong>π*(y|x) = (1/Z(x)) · π<sub>ref</sub>(y|x) · exp(r(x,y)/β)</strong> where Z(x) = Σ<sub>y</sub> π<sub>ref</sub>(y|x) · exp(r(x,y)/β) is the partition function.</p></div>
   <div class="deriv-step"><span class="step-num">3</span><p><strong>Solve for the reward:</strong> Take log of both sides: log π*(y|x) = log π<sub>ref</sub>(y|x) + r(x,y)/β − log Z(x). Rearrange: <strong>r(x,y) = β · log(π*(y|x) / π<sub>ref</sub>(y|x)) + β · log Z(x)</strong>. This expresses the reward <em>in terms of the optimal policy</em>. We don't need a separate reward model — the policy encodes the reward!</p></div>
@@ -1706,7 +1706,7 @@ Phase 2: θ<sub>final</sub>  = SFT(θ<sub>domain</sub>, D<sub>instructions</sub>
 <!-- ═══════════════════════════════════════════════════════════════ -->
 <!-- SECTION 14: MOCK INTERVIEW Q&A -->
 <!-- ═══════════════════════════════════════════════════════════════ -->
-<h2 id="s14"><span class="section-num">14</span> Mock Interview Questions &amp; Model Answers</h2>
+<h2 id="s14"><span class="section-num">14</span> Deep-Dive Questions &amp; Model Answers</h2>
 
 <div class="qa">
   <div class="qa-question"><span class="q-badge">Q</span> Explain the theoretical justification for why LoRA works. Why should weight updates be low-rank?</div>
@@ -1922,8 +1922,8 @@ Phase 2: θ<sub>final</sub>  = SFT(θ<sub>domain</sub>, D<sub>instructions</sub>
 </div>
 
 <div style="text-align: center; margin-top: 60px; padding-top: 32px; border-top: 1px solid var(--border);">
-  <p style="font-family: 'Playfair Display', serif; font-size: 22px; color: var(--accent);">Good luck, Kumar!</p>
-  <p style="color: var(--text-muted); font-size: 13px; margin-top: 8px;">Prepared March 2026 · 15 Sections · 10 Mock Q&As · 35+ Paper Links · 15+ Repository Links</p>
+  <p style="font-family: 'Playfair Display', serif; font-size: 22px; color: var(--accent);">Happy Learning!</p>
+  <p style="color: var(--text-muted); font-size: 13px; margin-top: 8px;">Published March 2026 · 15 Sections · 10 Q&As · 35+ Paper Links · 15+ Repository Links</p>
 </div>
 
 </main>
